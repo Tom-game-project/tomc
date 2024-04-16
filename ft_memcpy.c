@@ -1,40 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 15:52:07 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/16 22:14:52 by tmuranak         ###   ########.fr       */
+/*   Created: 2024/04/16 20:52:56 by tmuranak          #+#    #+#             */
+/*   Updated: 2024/04/16 22:23:06 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
+#include <stdio.h>
 
-void	*ft_memset(void *buf, int ch, size_t n)
+void	*ft_memcpy(void *restrict dst, const void *restrict src, size_t n)
 {
-	size_t	c;
-	char	*str;
+	size_t			c;
+	unsigned char	*d;
+	unsigned char	*s;
 
 	c = 0;
-	str = buf;
+	d = (unsigned char *)dst;
+	s = (unsigned char *)src;
 	while (c < n)
 	{
-		str[c] = ch;
+		d[c] = s[c];
 		c++;
 	}
-	return (buf);
+	return (dst);
 }
 
-// int main()
+// int main ()
 // {
-//     char a[] = "hello world";
-//     char b[] = "hello world";
-//     char *or = memset   (b + 2,'1',3);
-//     char *ft = ft_memset(a + 2,'1',3);
-//     printf("%s\n",a);
-//     printf("%s\n",b);
-//     printf("or %s\n",or);
-//     printf("ft %s\n",ft);
+//     char a[6] = "hello\0";
+//     char b[6] = "12345\0";
+
+//     ft_memcpy(a,b,3);
+//     printf("%s",a);
 // }

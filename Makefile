@@ -6,24 +6,30 @@
 #    By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 19:33:31 by tmuranak          #+#    #+#              #
-#    Updated: 2024/04/16 20:43:35 by tmuranak         ###   ########.fr        #
+#    Updated: 2024/04/16 23:33:51 by tmuranak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-cc = gcc
-flag = -Wextra -Werror -Wall
-src = ft_*.c
-obj = ft_*.o
+CC = gcc
+CFLAG = -Wextra -Werror -Wall
+SRC = ft_*.c
+OBJ = ft_*.o
+NAME = libft.a
 
-all:$(src)
-	make createobj
-	make createa
+all: $(NAME)
 
-createobj: $(src)
-	$(cc) $(flag) -c $(src)
+$(NAME):create
+	ar -r $(NAME) $(OBJ)
 
-createa: $(obj)
-	ar -r libft.a $(obj)
+create: $(OBJ)
+	$(CC) $(CFLAG) -c $(SRC)
 
 clean:
-	rm ft_*.o libft.a
+	rm ft_*.o
+
+fclean:clean
+	rm libft.a
+
+re:
+	make fclean
+	make
