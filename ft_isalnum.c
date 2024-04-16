@@ -1,31 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 13:24:44 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/16 15:29:46 by tmuranak         ###   ########.fr       */
+/*   Created: 2024/04/16 15:14:50 by tmuranak          #+#    #+#             */
+/*   Updated: 2024/04/16 15:30:24 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
+// compile
+// ccw ft_isalnum.c ft_isalpha.c ft_is_digit.c
+
 #include <stdio.h>
 
-int	ft_digit(int c)
+int	ft_isalpha(int c);
+int	ft_digit(int c);
+
+int	ft_isalnum(int c)
 {
-	if ('0' <= c && c <= '9')
+	if (ft_isalpha(c) || ft_digit(c))
 		return (1);
 	return (0);
 }
 
-
-// test function
-// int	main ()
+//test function
+// int	main()
 // {
-// 	int a = 'a';
-// 	int b = '4';
-// 	printf("%d",ft_digit(a));
-// 	printf("%d",ft_digit(b));
+// 	int	a = 'a';
+// 	int	b = '1';
+// 	int	c = '@';
+//     printf("%d",ft_isalnum(a));
+//     printf("%d",ft_isalnum(b));
+//     printf("%d",ft_isalnum(c));
 // 	return (0);
 // }

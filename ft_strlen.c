@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 13:24:44 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/16 15:29:46 by tmuranak         ###   ########.fr       */
+/*   Created: 2024/04/16 15:44:41 by tmuranak          #+#    #+#             */
+/*   Updated: 2024/04/16 15:50:07 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <string.h>
 #include <stdio.h>
 
-int	ft_digit(int c)
+size_t	ft_strlen(const char *s)
 {
-	if ('0' <= c && c <= '9')
-		return (1);
-	return (0);
+	int	c;
+
+	c = 0;
+	while (*s)
+	{
+		c++;
+		s++;
+	}
+	return (c);
 }
 
-
-// test function
-// int	main ()
+// int main()
 // {
-// 	int a = 'a';
-// 	int b = '4';
-// 	printf("%d",ft_digit(a));
-// 	printf("%d",ft_digit(b));
-// 	return (0);
+//     char *a = "helloworld";
+//     printf("str len;%zu", ft_strlen(a));
 // }

@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:11:51 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/16 13:21:01 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/16 15:29:56 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	ft_isalpha(int c)
 }
 
 // test function
-int main()
-{
-    char a = 'a';
-    printf("%d",ft_isalpha(a));
-}
+// int main()
+// {
+//     char a = 'a';
+//     printf("%d",ft_isalpha(a));
+// }
