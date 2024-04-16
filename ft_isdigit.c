@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:24:44 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/16 15:29:46 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/16 17:53:09 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	ft_digit(int c)
 		return (1);
 	return (0);
 }
-
 
 // test function
 // int	main ()

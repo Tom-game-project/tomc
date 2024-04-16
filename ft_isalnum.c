@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:14:50 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/16 15:30:24 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/16 20:06:08 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 // compile
 // ccw ft_isalnum.c ft_isalpha.c ft_is_digit.c
 
-#include <stdio.h>
-
-int	ft_isalpha(int c);
-int	ft_digit(int c);
+#include "libft.h"
 
 int	ft_isalnum(int c)
 {
