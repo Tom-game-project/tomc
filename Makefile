@@ -6,7 +6,7 @@
 #    By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 19:33:31 by tmuranak          #+#    #+#              #
-#    Updated: 2024/04/17 14:23:14 by tmuranak         ###   ########.fr        #
+#    Updated: 2024/04/17 15:31:58 by tmuranak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,3 +32,8 @@ fclean: clean
 
 re: fclean
 	make
+
+test:all
+	cc test.c libft.a
+	make fclean
+	./a.out

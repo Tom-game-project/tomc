@@ -140,43 +140,99 @@ void test08()
 // memmove
 void test09()
 {
+	char or_buf[] = "ABCDEFGH\n";
+	char ft_buf[] = "ABCDEFGH\n";
+	//bufの先頭から3バイト進めた位置にbufの先頭から3バイトコピー
+	memmove(or_buf+3,or_buf,3);
+	ft_memmove(ft_buf+3,ft_buf,3);
+	//表示
+    printf("hello %s",or_buf);
+    printf("hello %s",ft_buf);
+    for (int i = 0;i < 9;i++)
+    {
+        assert(or_buf[i]==ft_buf[i]);
+    }
+	//printf("コピー後のbuf文字列→%s\n",buf);
+	char or_buf01[] = "ABCDEFGH\n";
+	char ft_buf01[] = "ABCDEFGH\n";
+	//bufの先頭から3バイト進めた位置にbufの先頭から3バイトコピー
+	memmove(or_buf01+2,or_buf01,5);
+	ft_memmove(ft_buf01+2,ft_buf01,5);
+	//表示
+    printf("hello %s",ft_buf01);
+    for (int i = 0;i < 10;i++)
+    {
+        assert(or_buf01[i]==ft_buf01[i]);
+    }
+    printf("test09 done\n");
+}
 
+
+
+#include <unistd.h>
+
+void	ft_putchar(char a)
+{
+	write(1, &a, 1);
+}
+
+void test10_0(char *a, size_t size)
+{
+	for (size_t i = 0;i < size;i++)
+	{
+		if (a[i])
+		{
+			ft_putchar(a[i]);
+		}
+		else
+		{
+			ft_putchar('*');
+		}
+		ft_putchar(',');
+	}
+	ft_putchar('\n');
 }
 
 // strlcpy
 void test10()
 {
-	// char a[6] = "hello\0";
-	// char c[6] = "hello\0";
+//test function
+	char or_a[6] = "hello\0";
+	char or_c[6] = "hello\0";
 
-	// int ar = strlcpy(a,"abc",3);
-	// int cr = strlcpy(c,"a"  ,1);
-	// test(a, 6);
-	// test(c, 6);
-	// printf("ar %d\n",ar);
-	// printf("cr %d\n",cr);
+	int or_ar = strlcpy(or_a,"abc",3);
+	int or_cr = strlcpy(or_c,"a"  ,1);
+	test10_0(or_a, 6);
+	test10_0(or_c, 6);
 
-	// char ft_a[6] = "hello\0";
-	// char ft_c[6] = "hello\0";
-	// int ft_ar = strlcpy(ft_a,"abc",3);
-	// int ft_cr = strlcpy(ft_c,"a"  ,1);
-	// test(ft_a, 6);
-	// test(ft_c, 6);
-	// printf("ar %d\n",ft_ar);
-	// printf("cr %d\n",ft_cr);	
-    //return (0);
+	char ft_a[6] = "hello\0";
+	char ft_c[6] = "hello\0";
+	int ft_ar = ft_strlcpy(ft_a,"abc",3);
+	int ft_cr = ft_strlcpy(ft_c,"a"  ,1);
+	test10_0(ft_a, 6);
+	test10_0(ft_c, 6);
+    for (int i = 0;i < 6;i++)
+    {
+        assert(or_a[i] == ft_a[i]);
+        assert(or_c[i] == ft_c[i]);
+    }
+    assert(or_ar==ft_ar);
+    assert(or_cr==ft_cr);
 }
 
 int main ()
 {
-    test00();
-    test01();
-    test02();
-    test03();
-    test04();
-    test05();
-    test06();
-    test07();
-    test08();
+    printf("---+ testを開始します +---\n");
+    test00();//isalpha
+    test01();//isdigit
+    test02();//isalnum
+    test03();//isascii
+    test04();//isprint
+    test05();//strlen
+    test06();//memset
+    test07();//bzero
+    test08();//memcpy
+    test09();//memmove
+    test10();//strlcpy
     return (0);
 }
