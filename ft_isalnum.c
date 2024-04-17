@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:14:50 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/16 20:06:08 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/17 14:36:01 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 int	ft_isalnum(int c)
 {
-	if (ft_isalpha(c) || ft_digit(c))
+	if (ft_isalpha(c) || ft_isdigit(c))
 		return (1);
 	return (0);
 }

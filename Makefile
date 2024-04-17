@@ -6,7 +6,7 @@
 #    By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 19:33:31 by tmuranak          #+#    #+#              #
-#    Updated: 2024/04/16 23:33:51 by tmuranak         ###   ########.fr        #
+#    Updated: 2024/04/17 14:23:14 by tmuranak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,9 +27,8 @@ create: $(OBJ)
 clean:
 	rm ft_*.o
 
-fclean:clean
+fclean: clean
 	rm libft.a
 
-re:
-	make fclean
+re: fclean
 	make
