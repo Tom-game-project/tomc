@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 11:04:47 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/17 18:02:39 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/17 18:37:22 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	*ft_memmove(void *dst, const void *src, size_t n)
 
 	d = (unsigned char *)dst;
 	s = (unsigned char *)src;
-	c = 1;
 	if (src < dst)
 	{
+		c = 1;
 		while (c <= n)
 		{
 			d[n - c] = s[n - c];
@@ -32,9 +32,10 @@ void	*ft_memmove(void *dst, const void *src, size_t n)
 	}
 	else
 	{
-		while (c <= n)
+		c = 0;
+		while (c < n)
 		{
-			d[n + c] = s[n + c];
+			d[c] = s[c];
 			c++;
 		}
 	}

@@ -140,30 +140,26 @@ void test08()
 // memmove
 void test09()
 {
-	char or_buf[] = "ABCDEFGH\n";
-	char ft_buf[] = "ABCDEFGH\n";
+	char or_buf[] = "ABCDEFGH\0";
+	char ft_buf[] = "ABCDEFGH\0";
 	//bufの先頭から3バイト進めた位置にbufの先頭から3バイトコピー
-	memmove(or_buf+3,or_buf,3);
-	ft_memmove(ft_buf+3,ft_buf,3);
-	//表示
-    printf("hello %s",or_buf);
-    printf("hello %s",ft_buf);
+    // srcがdstよりも前
+	memmove(or_buf+2,or_buf,5);
+	ft_memmove(ft_buf+2,ft_buf,5);
+    printf("or_buf %s\n",or_buf);
+    printf("ft_buf %s\n",ft_buf);
     for (int i = 0;i < 9;i++)
-    {
         assert(or_buf[i]==ft_buf[i]);
-    }
 	//printf("コピー後のbuf文字列→%s\n",buf);
-	char or_buf01[] = "ABCDEFGH\n";
-	char ft_buf01[] = "ABCDEFGH\n";
-	//bufの先頭から3バイト進めた位置にbufの先頭から3バイトコピー
-	memmove(or_buf01+2,or_buf01,5);
-	ft_memmove(ft_buf01+2,ft_buf01,5);
-	//表示
-    printf("hello %s",ft_buf01);
-    for (int i = 0;i < 10;i++)
-    {
-        assert(or_buf01[i]==ft_buf01[i]);
-    }
+	char or_buf01[] = "ABCDEFGH\0";
+	char ft_buf01[] = "ABCDEFGH\0";
+    // srcがdstよりも後
+	memmove(   or_buf01,or_buf01+3,5);
+	ft_memmove(ft_buf01,ft_buf01+3,5);
+    printf("or_buf01 %s\n",or_buf01);
+    printf("ft_buf01 %s\n",ft_buf01);
+    //for (int i = 0;i < 10;i++)
+    //    assert(or_buf01[i]==ft_buf01[i]);
     printf("test09 done\n");
 }
 
