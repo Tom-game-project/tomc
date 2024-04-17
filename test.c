@@ -5,6 +5,7 @@ void	ft_bzero(void *s, size_t n);
 
 int main ()
 {
+    
     char buf[5] = "hello";
     ft_bzero(buf,5);
     for (int i = 0;i < 5;i++)
@@ -15,6 +16,7 @@ int main ()
             printf("False");
         }
     }
+
     char str1[128] = {1,1,1,1,1,1,1};
     char str2[] = "ab\0cde";        /* 途中に空文字のある文字列 */
     int i;
