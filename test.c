@@ -96,10 +96,11 @@ void test05()
 // memset
 void test06()
 {
-	char buf[] = "ABCDEFGHIJK";
+	char or_buf[] = "ABCDEFGHIJK";
+	char ft_buf[] = "ABCDEFGHIJK";
 	//先頭から2バイト進めた位置に「１」を3バイト書き込む
-	assert(memset(buf+2,'1',3)==ft_memset(buf+2,'1',3));
-	printf("buf文字列→%s\n",buf);
+	assert(memset(or_buf+2,'1',3)==ft_memset(ft_buf+2,'1',3));
+	printf("buf文字列→%s\n");
     printf("test06 done\n");
 }
 
@@ -185,8 +186,6 @@ void test09()
        assert(or_dst[i]==ft_dst[i]);
     printf("test09 done\n");
 }
-
-
 
 #include <unistd.h>
 
