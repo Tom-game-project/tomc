@@ -96,11 +96,17 @@ void test05()
 // memset
 void test06()
 {
-	char or_buf[] = "ABCDEFGHIJK";
-	char ft_buf[] = "ABCDEFGHIJK";
+	char or_buf[] = "ABCDEFGHIJK\0";
+	char ft_buf[] = "ABCDEFGHIJK\0";
 	//先頭から2バイト進めた位置に「１」を3バイト書き込む
-	assert(memset(or_buf+2,'1',3)==ft_memset(ft_buf+2,'1',3));
-	printf("buf文字列→%s\n");
+    char *a = memset(or_buf+2,'1',3);
+    char *b = ft_memset(ft_buf+2,'1',3);
+	for (int i = 0;i < 13;i++)
+    {
+        assert(or_buf[i] == ft_buf[i]);
+    }
+	printf("or_buf文字列→%s\n", a);
+	printf("ft_buf文字列→%s\n", b);
     printf("test06 done\n");
 }
 
@@ -187,55 +193,43 @@ void test09()
     printf("test09 done\n");
 }
 
-#include <unistd.h>
-
-void	ft_putchar(char a)
-{
-	write(1, &a, 1);
-}
-
-void test10_0(char *a, size_t size)
-{
-	for (size_t i = 0;i < size;i++)
-	{
-		if (a[i])
-		{
-			ft_putchar(a[i]);
-		}
-		else
-		{
-			ft_putchar('*');
-		}
-		ft_putchar(',');
-	}
-	ft_putchar('\n');
-}
-
-// strlcpy
 void test10()
 {
-//test function
-	char or_a[6] = "hello\0";
-	char or_c[6] = "hello\0";
+    char or_dst[6] = "hello\0";
+    char or_src[8] = "1234567\0";
+    char ft_dst[6] = "hello\0";
+    char ft_src[8] = "1234567\0";
 
-	int or_ar = strlcpy(or_a,"abc",3);
-	int or_cr = strlcpy(or_c,"a"  ,1);
-	test10_0(or_a, 6);
-	test10_0(or_c, 6);
+	size_t or_r = strlcpy(or_dst, or_src, sizeof(or_dst));
+	size_t ft_r = ft_strlcpy(ft_dst, ft_src, sizeof(ft_dst));
 
-	char ft_a[6] = "hello\0";
-	char ft_c[6] = "hello\0";
-	int ft_ar = ft_strlcpy(ft_a,"abc",3);
-	int ft_cr = ft_strlcpy(ft_c,"a"  ,1);
-	test10_0(ft_a, 6);
-	test10_0(ft_c, 6);
-    for (int i = 0;i < 6;i++)
+    printf("%s %lu\n", or_dst, or_r);
+    printf("%s %lu\n", ft_dst, ft_r);
+
+    for (int i = 0; i < 8;i++)
     {
-        assert(or_a[i] == ft_a[i]);
-        assert(or_c[i] == ft_c[i]);
+        printf("%c %c\n",or_dst[i],ft_dst[i]);
+        assert(or_dst[i]==ft_dst[i]);
+        //assert(or_dst[i]==ft_dst[i]);
     }
-    assert(or_ar==ft_ar);
-    assert(or_cr==ft_cr);
+
+    char or_dst01[6] = "hello\0";
+    char or_src01[2] = "1\0";
+    char ft_dst01[6] = "hello\0";
+    char ft_src01[2] = "1\0";
+
+	size_t or_r01 = strlcpy(or_dst01, or_src01, sizeof(or_dst01));
+	size_t ft_r01 = ft_strlcpy(ft_dst01, ft_src01, sizeof(ft_dst01));
+
+    printf("or %s %lu\n", or_dst01, or_r01);
+    printf("ft %s %lu\n", ft_dst01, ft_r01);
+
+    for (int i = 0; i < 6;i++)
+    {
+        printf("%c %c\n",or_dst01[i],ft_dst01[i]);
+        assert(or_dst01[i]==ft_dst01[i]);
+    }
+    printf("test10 done\n");
 }
 
 int main ()

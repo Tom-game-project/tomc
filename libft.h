@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 18:21:32 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/18 11:25:51 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/18 17:04:04 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,5 @@ void	*ft_memmove(void *dst, const void *src, size_t n);
 size_t	ft_strlcpy(	char *restrict dst, \
 					const char *restrict src, \
 					size_t dstsize);
-// original
-size_t or_strlcpy(char *dst, const char *src, size_t siz);
 
 #endif
