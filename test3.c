@@ -19,16 +19,16 @@ int main ()
             printf("*");
     }
 
-    // char *a ="world";
-    // char *b ="hello";
-    // printf("%s\n",b);
-    // printf("world p:%p\nhello p:%p\ndiff %ld\n",a,b,a-b);
-    // for (int i = 0;i < 11;i++)
-    // {
-    //     if (a[i])
-    //         printf("%c",a[i]);
-    //     else
-    //         printf("*");
-    // }
+//     char *a ="world";
+//     char *b ="hello";
+//     printf("%s\n",b);
+//     printf("world p:%p\nhello p:%p\ndiff %ld\n",a,b,a-b);
+//     for (int i = 0;i < 11;i++)
+//     {
+//         if (a[i])
+//             printf("%c",a[i]);
+//         else
+//             printf("*");
+//     }
 
 }

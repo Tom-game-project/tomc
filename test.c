@@ -195,6 +195,7 @@ void test09()
 
 void test10()
 {
+    // 00
     char or_dst[6] = "hello\0";
     char or_src[8] = "1234567\0";
     char ft_dst[6] = "hello\0";
@@ -203,20 +204,17 @@ void test10()
 	size_t or_r = strlcpy(or_dst, or_src, sizeof(or_dst));
 	size_t ft_r = ft_strlcpy(ft_dst, ft_src, sizeof(ft_dst));
 
-    printf("%s %lu\n", or_dst, or_r);
-    printf("%s %lu\n", ft_dst, ft_r);
-
-    for (int i = 0; i < 8;i++)
+    for (int i = 0; i < 6;i++)
     {
-        printf("%c %c\n",or_dst[i],ft_dst[i]);
         assert(or_dst[i]==ft_dst[i]);
         //assert(or_dst[i]==ft_dst[i]);
     }
 
+    // 01
     char or_dst01[6] = "hello\0";
-    char or_src01[2] = "1\0";
+    char or_src01[2] = "1";
     char ft_dst01[6] = "hello\0";
-    char ft_src01[2] = "1\0";
+    char ft_src01[2] = "1";
 
 	size_t or_r01 = strlcpy(or_dst01, or_src01, sizeof(or_dst01));
 	size_t ft_r01 = ft_strlcpy(ft_dst01, ft_src01, sizeof(ft_dst01));
@@ -226,9 +224,28 @@ void test10()
 
     for (int i = 0; i < 6;i++)
     {
-        printf("%c %c\n",or_dst01[i],ft_dst01[i]);
         assert(or_dst01[i]==ft_dst01[i]);
     }
+
+    // 02
+    char or_dst02[6] = "hello\0";
+    char or_src02[8] = "123\0abc\0";
+    char ft_dst02[6] = "hello\0";
+    char ft_src02[8] = "123\0abc\0";
+
+	size_t or_r02 = strlcpy   (or_dst02, or_src02, sizeof(or_dst02));
+	size_t ft_r02 = ft_strlcpy(ft_dst02, ft_src02, sizeof(ft_dst02));
+
+    printf("or_dst:%s %lu\n", or_dst02, or_r02);
+    printf("ft_dst:%s %lu\n", ft_dst02, ft_r02);
+
+    for (int i = 0; i < 6;i++)
+    {
+        //printf("%c %c\n",or_dst02[i],ft_dst02[i]);
+        assert(or_dst02[i]==ft_dst02[i]);
+        //assert(or_dst[i]==ft_dst[i]);
+    }
+
     printf("test10 done\n");
 }
 
