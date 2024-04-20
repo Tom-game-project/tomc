@@ -355,6 +355,20 @@ void test16()
     printf("test16 done\n");
 }
 
+
+void test17()
+{
+    char *a = "hello world";
+    char *b = "hello";
+    char c[] = "\0aaa";
+    char d[] = "\0aaadd\0ddd\0";
+    assert(ft_memchr(a,'o',11)== memchr(a,'o',11));
+    assert(ft_memchr(b,'w',5)== memchr(b,'w',5));
+    assert(ft_memchr(c,'\0',sizeof(c))==memchr(c,'\0',sizeof(c)));
+    assert(ft_memchr(d,'\0',sizeof(d))==memchr(d,'\0',sizeof(d)));
+    printf("test17 done\n");
+}
+
 int main ()
 {
     printf("---+ testを開始します +---\n");
@@ -375,5 +389,6 @@ int main ()
     test14();//strchr
     test15();//strrchr
     test16();//strncmp
+    test17();//memchr
     return (0);
 }
