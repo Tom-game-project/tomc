@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 18:21:32 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/20 11:46:03 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/20 12:02:58 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,7 @@ size_t	ft_strlcpy(	char *restrict dst, \
 size_t	ft_strlcat( char *restrict dst, \
 					const char *restrict src, \
 					size_t dstsize);
+int		ft_toupper(int c);
+int		ft_tolower(int c);
 
 #endif

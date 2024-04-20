@@ -287,6 +287,31 @@ void test11()
     printf("test11 done\n");
 }
 
+// toupper
+void test12()
+{
+    for (int c = 'a';c < 'z';c++){
+        assert(ft_toupper(c)==toupper(c));
+    }
+    for (int c = 'A';c < 'Z';c++){
+        assert(ft_toupper(c)==toupper(c));
+    }
+    printf("test12 done\n");
+}
+
+// tolower
+void test13()
+{
+
+    for (int c = 'a';c < 'z';c++){
+        assert(ft_tolower(c)==tolower(c));
+    }
+    for (int c = 'A';c < 'Z';c++){
+        assert(ft_tolower(c)==tolower(c));
+    }
+    printf("test13 done\n");
+}
+
 int main ()
 {
     printf("---+ testを開始します +---\n");
@@ -302,5 +327,7 @@ int main ()
     test09();//memmove
     test10();//strlcpy
     test11();//strlcat
+    test12();//toupper
+    test13();//tolower
     return (0);
 }
