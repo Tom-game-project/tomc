@@ -193,7 +193,6 @@ void test09()
     printf("test09 done\n");
 }
 
-
 // strlcpy
 void test10()
 {
@@ -251,6 +250,7 @@ void test10()
     printf("test10 done\n");
 }
 
+// strlcat
 void test11()
 {
     char or_dst00[6] = "hello\0";
@@ -312,6 +312,7 @@ void test13()
     printf("test13 done\n");
 }
 
+// strchr
 void test14()
 {
     char *a = "hello world";
@@ -323,6 +324,36 @@ void test14()
     printf("test14 done\n");
 }
 
+// strrchr
+void test15(){
+    char *a = "hello world";
+    char *b = "hello";
+    char c[] = "\0aaa";
+    char d[] = "\0aaadd\0ddd\0";
+    assert(ft_strrchr(a,'o')==strrchr(a,'o'));
+    assert(ft_strrchr(b,'w')==strrchr(b,'w'));
+    assert(ft_strrchr(c,'\0')==strrchr(c,'\0'));
+    assert(ft_strrchr(d,'\0')==strrchr(d,'\0'));
+    printf("test15 done\n");
+}
+
+// strlcmp
+void test16()
+{
+    char *a0 = "hello world";
+    char *a1 = "hellO world";
+    printf("diff %d %d\n",strncmp(a0,a1,5),ft_strncmp(a0,a1,5));
+    assert(strncmp(a0,a1,5)==ft_strncmp(a0,a1,5));
+    char *b0 = "hello worldw";
+    char *b1 = "hello world";
+    printf("diff %d\n",strncmp(b0,b1,20));
+    assert(strncmp(b0,b1,20)==ft_strncmp(b0,b1,20));
+    char c0[] = "hello\0worlD\0";
+    char c1[] = "hello\0world\0";
+    printf("diff %d\n",strncmp(c0,c1,10));
+    assert(strncmp(c0,c1,10)==ft_strncmp(c0,c1,10));
+    printf("test16 done\n");
+}
 
 int main ()
 {
@@ -342,5 +373,7 @@ int main ()
     test12();//toupper
     test13();//tolower
     test14();//strchr
+    test15();//strrchr
+    test16();//strncmp
     return (0);
 }
