@@ -193,6 +193,8 @@ void test09()
     printf("test09 done\n");
 }
 
+
+// strlcpy
 void test10()
 {
     // 00
@@ -249,6 +251,42 @@ void test10()
     printf("test10 done\n");
 }
 
+void test11()
+{
+    char or_dst00[6] = "hello\0";
+    char or_src00[6] = "world\0";
+    int or_return00 = strlcat(or_dst00,or_src00,sizeof(or_dst00));
+    printf("result a:%s :%d\n",or_dst00,or_return00);
+
+    char ft_dst00[6] = "hello\0";
+    char ft_src00[6] = "world\0";
+    int ft_return00 = ft_strlcat(ft_dst00,ft_src00,sizeof(ft_dst00));
+    printf("result a:%s :%d\n",ft_dst00,ft_return00);
+
+	for (int i = 0;i < 6;i++)
+    {
+        assert(or_dst00[i]==ft_dst00[i]);
+    }
+    assert(or_return00 == ft_return00);
+
+    char or_dst01[11] = "hello\0";
+    char or_src01[6] = "world\0";
+    int or_return01 = strlcat(or_dst01,or_src01,sizeof(or_dst01));
+    printf("result c:%s :%d\n",or_dst01,or_return01);
+
+    char ft_dst01[11] = "hello\0";
+    char ft_src01[6] = "world\0";
+    int ft_return01 = ft_strlcat(ft_dst01,ft_src01,sizeof(ft_dst01));
+
+	for (int i = 0;i < 11;i++)
+    {
+        assert(or_dst01[i]==ft_dst01[i]);
+    }
+    assert(or_return01== ft_return01);
+    printf("result c:%s :%d\n",ft_dst01,ft_return01);
+    printf("test11 done\n");
+}
+
 int main ()
 {
     printf("---+ testを開始します +---\n");
@@ -263,5 +301,6 @@ int main ()
     test08();//memcpy
     test09();//memmove
     test10();//strlcpy
+    test11();//strlcat
     return (0);
 }
