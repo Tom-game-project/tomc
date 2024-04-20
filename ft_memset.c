@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:52:07 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/16 22:14:52 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/20 21:40:51 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,3 @@ void	*ft_memset(void *buf, int ch, size_t n)
 	}
 	return (buf);
 }
-
-// int main()
-// {
-//     char a[] = "hello world";
-//     char b[] = "hello world";
-//     char *or = memset   (b + 2,'1',3);
-//     char *ft = ft_memset(a + 2,'1',3);
-//     printf("%s\n",a);
-//     printf("%s\n",b);
-//     printf("or %s\n",or);
-//     printf("ft %s\n",ft);
-// }

@@ -442,6 +442,7 @@ void test21()
     {
         assert(charbuf[i] == 0);
     }
+    free(charbuf);
 }
 
 // strdup
@@ -465,11 +466,33 @@ void test22()
 
 void test23()
 {
-    char *a = "hello world";
-    char *adst;
+	char *a = "hello world";
+	char *adst;
+    char *aprd = "o w";
 
-    adst = ft_substr(a,4,3);
+	adst = ft_substr(a,4,3);
     printf("%s\n",adst);
+    assert(strcmp(adst,aprd) == 0);
+
+	char *b = "hello world";
+	char *bdst;
+    char *bprd = " world";
+
+	bdst = ft_substr(b,5,10);
+    printf("%s\n", bdst);
+    assert(strcmp(bdst, bprd) == 0);
+    free(adst);
+    free(bdst);
+}
+
+// strjoin
+void test24()
+{
+    char *a = "hello";
+    char *b = "world";
+    char *dst0 = ft_strjoin2(a, b);
+    printf("result %s \n",dst0);
+    free(dst0);
 }
 
 int main ()
@@ -504,6 +527,7 @@ int main ()
 
     printf("part 2\n");
     test23();// substr
+    test24();// strjoin
 
     
     return (0);
