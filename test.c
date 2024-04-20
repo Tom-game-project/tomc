@@ -442,6 +442,22 @@ void test21()
     }
 }
 
+void test22()
+{
+    // 引数にnull文字を入れるのはuserの義務
+    char *a = "hello world";
+    char *b = ft_strdup(a);
+    printf("%s %s\n",a,b);
+    free(b);
+	for (int i = 0;i < 100000;i++)
+	{
+		char *c = "My name is Tom ! Happy 42 Life !";
+		char *d = ft_strdup(c);
+		//printf("%s %s\n",c,d);
+		free(d);
+	}
+}
+
 int main ()
 {
     printf("---+ testを開始します +---\n");
@@ -467,5 +483,6 @@ int main ()
     test19();// strnstr
     test20();// atoi
     test21();// calloc
+    test22();// strdup
     return (0);
 }
