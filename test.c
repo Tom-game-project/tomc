@@ -427,6 +427,21 @@ void test20()
     assert(ft_atoi(e)==atoi(e));
 }
 
+// calloc
+void test21()
+{
+	int *intbuf = ft_calloc(100, sizeof(int));
+    for (int i = 0;i < 100;i++)
+    {
+        assert(intbuf[i] == 0);
+    }
+	char *charbuf = ft_calloc(100, sizeof(char));
+    for (int i = 0;i < 100;i++)
+    {
+        assert(charbuf[i] == 0);
+    }
+}
+
 int main ()
 {
     printf("---+ testを開始します +---\n");
@@ -451,5 +466,6 @@ int main ()
     test18();// memcmp
     test19();// strnstr
     test20();// atoi
+    test21();// calloc
     return (0);
 }
