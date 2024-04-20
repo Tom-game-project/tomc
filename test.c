@@ -5,6 +5,8 @@
 #include <string.h>
 #include <assert.h>
 
+// part 1
+
 // isalpha
 void test00()
 {
@@ -442,6 +444,7 @@ void test21()
     }
 }
 
+// strdup
 void test22()
 {
     // 引数にnull文字を入れるのはuserの義務
@@ -458,9 +461,21 @@ void test22()
 	}
 }
 
+// part 2
+
+void test23()
+{
+    char *a = "hello world";
+    char *adst;
+
+    adst = ft_substr(a,4,3);
+    printf("%s\n",adst);
+}
+
 int main ()
 {
     printf("---+ testを開始します +---\n");
+    printf("part 1\n");
     test00();// isalpha
     test01();// isdigit
     test02();// isalnum
@@ -484,5 +499,12 @@ int main ()
     test20();// atoi
     test21();// calloc
     test22();// strdup
+    printf("part 1 OK\n");
+
+
+    printf("part 2\n");
+    test23();// substr
+
+    
     return (0);
 }
