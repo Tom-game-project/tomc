@@ -312,6 +312,18 @@ void test13()
     printf("test13 done\n");
 }
 
+void test14()
+{
+    char *a = "hello world";
+    char *b = "hello";
+    char c[] = "\0aaa";
+    assert(ft_strchr(a,'o')==strchr(a,'o'));
+    assert(ft_strchr(b,'w')==strchr(b,'w'));
+    assert(ft_strchr(c,'\0')==strchr(c,'\0'));
+    printf("test14 done\n");
+}
+
+
 int main ()
 {
     printf("---+ testを開始します +---\n");
@@ -329,5 +341,6 @@ int main ()
     test11();//strlcat
     test12();//toupper
     test13();//tolower
+    test14();//strchr
     return (0);
 }
