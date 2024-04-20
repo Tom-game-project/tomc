@@ -387,27 +387,48 @@ void test18()
     printf("test18 done\n");
 }
 
+// strnstr
+void test19()
+{
+    int *a = "hello world";
+    int *b = "o ";
+    printf("ft:%p\nor:%p\n",
+    	ft_strnstr(a,b,10),
+    	strnstr   (a,b,10)
+    );
+    assert(ft_strnstr(a,b,10)==strnstr(a,b,10));
+
+
+    printf("ft:%p\nor:%p\n",
+    	ft_strnstr(a,b,5),
+    	strnstr   (a,b,5)
+    );
+    assert(ft_strnstr(a,b,5)==strnstr(a,b,5));
+    printf("test19 done\n");
+}
+
 int main ()
 {
     printf("---+ testを開始します +---\n");
-    test00();//isalpha
-    test01();//isdigit
-    test02();//isalnum
-    test03();//isascii
-    test04();//isprint
-    test05();//strlen
-    test06();//memset
-    test07();//bzero
-    test08();//memcpy
-    test09();//memmove
-    test10();//strlcpy
-    test11();//strlcat
-    test12();//toupper
-    test13();//tolower
-    test14();//strchr
-    test15();//strrchr
-    test16();//strncmp
-    test17();//memchr
-    test18();//memcmp
+    test00();// isalpha
+    test01();// isdigit
+    test02();// isalnum
+    test03();// isascii
+    test04();// isprint
+    test05();// strlen
+    test06();// memset
+    test07();// bzero
+    test08();// memcpy
+    test09();// memmove
+    test10();// strlcpy
+    test11();// strlcat
+    test12();// toupper
+    test13();// tolower
+    test14();// strchr
+    test15();// strrchr
+    test16();// strncmp
+    test17();// memchr
+    test18();// memcmp
+    test19();// strnstr
     return (0);
 }
