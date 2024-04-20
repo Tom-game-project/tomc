@@ -490,9 +490,11 @@ void test24()
 {
     char *a = "hello";
     char *b = "world";
-    char *dst0 = ft_strjoin2(a, b);
+    char *dst0 = ft_strjoin(a, b);
     printf("result %s \n",dst0);
     free(dst0);
+    char *dst1 = ft_strjoin(a, a);
+    printf("result %s \n",dst1);
 }
 
 int main ()
