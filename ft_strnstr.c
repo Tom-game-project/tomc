@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 15:10:47 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/20 16:05:02 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/20 16:06:39 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 				break ;
 			j++;
 		}
-		if (needle_tmp[j] == '\0')
+		if (needle_tmp[j] == '\0' && i + j < len)
 			return (haystack_tmp + i);
 		i++;
 	}
