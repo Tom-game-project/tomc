@@ -355,7 +355,7 @@ void test16()
     printf("test16 done\n");
 }
 
-
+// memchr
 void test17()
 {
     char *a = "hello world";
@@ -367,6 +367,24 @@ void test17()
     assert(ft_memchr(c,'\0',sizeof(c))==memchr(c,'\0',sizeof(c)));
     assert(ft_memchr(d,'\0',sizeof(d))==memchr(d,'\0',sizeof(d)));
     printf("test17 done\n");
+}
+
+// memcmp
+void test18()
+{
+    char *a0 = "hello world";
+    char *a1 = "hellO world";
+    printf("diff %d %d\n",ft_memcmp(a0,a1,5),memcmp(a0,a1,5));
+    assert(ft_memcmp(a0,a1,5)==memcmp(a0,a1,5));
+    char *b0 = "hello worldw";
+    char *b1 = "hello world";
+    printf("diff %d\n",ft_memcmp(b0,b1,20));
+    assert(ft_memcmp(b0,b1,20)==memcmp(b0,b1,20));
+    char c0[] = "hello\0worlD\0";
+    char c1[] = "hello\0world\0";
+    printf("diff %d\n",ft_memcmp(c0,c1,sizeof(c0)));
+    assert(ft_memcmp(c0,c1,10)==memcmp(c0,c1,sizeof(c0)));
+    printf("test18 done\n");
 }
 
 int main ()
@@ -390,5 +408,6 @@ int main ()
     test15();//strrchr
     test16();//strncmp
     test17();//memchr
+    test18();//memcmp
     return (0);
 }
