@@ -407,6 +407,26 @@ void test19()
     printf("test19 done\n");
 }
 
+//atoi
+void test20()
+{
+    char *a = "120"; //120
+    char *b = "1982a11"; //1982
+    char *c = "-235";// -235
+    char *d = "-2 35";// -2
+    char *e = "   \n	14";
+    printf("%d %d\n",ft_atoi(a),atoi(a));
+    printf("%d %d\n",ft_atoi(b),atoi(b));
+    printf("%d %d\n",ft_atoi(c),atoi(c));
+    printf("%d %d\n",ft_atoi(d),atoi(d));
+    printf("%d %d\n",ft_atoi(e),atoi(e));
+    assert(ft_atoi(a)==atoi(a));
+    assert(ft_atoi(b)==atoi(b));
+    assert(ft_atoi(c)==atoi(c));
+    assert(ft_atoi(d)==atoi(d));
+    assert(ft_atoi(e)==atoi(e));
+}
+
 int main ()
 {
     printf("---+ testを開始します +---\n");
@@ -430,5 +450,6 @@ int main ()
     test17();// memchr
     test18();// memcmp
     test19();// strnstr
+    test20();// atoi
     return (0);
 }
