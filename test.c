@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <assert.h>
+#include <stdio.h>
 
 // part 1
 
