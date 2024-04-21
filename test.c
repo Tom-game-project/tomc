@@ -497,6 +497,23 @@ void test24()
     printf("result %s \n",dst1);
 }
 
+void test25()
+{
+	char *str0 = " 			 	  	hello  	";
+	char *str1 = " 			 	  	hello";
+	char *str2 = "hello 		 	 	 	 ";
+    char *trimset = " 	";
+    char *dst0 = ft_strtrim(str0, trimset);
+    char *dst1 = ft_strtrim(str1, trimset);
+    char *dst2 = ft_strtrim(str2, trimset);
+
+	char *pred = "hello";
+    assert(strcmp(dst0,pred) == 0);
+    assert(strcmp(dst1,pred) == 0);
+    assert(strcmp(dst2,pred) == 0);
+    printf("test25 done\n");
+}
+
 int main ()
 {
     printf("---+ testを開始します +---\n");
@@ -530,6 +547,7 @@ int main ()
     printf("part 2\n");
     test23();// substr
     test24();// strjoin
+    test25();// 
 
     
     return (0);
