@@ -488,13 +488,19 @@ void test23()
 // strjoin
 void test24()
 {
+	char *pred0 = "helloworld";
+	char *pred1 = "hellohello";
+
     char *a = "hello";
     char *b = "world";
     char *dst0 = ft_strjoin(a, b);
     printf("result %s \n",dst0);
+    assert(strcmp(dst0,pred0) == 0);
     free(dst0);
     char *dst1 = ft_strjoin(a, a);
     printf("result %s \n",dst1);
+    assert(strcmp(dst1,pred1) == 0);
+    free(dst1);
 }
 
 void test25()
@@ -503,14 +509,20 @@ void test25()
 	char *str1 = " 			 	  	hello";
 	char *str2 = "hello 		 	 	 	 ";
     char *trimset = " 	";
-    char *dst0 = ft_strtrim(str0, trimset);
-    char *dst1 = ft_strtrim(str1, trimset);
-    char *dst2 = ft_strtrim(str2, trimset);
+    char *dst0 = ft_strtrim(str0, trimset);//malloc
+    char *dst1 = ft_strtrim(str1, trimset);//malloc
+    char *dst2 = ft_strtrim(str2, trimset);//malloc
 
 	char *pred = "hello";
+    printf("%s\n",dst0);
+    printf("%s\n",dst1);
+    printf("%s\n",dst2);
     assert(strcmp(dst0,pred) == 0);
     assert(strcmp(dst1,pred) == 0);
     assert(strcmp(dst2,pred) == 0);
+    free(dst0);
+    free(dst1);
+    free(dst2);
     printf("test25 done\n");
 }
 

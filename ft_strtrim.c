@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 11:21:20 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/21 12:05:44 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/21 13:12:01 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,9 @@ char	*ft_strtrim(char const *s1, char const *set)
 	int		i;
 
 	strtmp = (char *)s1;
-	printf("num %d\n", size_counter(s1, set));
-	rbuf = (char *) malloc(sizeof(char) * size_counter(s1, set));
+	rbuf = (char *) malloc(sizeof(char) * (size_counter(s1, set) + 1));
+	if (!rbuf)
+		return (NULL);
 	i = 0;
 	while (*strtmp)
 	{
@@ -63,5 +64,6 @@ char	*ft_strtrim(char const *s1, char const *set)
 		i++;
 		strtmp++;
 	}
+	rbuf[i] = '\0';
 	return (rbuf);
 }
