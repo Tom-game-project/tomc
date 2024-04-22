@@ -529,8 +529,9 @@ void test25()
 
 void test26()
 {
-	char *a = "hello,world,Tom,still,slive";
+	char *a = "hello,world,Tom,still,alive";
 	char **dst;
+    printf("len %d\n",ft_strlen(a));
 	dst = ft_split(a,',');//malloc 
 
 	while(*dst)
