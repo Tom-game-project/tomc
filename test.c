@@ -534,13 +534,13 @@ void test26()
 
 	char *b = "hello,world,Tom,still,alive,";
 	char **dst_b;
+    int i;
     
     printf("len %d\n",ft_strlen(a));
 	dst_a = ft_split(a,',');//malloc 
-
+    i = 0;
 	printf("%p %c\n",dst_a,dst_a);
-    int i = 0;
-    while(dst_a[i])
+	while(dst_a[i])
 	{
 		printf("elem %s\n", dst_a[i]);
         i++;
@@ -556,8 +556,24 @@ void test26()
 		printf("elem %s\n", dst_b[i]);
         i++;
 	}
-    //free(dst);
+	//free(dst);
+	printf("test26 done\n");
 }
+
+void test27()
+{
+    char *num00 = ft_itoa(1234);
+    char *num01 = ft_itoa(-1234);
+    char *num02 = ft_itoa(-2147483648);
+    char *num03 = ft_itoa(0);
+
+    printf("num %s\n",num00);
+    printf("num %s\n",num01);
+    printf("num %s\n",num02);
+    printf("num %s\n",num03);
+    printf("test27 done \n");
+}
+
 
 int main ()
 {
@@ -593,6 +609,7 @@ int main ()
     test24();// strjoin
     test25();// ft_strtrim
     test26();// ft_split
+    test27();// ft_itoa
 
     return (0);
 }

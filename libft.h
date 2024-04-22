@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 18:21:32 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/22 12:42:19 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/22 15:59:16 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
 
 char	**ft_split(char const *s, char c);
+char	*ft_itoa(int n);
 
 #endif

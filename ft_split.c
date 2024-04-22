@@ -6,12 +6,11 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 12:19:21 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/22 15:15:52 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/22 15:27:43 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <stdio.h>
 #include "libft.h"
 
 static unsigned int	char_counter(char *s, char c)
@@ -76,13 +75,10 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	strtmp = (char *)s;
 	i = 0;
-    while (i < char_counter((char *)s, c) + 1)
+	while (i < char_counter((char *)s, c) + 1)
 	{
-		printf("step: %c\n", *strtmp);
 		step = my_strchr(strtmp, c);
-		printf("step: %d %c\n", step, *strtmp);
 		rbuf[i] = helper(strtmp, step);
-		printf("%s\n", rbuf[i]);
 		strtmp += step;
 		i++;
 	}
