@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 12:19:21 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/22 14:39:21 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/22 15:15:52 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static char	*helper(char *s, int len)
 	char	*rbuf;
 	int		i;
 
-	rbuf = (char *)malloc(sizeof(char) * (len + 1));
+	rbuf = (char *)malloc(sizeof(char) * len);
 	i = 0;
 	while (i < len - 1)
 	{
@@ -68,21 +68,24 @@ char	**ft_split(char const *s, char c)
 	char		**rbuf;
 	char		*strtmp;
 	int			step;
+	size_t		i;
 
 	rbuf = (char **)malloc(sizeof(char *) \
 						* (char_counter((char *)s, c) + 1 + 1));
 	if (!rbuf)
 		return (NULL);
 	strtmp = (char *)s;
-	while (*strtmp)
+	i = 0;
+    while (i < char_counter((char *)s, c) + 1)
 	{
 		printf("step: %c\n", *strtmp);
 		step = my_strchr(strtmp, c);
 		printf("step: %d %c\n", step, *strtmp);
-		*rbuf = helper(strtmp, step);
-		printf("%s\n", *rbuf);
+		rbuf[i] = helper(strtmp, step);
+		printf("%s\n", rbuf[i]);
 		strtmp += step;
-		rbuf++;
+		i++;
 	}
+	rbuf[i] = NULL;
 	return (rbuf);
 }

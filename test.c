@@ -530,16 +530,33 @@ void test25()
 void test26()
 {
 	char *a = "hello,world,Tom,still,alive";
-	char **dst;
-    printf("len %d\n",ft_strlen(a));
-	dst = ft_split(a,',');//malloc 
+	char **dst_a;
 
-	while(*dst)
+	char *b = "hello,world,Tom,still,alive,";
+	char **dst_b;
+    
+    printf("len %d\n",ft_strlen(a));
+	dst_a = ft_split(a,',');//malloc 
+
+	printf("%p %c\n",dst_a,dst_a);
+    int i = 0;
+    while(dst_a[i])
 	{
-		printf("%s\n",*dst);
-		dst++;
+		printf("elem %s\n", dst_a[i]);
+        i++;
 	}
-    free(dst);
+
+    printf("len %d\n",ft_strlen(b));
+	dst_b = ft_split(b,',');//malloc 
+
+	printf("%p %c\n",dst_b,dst_b);
+    i = 0;
+    while(dst_b[i])
+	{
+		printf("elem %s\n", dst_b[i]);
+        i++;
+	}
+    //free(dst);
 }
 
 int main ()
