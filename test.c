@@ -527,6 +527,20 @@ void test25()
     printf("test25 done\n");
 }
 
+void test26()
+{
+	char *a = "hello,world,Tom,still,slive";
+	char **dst;
+	dst = ft_split(a,',');//malloc 
+
+	while(*dst)
+	{
+		printf("%s\n",*dst);
+		dst++;
+	}
+    free(dst);
+}
+
 int main ()
 {
     printf("---+ testを開始します +---\n");
@@ -556,12 +570,11 @@ int main ()
     test22();// strdup
     printf("part 1 OK\n");
 
-
     printf("part 2\n");
     test23();// substr
     test24();// strjoin
-    test25();// 
+    test25();// ft_strtrim
+    test26();// ft_split
 
-    
     return (0);
 }
