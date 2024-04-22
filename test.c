@@ -566,11 +566,18 @@ void test27()
     char *num01 = ft_itoa(-1234);
     char *num02 = ft_itoa(-2147483648);
     char *num03 = ft_itoa(0);
+    char *num04 = ft_itoa(2147483647);
 
     printf("num %s\n",num00);
     printf("num %s\n",num01);
     printf("num %s\n",num02);
     printf("num %s\n",num03);
+    printf("num %s\n",num04);
+    assert(strcmp(num00,"1234") == 0);
+    assert(strcmp(num01,"-1234") == 0);
+    assert(strcmp(num02,"-2147483648") == 0);
+    assert(strcmp(num03,"0") == 0);
+    assert(strcmp(num04,"2147483647") == 0);
     printf("test27 done \n");
 }
 
