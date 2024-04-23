@@ -645,6 +645,15 @@ void test32()
     printf("test32 done\n");
 }
 
+void test33()
+{
+	ft_putnbr_fd(-123134, 1);
+    printf("\ntest33 done\n");
+}
+
+// bonus
+
+
 int main ()
 {
     printf("---+ testを開始します +---\n");
@@ -685,6 +694,7 @@ int main ()
     test30();// ft_putchar_fd
     test31();// ft_putstr_fd
     test32();// ft_putendl_fd
+    test33();// ft_putnbr_fd
 
     return (0);
 }
