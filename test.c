@@ -635,7 +635,7 @@ void test30()
 
 void test31()
 {
-
+    ft_putstr_fd("hello world\n",1);
     printf("test31 done\n");
 }
 
@@ -677,6 +677,7 @@ int main ()
     test28();// strmapi
     test29();// ft_striteri
     test30();// ft_putchar_fd
+    test31();// ft_putstr_fd
 
     return (0);
 }
