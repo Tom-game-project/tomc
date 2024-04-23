@@ -1,9 +1,16 @@
 
 #include <stdio.h>
 
-int main ()
+void changeint(char *a)
 {
-	int i = 10;
-	while (--i)
-		printf("%d\n",i);
+	*a = 'b';
+}
+
+int	main ()
+{
+	char a = 'a';
+
+	changeint(&a);
+	printf("%c\n",a);
+	return (0);
 }

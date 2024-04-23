@@ -527,6 +527,7 @@ void test25()
     printf("test25 done\n");
 }
 
+// split
 void test26()
 {
 	char *a = "hello,world,Tom,still,alive";
@@ -560,6 +561,7 @@ void test26()
 	printf("test26 done\n");
 }
 
+// itoa
 void test27()
 {
     char *num00 = ft_itoa(1234);
@@ -581,6 +583,61 @@ void test27()
     printf("test27 done \n");
 }
 
+
+char helper28(unsigned int i, char c)
+{
+    (void) i;
+    if ('a' <= c && c <= 'z')
+    {
+        return (c - ('a' - 'A'));
+    }
+    return (c);
+}
+
+// strmapi
+void test28()
+{
+    char *a = "Hello World";
+    char *b = ft_strmapi(a,helper28);
+    printf("maped str:%s\n",b);
+    printf("test28 done\n");
+}
+
+void helper29(unsigned int i, char *c)
+{
+    // test29
+    if ('a' <= *c && *c <= 'z')	
+    {
+        printf("T %d %c %p\n",i,*c,c);
+        //*c = (*c - ('a' - 'A'));
+        *c = '*';
+    }else
+    {
+        printf("F %d %c %p\n",i,*c,c);
+    }
+}
+
+// striteri
+void test29()
+{
+    char a[] = "Hello World";
+    ft_striteri(a,helper29);
+    printf("iter str:%s\n",a);
+    printf("test29 done\n");
+} 
+
+// putchar_fd
+void test30()
+{
+    ft_putchar_fd('H',1);
+    printf("test30 done\n");
+}
+
+void test31()
+{
+
+    printf("test31 done\n");
+}
 
 int main ()
 {
@@ -617,6 +674,9 @@ int main ()
     test25();// ft_strtrim
     test26();// ft_split
     test27();// ft_itoa
+    test28();// strmapi
+    test29();// ft_striteri
+    test30();// ft_putchar_fd
 
     return (0);
 }
