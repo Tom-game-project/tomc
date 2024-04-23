@@ -639,6 +639,12 @@ void test31()
     printf("test31 done\n");
 }
 
+void test32()
+{
+    ft_putendl_fd("hello world",1);
+    printf("test32 done\n");
+}
+
 int main ()
 {
     printf("---+ testを開始します +---\n");
@@ -678,6 +684,7 @@ int main ()
     test29();// ft_striteri
     test30();// ft_putchar_fd
     test31();// ft_putstr_fd
+    test32();// ft_putendl_fd
 
     return (0);
 }
