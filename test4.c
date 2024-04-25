@@ -1,25 +1,18 @@
-#include "libft.h"
+#include <string.h>
+#include <stdlib.h>
 #include <stdio.h>
+#include "libft.h"
 
-
-void helper29(unsigned int i, char *c)
+int main ()
 {
-    // test29
-    if ('a' <= *c && *c <= 'z')
-    {
-        printf("T %d %c %p\n",i,*c,c);
-        //*c = (*c - ('a' - 'A'));
-        *c = '*';
-    }else
-    {
-        printf("F %d %c %p\n",i,*c,c);
-    }
-}
-
-int main()
-{
-    char a = 'a';
-
-    helper29(0,&a);
-    printf("%c\n",a);
+	char *dst1 = calloc(100, sizeof(char));
+	char *dst2 = calloc(100, sizeof(char));
+	char *src1 = calloc(100, sizeof(char));
+	char *src2 = calloc(100, sizeof(char));
+	for (int i = 0; i < 99; i++)
+	{
+		src1[i] = i + 1;
+		src2[i] = i + 1;
+	}
+    printf("%lu %lu,\n",ft_strlcat(dst1, src1, 100), strlcat(dst2, src2, 100));
 }

@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/20 18:06:45 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/23 21:51:16 by tmuranak         ###   ########.fr       */
+/*   Created: 2024/04/23 21:23:05 by tmuranak          #+#    #+#             */
+/*   Updated: 2024/04/23 22:15:56 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "libft.h"
+#include <stdio.h>
 
-void	*ft_calloc(size_t count, size_t size)
+int	ft_lstsize(t_list *lst)
 {
-	void	*rbuf;
-	size_t	buf_size;
+	int		c;
+	t_list	*unit;
 
-	if (count > SIZE_MAX / size)
-		return (NULL);
-	buf_size = count * size;
-	rbuf = malloc(buf_size);
-	if (!rbuf)
-		return (NULL);
-	ft_memset(rbuf, 0, buf_size);
-	return (rbuf);
+	c = 0;
+	unit = lst;
+	while (unit)
+	{
+		printf("%p %p\n", unit, lst->next);
+		unit = lst -> next;
+		c++;
+	}
+	return (c);
 }

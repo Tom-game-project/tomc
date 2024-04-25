@@ -205,12 +205,14 @@ void test10()
     char ft_dst[6] = "hello\0";
     char ft_src[8] = "1234567\0";
 
-	size_t or_r = strlcpy(or_dst, or_src, sizeof(or_dst));
-	size_t ft_r = ft_strlcpy(ft_dst, ft_src, sizeof(ft_dst));
+	size_t or_r = strlcpy(or_dst, or_src, 0);
+	size_t ft_r = ft_strlcpy(ft_dst, ft_src, 0);
 
+	printf("%d %d\n" ,or_r,ft_r);
     for (int i = 0; i < 6;i++)
     {
         assert(or_dst[i]==ft_dst[i]);
+        printf("%c %c \n",or_dst[i],ft_dst[i]);
         //assert(or_dst[i]==ft_dst[i]);
     }
 
@@ -652,6 +654,36 @@ void test33()
 }
 
 // bonus
+void test34()
+{
+    char *a = "hello world";
+    t_list list = *ft_lstnew(a);
+    printf("%s \n",list.content,list.next);
+    printf("test34 done\n");
+}
+
+void test35()
+{
+    char *a = "hello world";
+    t_list list0 = *ft_lstnew(a);
+    t_list list1 = *ft_lstnew(a);
+
+	ft_lstadd_front(&list0, &list1);
+    printf("test35 done\n");
+}
+
+void test36()
+{
+	char *a = "hello world";
+	t_list list0 = *ft_lstnew(a);
+	t_list list1 = *ft_lstnew(a);
+
+	ft_lstadd_front(&list0, &list1);
+    printf("size of list: %d\n",ft_lstsize(&list1));
+    printf("test36 done\n");
+}
+
+
 
 
 int main ()
@@ -695,6 +727,9 @@ int main ()
     test31();// ft_putstr_fd
     test32();// ft_putendl_fd
     test33();// ft_putnbr_fd
+    // test34();// ft_lstnew
+    // test35();// ft_lstadd_front
+    // test36();// 
 
     return (0);
 }
