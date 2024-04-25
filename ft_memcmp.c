@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 14:59:23 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/20 15:03:21 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/25 16:05:05 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ int	ft_memcmp(const void *s1, const void *s2, size_t n)
 	i = 0;
 	strtmp1 = (char *)s1;
 	strtmp2 = (char *)s2;
-	while (i < n)
+	if (n == 0)
+		return (0);
+	while (i < n - 1)
 	{
 		if (strtmp1[i] != strtmp2[i])
 			return (strtmp1[i] - strtmp2[i]);
