@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 10:08:51 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/25 12:09:41 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:22:48 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ size_t	ft_strlcat( char *dst, \
 {
 	size_t	dstlen;
 	size_t	srclen;
-	size_t max;
+	size_t	max;
 	size_t	i;
 
 	if (src == NULL || dst == NULL || dstsize == 0)
