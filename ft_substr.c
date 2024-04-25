@@ -6,25 +6,31 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 19:11:07 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/20 20:05:37 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:45:04 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include "libft.h"
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*buf;
 	size_t	i;
 
-	buf = malloc(len * sizeof(char));
+	buf = (char *)malloc((len + 1) * sizeof(char));
 	i = 0;
-	while (i < len)
+	while (i < len && ft_strlen((char *)s) > start)
 	{
-		buf[i] = s[start + i];
 		if (!s[start + i])
+		{
+			buf[i] = '\0';
 			return (buf);
+		}
+		buf[i] = s[start + i];
 		i++;
 	}
+	if (!s[start + i])
+		buf[start + i + 1] = '\0';
 	return (buf);
 }

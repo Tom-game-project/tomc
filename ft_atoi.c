@@ -5,12 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/20 16:08:20 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/20 18:02:13 by tmuranak         ###   ########.fr       */
+/*   Created: 2024/04/25 18:37:46 by tmuranak          #+#    #+#             */
+/*   Updated: 2024/04/25 18:59:32 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 static int	isspace(int c)
 {
@@ -26,7 +27,7 @@ static int	isspace(int c)
 	return (0);
 }
 
-static int	atoi_helper(char *str, int len)
+static int    atoi_helper(char *str, int len)
 {
 	int	c;
 	int	i;
@@ -45,43 +46,64 @@ static int	atoi_helper(char *str, int len)
 			base *= 10;
 		}
 		r += (str[c] - '0') * base;
-	}
-	return (r);
+    }
+    return (r);
 }
 
-static char	*prefix_helper(char *str, int *flag)
+static int    prefix_helper(char *str)
 {
-	*flag = 1;
-	while (!ft_isdigit(*str))
-	{
-		if (*str == '-')
-		{
-			*flag = -1;
-			str++;
-			break ;
-		}
-		if (*str == '+')
-			break ;
-		if (!isspace(*str))
-			return (0);
-		str++;
-	}
-	return (str);
+    while (!ft_isdigit(*str))
+    {
+        if (*str == '-')
+        {
+            str++;
+            return (-1);
+        }
+        else if (*str == '+')
+        {
+            str++;
+            return (1);
+        }
+        else if (isspace(*str))
+            str++;
+        else
+            return (0);
+    }
+    return (1);
 }
 
-int	ft_atoi(const char *str)
+int    ft_atoi(const char *str)
 {
-	int				flag;
-	int				len;
-	char			*strtmp;
+	int		flag;
+	int		len;
+	char	*strtmp;
+	int		count;
 
+	count = 0;
 	len = 0;
 	strtmp = (char *)str;
-	strtmp = prefix_helper(strtmp, &flag);
+	if (!*str)
+		return (0);
+	flag = prefix_helper(strtmp);
+	while (!(ft_isdigit(*strtmp)))
+		strtmp++;
 	while (ft_isdigit(*strtmp))
 	{
 		len++;
 		strtmp++;
+		count++;
 	}
-	return (flag * atoi_helper(strtmp - len, len));
+	while (count)
+	{
+		strtmp--;
+		count--;
+	}
+    printf("%d\n",flag * atoi_helper(strtmp, len));
+    return (flag * atoi_helper(strtmp, len));
 }
+
+// int main()
+// {
+//     char *a = "-1";
+//     printf("%d",ft_atoi2(a));
+// }

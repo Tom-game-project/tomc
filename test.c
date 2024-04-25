@@ -388,7 +388,7 @@ void test18()
     char c0[] = "hello\0worlD\0";
     char c1[] = "hello\0world\0";
     printf("diff %d\n",ft_memcmp(c0,c1,sizeof(c0)));
-    assert(ft_memcmp(c0,c1,10)==memcmp(c0,c1,sizeof(c0)));
+    assert(ft_memcmp(c0,c1,sizeof(c0))==memcmp(c0,c1,sizeof(c0)));
     printf("test18 done\n");
 }
 
