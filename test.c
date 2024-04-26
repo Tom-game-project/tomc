@@ -504,12 +504,13 @@ void test24()
     printf("result %s \n",dst1);
     assert(strcmp(dst1,pred1) == 0);
     free(dst1);
+    printf("test24 done\n");
 }
 
 void test25()
 {
 	char *str0 = " 			 	  	hello  	";
-	char *str1 = " 			 	  	hello";
+	char *str1 = " 			 {	  	hello } ";
 	char *str2 = "hello 		 	 	 	 ";
     char *trimset = " 	";
     char *dst0 = ft_strtrim(str0, trimset);//malloc
@@ -517,11 +518,11 @@ void test25()
     char *dst2 = ft_strtrim(str2, trimset);//malloc
 
 	char *pred = "hello";
-    printf("%s\n",dst0);
-    printf("%s\n",dst1);
-    printf("%s\n",dst2);
+    printf("(%s)\n",dst0);
+    printf("(%s)\n",dst1);
+    printf("(%s)\n",dst2);
     assert(strcmp(dst0,pred) == 0);
-    assert(strcmp(dst1,pred) == 0);
+    assert(strcmp(dst1,"{	  	hello }") == 0);
     assert(strcmp(dst2,pred) == 0);
     free(dst0);
     free(dst1);

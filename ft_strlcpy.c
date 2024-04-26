@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 11:18:36 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/25 10:32:06 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/26 19:08:29 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ size_t	ft_strlcpy(	char *dst, \
 	{
 		if (i < dstsize - 1)
 			dst[i] = src[i];
+		else
+			break ;
 		i++;
 	}
 	dst[i] = '\0';
