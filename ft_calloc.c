@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:06:45 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/26 20:02:16 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/27 20:45:49 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ void	*ft_calloc(size_t count, size_t size)
 	rbuf = malloc(buf_size);
 	if (rbuf == NULL)
 		return (NULL);
-	ft_bzero(rbuf,buf_size);
+	ft_bzero(rbuf, buf_size);
 	return (rbuf);
 }

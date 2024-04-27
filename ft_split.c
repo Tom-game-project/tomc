@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 12:19:21 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/27 16:21:36 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/27 21:13:48 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft.h"
 #include <stdio.h>
 
-static int	return_size(char *s,char c)
+static int	return_size(char *s, char c)
 {
 	int	flag;
 	int	count;
@@ -45,19 +45,15 @@ static char	**free_all(char **buf, int index)
 	return (NULL);
 }
 
-char	**ft_split(char const *s, char c)
+static char	**helper(char **rbuf, const char *s, char c)
 {
-	char	**rbuf;
 	int		i;
 	char	*start;
 	char	*end;
 
-	i = 0;
-	rbuf = (char **) malloc(sizeof(char *) * return_size((char *)s, c));
-	if (!rbuf)
-		return (NULL);
 	start = (char *)s;
 	end = (char *)s;
+	i = 0;
 	while (*start && *end)
 	{
 		start = (char *) end;
@@ -74,5 +70,18 @@ char	**ft_split(char const *s, char c)
 		i++;
 	}
 	rbuf[i] = NULL;
+	return (rbuf);
+}
+
+char	**ft_split(char const *s, char c)
+{
+	char	**rbuf;
+
+	rbuf = (char **) malloc(sizeof(char *) * return_size((char *)s, c));
+	if (!rbuf)
+		return (NULL);
+	rbuf = helper(rbuf, s, c);
+	if (!rbuf)
+		return (NULL);
 	return (rbuf);
 }
