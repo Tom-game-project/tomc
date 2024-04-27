@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 21:07:12 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/23 22:28:08 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/27 22:08:53 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,9 @@
 
 void	ft_lstadd_front(t_list **lst, t_list *new)
 {
-	if (lst)
+	if (lst && new)
 	{
-
+		new -> next = *lst;
+		*lst = new;
 	}
-	new -> next = *lst;
-	*lst = new;
 }

@@ -6,12 +6,12 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 21:23:05 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/23 22:15:56 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/27 22:22:25 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "libft.h"
-#include <stdio.h>
 
 int	ft_lstsize(t_list *lst)
 {
@@ -19,11 +19,12 @@ int	ft_lstsize(t_list *lst)
 	t_list	*unit;
 
 	c = 0;
+	if (!lst)
+		return (0);
 	unit = lst;
 	while (unit)
 	{
-		printf("%p %p\n", unit, lst->next);
-		unit = lst -> next;
+		unit = (unit -> next);
 		c++;
 	}
 	return (c);
