@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 20:04:28 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/23 20:08:49 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/27 16:26:30 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ static void	ft_putnbr_recursive(int n, int fd)
 
 void	ft_putnbr_fd(int n, int fd)
 {
+	n = (long int)n;
 	if (n == -2147483648)
-		write(1, &"-2147483648", 11);
+		write(fd, &"-2147483648", 11);
 	else
 		ft_putnbr_recursive(n, fd);
 }
