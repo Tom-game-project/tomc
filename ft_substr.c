@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 19:11:07 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/27 16:21:41 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/27 18:48:39 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		buf[i] = s[start + i];
 		i++;
 	}
-	buf[start + i] = '\0';
+	buf[i] = '\0';
 	return (buf);
 }
