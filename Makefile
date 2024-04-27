@@ -6,23 +6,28 @@
 #    By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 19:33:31 by tmuranak          #+#    #+#              #
-#    Updated: 2024/04/20 12:22:32 by tmuranak         ###   ########.fr        #
+#    Updated: 2024/04/27 21:58:03 by tmuranak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
 CFLAG = -Wextra -Werror -Wall
-SRC = ft_*.c
-OBJ = ft_*.o
+SRC = $(filter-out $(wildcard ft_lst*.c),$(wildcard ft_*.c))
+OBJ = $(SRC:.c=.o)
+BONUS = $(wildcard ft_lst*.c)
+BONUSOBJ = $(BONUS:.c=.o)
 NAME = libft.a
 
 all: $(NAME)
 
-$(NAME):create
-	ar -r $(NAME) $(OBJ)
+$(NAME):$(OBJ) $(BONUSOBJ)
+	ar -r $(NAME) $(OBJ) $(BONUSOBJ)
 
-create: $(OBJ)
-	$(CC) $(CFLAG) -c $(SRC)
+bonus:$(BONUSOBJ)
+	ar -r $(NAME) $(BONUSOBJ)
+
+%.o: %.c
+	$(CC) $(CFLAG) -c $<
 
 clean:
 	rm ft_*.o
