@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 19:11:07 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/25 19:45:04 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/27 13:11:29 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 	buf = (char *)malloc((len + 1) * sizeof(char));
 	i = 0;
-	while (i < len && ft_strlen((char *)s) > start)
+	while (i < len && start < ft_strlen((char *)s))
 	{
 		if (!s[start + i])
 		{
@@ -30,7 +30,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		buf[i] = s[start + i];
 		i++;
 	}
-	if (!s[start + i])
-		buf[start + i + 1] = '\0';
+	//if (!s[start + i])
+	buf[start + i + 1] = '\0';
 	return (buf);
 }

@@ -6,82 +6,80 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 12:19:21 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/22 15:27:43 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/27 13:30:27 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
+#include <stdio.h>
 
-static unsigned int	char_counter(char *s, char c)
+static int	return_size(char *s,char c)
 {
-	unsigned int	counter;
+	int	flag;
+	int	count;
 
-	counter = 0;
+	flag = 1;
+	count = 0;
 	while (*s)
 	{
 		if (*s == c)
-			counter++;
+			flag = 1;
+		else if (flag == 1)
+		{
+			flag = 0;
+			count++;
+		}
 		s++;
 	}
-	return (counter);
+	return (count + 1);
 }
 
-static int	my_strchr(const char *s, int c)
+static char	**free_all(char **buf, int index)
 {
-	char	*tmps;
-	int		i;
-
-	tmps = (char *)s;
-	i = 0;
-	while (*tmps)
+	while (index + 1)
 	{
-		if (*tmps == c)
-			return (i + 1);
-		tmps++;
-		i++;
+		free(buf[index]);
+		index--;
 	}
-	if (!c)
-		return (i);
-	return (i + 1);
-}
-
-static char	*helper(char *s, int len)
-{
-	char	*rbuf;
-	int		i;
-
-	rbuf = (char *)malloc(sizeof(char) * len);
-	i = 0;
-	while (i < len - 1)
-	{
-		rbuf[i] = s[i];
-		i++;
-	}
-	rbuf[i] = '\0';
-	return (rbuf);
+	return (NULL);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char		**rbuf;
-	char		*strtmp;
-	int			step;
-	size_t		i;
+	char	**rbuf;
+	int		i;
+	char	*start;
+	char	*end;
 
-	rbuf = (char **)malloc(sizeof(char *) \
-						* (char_counter((char *)s, c) + 1 + 1));
+	i = 0;
+	// printf("return size:%d\n",return_size((char *)s, c));
+	rbuf = (char **) malloc(sizeof(char *) * return_size((char *)s, c));
 	if (!rbuf)
 		return (NULL);
-	strtmp = (char *)s;
-	i = 0;
-	while (i < char_counter((char *)s, c) + 1)
+	start = (char *)s;
+	end = (char *)s;
+	while (*start && *end)
 	{
-		step = my_strchr(strtmp, c);
-		rbuf[i] = helper(strtmp, step);
-		strtmp += step;
+		start = (char *) end;
+		while (*start == c && *start != '\0')
+			start++;
+		end = (char *) start;
+		while (*end != c && *end != '\0')
+			end++;
+		//printf("str (%s) (%s)\n",start,end);
+		if (end - start == 0)
+			break ;
+		//printf("%ld %zu\n",start - s, (size_t)(end - start));
+		rbuf[i] = ft_substr(s, start - s, (size_t)(end - start));
+		if (rbuf[i] == NULL)
+			return (free_all(rbuf, i));
+		printf("(%p) (%s)\n",rbuf[i],rbuf[i]);
 		i++;
 	}
 	rbuf[i] = NULL;
+	printf("--------------\n");
+	for (int n= 0;n < return_size((char *)s,c) - 1;n++)
+		printf("%p %s\n",rbuf[n],rbuf[n]);
 	return (rbuf);
 }
