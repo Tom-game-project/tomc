@@ -6,13 +6,12 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 12:19:21 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/27 21:13:48 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/27 21:15:59 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
-#include <stdio.h>
 
 static int	return_size(char *s, char c)
 {
