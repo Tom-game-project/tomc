@@ -6,15 +6,16 @@
 void ft_lstclear(t_list **lst, void (*del)(void*))
 {
     t_list *unit;
+    t_list *tmp;
 
     unit = *lst;
     while (unit != NULL)
     {
-        unit->content = NULL;
         del(unit->content);
-        unit = unit -> next;
-        del(unit->next);
-        unit->next = NULL;
-        del(unit);
+        // del(unit->next);
+        tmp = unit -> next;
+        free(unit);
+        unit = tmp;
     }
+    *lst = NULL;
 }
