@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 11:21:20 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/26 19:09:04 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/30 15:10:40 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 	char	*strtmp;
 	int		length;
 
+	if (!s1 || !set)
+		return (NULL);
 	start = (char *) s1;
 	end = start + ft_strlen(start) - 1;
 	length = end - start + 1;

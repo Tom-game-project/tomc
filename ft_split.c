@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 12:19:21 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/27 21:15:59 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/30 15:09:37 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ char	**ft_split(char const *s, char c)
 {
 	char	**rbuf;
 
+	if (!s)
+		return (NULL);
 	rbuf = (char **) malloc(sizeof(char *) * return_size((char *)s, c));
 	if (!rbuf)
 		return (NULL);

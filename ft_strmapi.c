@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 18:50:33 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/22 19:19:15 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/30 15:08:32 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	char			*rbuf;
 	char			*tmps;
 	unsigned int	i;
-
+	
+	if (!s)
+		return (NULL);
 	rbuf = (char *)malloc(sizeof(char) * (ft_strlen((char *)s) + 1));
 	if (!rbuf)
 		return (NULL);

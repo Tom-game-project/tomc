@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 19:11:07 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/30 13:34:56 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/30 15:12:57 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	char	*buf;
 	size_t	i;
 
+	if (!s)
+		return (NULL);
 	buf = (char *)malloc((len + 1) * sizeof(char));
 	if (!buf)
 		return (NULL);
