@@ -6,64 +6,50 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 11:21:20 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/21 13:12:01 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/30 15:10:40 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
 
-// for test
-#include <stdio.h>
-
-static unsigned int	size_counter(char const *s1, char const *set)
+static int	in_set(char c, char const *set)
 {
-	char			*strtmp;
-	unsigned int	counter;
+	char	*tmpset;
 
-	strtmp = (char *)s1;
-	counter = 0;
-	while (*strtmp)
+	tmpset = (char *)set;
+	while (*tmpset)
 	{
-		if (!ft_strchr(set, (int)*strtmp))
-			break ;
-		strtmp++;
+		if (c == *tmpset)
+			return (1);
+		tmpset++;
 	}
-	while (*strtmp)
-	{
-		if (ft_strchr(set, (int)*strtmp))
-			break ;
-		counter++;
-		strtmp++;
-	}
-	return (counter);
+	return (0);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
+	char	*start;
+	char	*end;
 	char	*strtmp;
-	char	*rbuf;
-	int		i;
+	int		length;
 
-	strtmp = (char *)s1;
-	rbuf = (char *) malloc(sizeof(char) * (size_counter(s1, set) + 1));
-	if (!rbuf)
+	if (!s1 || !set)
 		return (NULL);
-	i = 0;
-	while (*strtmp)
+	start = (char *) s1;
+	end = start + ft_strlen(start) - 1;
+	length = end - start + 1;
+	while (*end != '\0' && *start != '\0' && start <= end)
 	{
-		if (!ft_strchr(set, (int)*strtmp))
+		end -= in_set(*end, set);
+		start += in_set(*start, set);
+		if (length == end - start + 1)
 			break ;
-		strtmp++;
+		length = end - start + 1;
 	}
-	while (*strtmp)
-	{
-		if (ft_strchr(set, (int)*strtmp))
-			break ;
-		rbuf[i] = *strtmp;
-		i++;
-		strtmp++;
-	}
-	rbuf[i] = '\0';
-	return (rbuf);
+	strtmp = (char *)malloc(sizeof(char) * (length + 1));
+	if (!strtmp)
+		return (NULL);
+	ft_strlcpy(strtmp, start, length + 1);
+	return (strtmp);
 }

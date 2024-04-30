@@ -6,13 +6,11 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:35:50 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/16 15:40:22 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/25 20:46:14 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_isprint(int c)
 {
-	if (' ' <= c && c <= '~')
-		return (1);
-	return (0);
+	return (' ' <= c && c <= '~');
 }

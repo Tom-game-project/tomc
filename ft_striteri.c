@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/20 18:06:45 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/27 20:45:49 by tmuranak         ###   ########.fr       */
+/*   Created: 2024/04/22 19:20:27 by tmuranak          #+#    #+#             */
+/*   Updated: 2024/04/23 19:55:42 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "libft.h"
-
-void	*ft_calloc(size_t count, size_t size)
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
-	void	*rbuf;
-	int		buf_size;
+	int	i;
 
-	if (size > 0 && count > SIZE_MAX / size)
-		return (NULL);
-	buf_size = count * size;
-	rbuf = malloc(buf_size);
-	if (rbuf == NULL)
-		return (NULL);
-	ft_bzero(rbuf, buf_size);
-	return (rbuf);
+	i = 0;
+	if (!s || !f)
+		return ;
+	while (s[i])
+	{
+		f(i, &s[i]);
+		i++;
+	}
 }

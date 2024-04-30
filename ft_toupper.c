@@ -6,15 +6,13 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 11:48:10 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/20 11:55:07 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/27 21:17:25 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_toupper(int c)
 {
 	if ('a' <= c && c <= 'z')
-	{
 		return (c - ('a' - 'A'));
-	}
 	return (c);
 }

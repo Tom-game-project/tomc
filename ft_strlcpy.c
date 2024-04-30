@@ -6,39 +6,32 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 11:18:36 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/18 18:05:24 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/30 15:33:49 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
-
-#include <stdio.h>
 #include "libft.h"
 
-size_t	ft_strlcpy(	char *restrict dst, \
-					const char *restrict src, \
+size_t	ft_strlcpy(	char *dst, \
+					const char *src, \
 					size_t dstsize)
 {
-	size_t			i;
-	unsigned char	*srctmp;
-	int				flag;
+	size_t	len;
+	size_t	i;
 
+	len = ft_strlen((char *)src);
 	i = 0;
-	flag = 0;
-	srctmp = (unsigned char *)src;
-	while (*srctmp)
+	if (dstsize == 0)
+		return (len);
+	while (i < len)
 	{
 		if (i < dstsize - 1)
-			dst[i] = *srctmp;
-		else if (flag == 0)
-		{
-			flag = 1;
-			dst[i] = '\0';
-		}
+			dst[i] = src[i];
+		else
+			break ;
 		i++;
-		srctmp++;
 	}
-	if (flag == 0)
-		dst[i] = '\0';
-	return (i);
+	dst[i] = '\0';
+	return (len);
 }

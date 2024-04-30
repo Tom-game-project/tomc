@@ -1,29 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/20 18:06:45 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/27 20:45:49 by tmuranak         ###   ########.fr       */
+/*   Created: 2024/04/30 14:08:20 by tmuranak          #+#    #+#             */
+/*   Updated: 2024/04/30 15:33:18 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "libft.h"
+#include <stdlib.h>
 
-void	*ft_calloc(size_t count, size_t size)
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	void	*rbuf;
-	int		buf_size;
+	t_list	*rbuf;
+	t_list	*unit;
+	t_list	*tmp;
 
-	if (size > 0 && count > SIZE_MAX / size)
+	if (!lst)
 		return (NULL);
-	buf_size = count * size;
-	rbuf = malloc(buf_size);
-	if (rbuf == NULL)
+	unit = lst;
+	rbuf = ft_lstnew(f(unit->content));
+	if (!rbuf)
 		return (NULL);
-	ft_bzero(rbuf, buf_size);
+	while (unit->next != NULL)
+	{
+		unit = unit -> next;
+		tmp = ft_lstnew(f(unit -> content));
+		if (tmp == NULL)
+		{
+			ft_lstclear(&rbuf, del);
+			return (NULL);
+		}
+		ft_lstadd_back(&rbuf, tmp);
+	}
 	return (rbuf);
 }

@@ -205,12 +205,14 @@ void test10()
     char ft_dst[6] = "hello\0";
     char ft_src[8] = "1234567\0";
 
-	size_t or_r = strlcpy(or_dst, or_src, sizeof(or_dst));
-	size_t ft_r = ft_strlcpy(ft_dst, ft_src, sizeof(ft_dst));
+	size_t or_r = strlcpy(or_dst, or_src, 0);
+	size_t ft_r = ft_strlcpy(ft_dst, ft_src, 0);
 
+	printf("%d %d\n" ,or_r,ft_r);
     for (int i = 0; i < 6;i++)
     {
         assert(or_dst[i]==ft_dst[i]);
+        printf("%c %c \n",or_dst[i],ft_dst[i]);
         //assert(or_dst[i]==ft_dst[i]);
     }
 
@@ -386,7 +388,7 @@ void test18()
     char c0[] = "hello\0worlD\0";
     char c1[] = "hello\0world\0";
     printf("diff %d\n",ft_memcmp(c0,c1,sizeof(c0)));
-    assert(ft_memcmp(c0,c1,10)==memcmp(c0,c1,sizeof(c0)));
+    assert(ft_memcmp(c0,c1,sizeof(c0))==memcmp(c0,c1,sizeof(c0)));
     printf("test18 done\n");
 }
 
@@ -502,12 +504,13 @@ void test24()
     printf("result %s \n",dst1);
     assert(strcmp(dst1,pred1) == 0);
     free(dst1);
+    printf("test24 done\n");
 }
 
 void test25()
 {
 	char *str0 = " 			 	  	hello  	";
-	char *str1 = " 			 	  	hello";
+	char *str1 = " 			 {	  	hello } ";
 	char *str2 = "hello 		 	 	 	 ";
     char *trimset = " 	";
     char *dst0 = ft_strtrim(str0, trimset);//malloc
@@ -515,11 +518,11 @@ void test25()
     char *dst2 = ft_strtrim(str2, trimset);//malloc
 
 	char *pred = "hello";
-    printf("%s\n",dst0);
-    printf("%s\n",dst1);
-    printf("%s\n",dst2);
+    printf("(%s)\n",dst0);
+    printf("(%s)\n",dst1);
+    printf("(%s)\n",dst2);
     assert(strcmp(dst0,pred) == 0);
-    assert(strcmp(dst1,pred) == 0);
+    assert(strcmp(dst1,"{	  	hello }") == 0);
     assert(strcmp(dst2,pred) == 0);
     free(dst0);
     free(dst1);
@@ -527,6 +530,7 @@ void test25()
     printf("test25 done\n");
 }
 
+// split
 void test26()
 {
 	char *a = "hello,world,Tom,still,alive";
@@ -534,13 +538,13 @@ void test26()
 
 	char *b = "hello,world,Tom,still,alive,";
 	char **dst_b;
+    int i;
     
     printf("len %d\n",ft_strlen(a));
 	dst_a = ft_split(a,',');//malloc 
-
+    i = 0;
 	printf("%p %c\n",dst_a,dst_a);
-    int i = 0;
-    while(dst_a[i])
+	while(dst_a[i])
 	{
 		printf("elem %s\n", dst_a[i]);
         i++;
@@ -556,8 +560,132 @@ void test26()
 		printf("elem %s\n", dst_b[i]);
         i++;
 	}
-    //free(dst);
+	//free(dst);
+	printf("test26 done\n");
 }
+
+// itoa
+void test27()
+{
+    char *num00 = ft_itoa(1234);
+    char *num01 = ft_itoa(-1234);
+    char *num02 = ft_itoa(-2147483648);
+    char *num03 = ft_itoa(0);
+    char *num04 = ft_itoa(2147483647);
+
+    printf("num %s\n",num00);
+    printf("num %s\n",num01);
+    printf("num %s\n",num02);
+    printf("num %s\n",num03);
+    printf("num %s\n",num04);
+    assert(strcmp(num00,"1234") == 0);
+    assert(strcmp(num01,"-1234") == 0);
+    assert(strcmp(num02,"-2147483648") == 0);
+    assert(strcmp(num03,"0") == 0);
+    assert(strcmp(num04,"2147483647") == 0);
+    printf("test27 done \n");
+}
+
+
+char helper28(unsigned int i, char c)
+{
+    (void) i;
+    if ('a' <= c && c <= 'z')
+    {
+        return (c - ('a' - 'A'));
+    }
+    return (c);
+}
+
+// strmapi
+void test28()
+{
+    char *a = "Hello World";
+    char *b = ft_strmapi(a,helper28);
+    printf("maped str:%s\n",b);
+    printf("test28 done\n");
+}
+
+void helper29(unsigned int i, char *c)
+{
+    // test29
+    if ('a' <= *c && *c <= 'z')	
+    {
+        printf("T %d %c %p\n",i,*c,c);
+        //*c = (*c - ('a' - 'A'));
+        *c = '*';
+    }else
+    {
+        printf("F %d %c %p\n",i,*c,c);
+    }
+}
+
+// striteri
+void test29()
+{
+    char a[] = "Hello World";
+    ft_striteri(a,helper29);
+    printf("iter str:%s\n",a);
+    printf("test29 done\n");
+} 
+
+// putchar_fd
+void test30()
+{
+    ft_putchar_fd('H',1);
+    printf("test30 done\n");
+}
+
+void test31()
+{
+    ft_putstr_fd("hello world\n",1);
+    printf("test31 done\n");
+}
+
+void test32()
+{
+    ft_putendl_fd("hello world",1);
+    printf("test32 done\n");
+}
+
+void test33()
+{
+	ft_putnbr_fd(-123134, 1);
+    printf("\ntest33 done\n");
+}
+
+// bonus
+void test34()
+{
+    char *a = "hello world";
+    t_list list = *ft_lstnew(a);
+    printf("%s \n",list.content,list.next);
+    printf("test34 done\n");
+}
+
+void test35()
+{
+    char *a = "hello world";
+    t_list list0 = *ft_lstnew(a);
+    t_list list1 = *ft_lstnew(a);
+
+	ft_lstadd_front(&list0, &list1);
+    printf("test35 done\n");
+}
+
+void test36()
+{
+	char *a = "hello world";
+	t_list list0 = *ft_lstnew(a);
+	t_list list1 = *ft_lstnew(a);
+
+	ft_lstadd_front(&list0, &list1);
+    printf("size of list: %d\n",ft_lstsize(&list1));
+    printf("test36 done\n");
+}
+
+
+
 
 int main ()
 {
@@ -593,6 +721,16 @@ int main ()
     test24();// strjoin
     test25();// ft_strtrim
     test26();// ft_split
+    test27();// ft_itoa
+    test28();// strmapi
+    test29();// ft_striteri
+    test30();// ft_putchar_fd
+    test31();// ft_putstr_fd
+    test32();// ft_putendl_fd
+    test33();// ft_putnbr_fd
+    // test34();// ft_lstnew
+    // test35();// ft_lstadd_front
+    // test36();// 
 
     return (0);
 }

@@ -5,12 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/20 16:08:20 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/20 18:02:13 by tmuranak         ###   ########.fr       */
+/*   Created: 2024/04/25 18:37:46 by tmuranak          #+#    #+#             */
+/*   Updated: 2024/04/27 20:44:10 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <limits.h>
 
 static int	isspace(int c)
 {
@@ -26,62 +27,71 @@ static int	isspace(int c)
 	return (0);
 }
 
-static int	atoi_helper(char *str, int len)
+static char	*atoi_helper1(const char *str, int *flag)
 {
-	int	c;
-	int	i;
-	int	base;
-	int	r;
+	char	*strtmp;
 
-	c = len;
-	r = 0;
-	while (0 < c--)
-	{
-		i = 0;
-		base = 1;
-		while (i < (len - c - 1))
-		{
-			i++;
-			base *= 10;
-		}
-		r += (str[c] - '0') * base;
-	}
-	return (r);
-}
-
-static char	*prefix_helper(char *str, int *flag)
-{
 	*flag = 1;
-	while (!ft_isdigit(*str))
+	strtmp = (char *)str;
+	while (!ft_isdigit(*strtmp))
 	{
-		if (*str == '-')
+		if (*strtmp == '-')
 		{
 			*flag = -1;
-			str++;
+			strtmp++;
 			break ;
 		}
-		if (*str == '+')
+		else if (*strtmp == '+')
+		{
+			strtmp++;
 			break ;
-		if (!isspace(*str))
-			return (0);
-		str++;
+		}
+		else if (!isspace(*str))
+		{
+			*flag = 0;
+			break ;
+		}
+		strtmp++;
 	}
-	return (str);
+	return (strtmp);
+}
+
+static int	overflow_checker(unsigned long int num, char next_c, int flag)
+{
+	if ((LONG_MAX / 10 <= num) && (7 < next_c - '0') && flag == 1)
+	{
+		return (-1);
+	}
+	else if ((LONG_MAX / 10 <= num) && (8 <= next_c - '0') && flag == -1)
+	{
+		return (1);
+	}
+	else if (1000000000000000000 <= num)
+	{
+		return (-1);
+	}
+	return (0);
 }
 
 int	ft_atoi(const char *str)
 {
-	int				flag;
-	int				len;
-	char			*strtmp;
+	unsigned long int		num;
+	int						flag;
+	char					*strtmp;
+	int						c;
 
-	len = 0;
-	strtmp = (char *)str;
-	strtmp = prefix_helper(strtmp, &flag);
-	while (ft_isdigit(*strtmp))
+	num = 0;
+	strtmp = atoi_helper1(str, &flag);
+	c = 0;
+	while (*strtmp && ft_isdigit(*strtmp))
 	{
-		len++;
+		if (overflow_checker(num, *strtmp, flag) == -1)
+			return (-1);
+		else if (overflow_checker(num, *strtmp, flag) == 1)
+			return (0);
+		num = num * 10 + (unsigned long)(*strtmp - '0');
 		strtmp++;
+		c++;
 	}
-	return (flag * atoi_helper(strtmp - len, len));
+	return (flag * num);
 }
