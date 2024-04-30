@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 10:08:51 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/30 17:18:44 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/30 17:23:36 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,10 @@ size_t	ft_strlcat( char *dst, \
 
 	if (dst == NULL)
 		dstlen = 0;
-	else if (!src || !dstsize || *src == '\0'){
-		dstlen = ft_strlen(dst);
-		if (dstsize < dstlen)
-			return (ft_strlen((char *)src) + dstsize);
-		else
-			return (ft_strlen((char *)src) + dstlen);}
+	else if (!src || !dstsize || *src == '\0')
+		return (ft_strlen((char *)src) + \
+		(dstsize < ft_strlen(dst)) * \
+		dstsize + (dstsize >= ft_strlen(dst)) * ft_strlen(dst));
 	else
 		dstlen = ft_strlen(dst);
 	i = 0;
