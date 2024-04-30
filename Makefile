@@ -6,7 +6,7 @@
 #    By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 19:33:31 by tmuranak          #+#    #+#              #
-#    Updated: 2024/04/27 21:58:03 by tmuranak         ###   ########.fr        #
+#    Updated: 2024/04/30 21:38:55 by tmuranak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,10 +37,3 @@ fclean: clean
 
 re: fclean
 	make
-
-test:all
-	cc test.c libft.a
-	make fclean
-	./a.out
-	echo "-----+ norm check +-----"
-	norminette ft_*.c
