@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 15:10:47 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/30 15:33:54 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/30 16:49:34 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 	char	*haystack_tmp;
 	char	*needle_tmp;
 
+	if (!haystack)
+		return (NULL);
 	haystack_tmp = (char *)haystack;
 	i = 0;
 	if (!*needle)

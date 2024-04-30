@@ -4,3 +4,6 @@
 [submodule "libft-unit-test"]
 	path = libft-unit-test
 	url = https://github.com/alelievr/libft-unit-test.git
+[submodule "libftTester"]
+	path = libftTester
+	url = https://github.com/Tripouille/libftTester.git
