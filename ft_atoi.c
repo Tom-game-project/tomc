@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 18:37:46 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/27 20:44:10 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:35:09 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	*atoi_helper1(const char *str, int *flag)
 			strtmp++;
 			break ;
 		}
-		else if (!isspace(*str))
+		else if (!isspace(*strtmp))
 		{
 			*flag = 0;
 			break ;
