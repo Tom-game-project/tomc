@@ -6,12 +6,11 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 15:29:33 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/30 13:41:53 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/30 15:33:30 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <stdio.h>
 #include "libft.h"
 
 static void	ft_putnbr_recursive(int n, int *count)

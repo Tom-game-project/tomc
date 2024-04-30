@@ -6,11 +6,10 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 15:10:47 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/25 16:56:04 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/30 15:33:54 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <string.h>
 
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len)

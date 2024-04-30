@@ -6,13 +6,12 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 10:08:51 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/30 13:13:35 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/30 15:33:39 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
 #include "libft.h"
-#include <stdio.h>
 
 size_t	ft_strlcat( char *dst, \
 					const char *src, \
