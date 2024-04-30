@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 10:08:51 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/30 17:05:34 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/30 17:18:44 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,16 @@ size_t	ft_strlcat( char *dst, \
 	size_t	max;
 	size_t	i;
 
-	dstlen = ft_strlen(dst);
-	if (!src || !dstsize || *src == '\0'){
+	if (dst == NULL)
+		dstlen = 0;
+	else if (!src || !dstsize || *src == '\0'){
+		dstlen = ft_strlen(dst);
 		if (dstsize < dstlen)
 			return (ft_strlen((char *)src) + dstsize);
 		else
 			return (ft_strlen((char *)src) + dstlen);}
+	else
+		dstlen = ft_strlen(dst);
 	i = 0;
 	srclen = ft_strlen((char *)src);
 	max = dstsize - dstlen - 1;
