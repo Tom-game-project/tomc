@@ -6,12 +6,13 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 10:08:51 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/27 20:46:40 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/30 13:13:35 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
 #include "libft.h"
+#include <stdio.h>
 
 size_t	ft_strlcat( char *dst, \
 					const char *src, \
@@ -22,7 +23,7 @@ size_t	ft_strlcat( char *dst, \
 	size_t	max;
 	size_t	i;
 
-	if (src == NULL || dst == NULL || dstsize == 0)
+	if (src == NULL || dstsize == 0 || *src == '\0')
 		return (ft_strlen((char *)src));
 	i = 0;
 	srclen = ft_strlen((char *)src);
