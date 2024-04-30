@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 20:24:52 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/20 21:56:53 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/30 13:37:39 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	tmp1 = (char *) s1;
 	tmp2 = (char *) s2;
 	buf = malloc((ft_strlen(tmp1) + ft_strlen(tmp2) + 1) * sizeof(char));
+	if (!buf)
+		return (NULL);
 	i = 0;
 	while (*tmp1)
 		*(buf + i++) = *tmp1++;

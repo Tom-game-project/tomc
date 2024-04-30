@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 15:29:33 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/22 18:44:07 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/30 13:41:53 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ char	*ft_itoa(int n)
 
 	length = ft_intstrlength(n);
 	rbuf = malloc(sizeof(char) * (length + 1));
+	if (!rbuf)
+		return (NULL);
 	i = 0;
 	if (n < 0)
 	{
@@ -71,12 +73,11 @@ char	*ft_itoa(int n)
 			sizeof(char) * (length + 1)));
 		n *= -1;
 	}
-	while (i < length)
+	while (i++ < length)
 	{
-		rbuf[i] = (n / pow10((length - i) - 1)) + '0';
-		n -= (n / pow10(length - i - 1)) * pow10(length - i - 1);
-		i++;
+		rbuf[i - 1] = (n / pow10((length - (i - 1)) - 1)) + '0';
+		n -= (n / pow10(length - (i - 1) - 1)) * pow10(length - (i - 1) - 1);
 	}
-	rbuf[i] = '\0';
+	rbuf[i - 1] = '\0';
 	return (rbuf);
 }
