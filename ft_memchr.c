@@ -6,7 +6,7 @@
 /*   By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 14:46:29 by tmuranak          #+#    #+#             */
-/*   Updated: 2024/04/25 16:03:19 by tmuranak         ###   ########.fr       */
+/*   Updated: 2024/04/30 12:52:22 by tmuranak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	*ft_memchr(const void *s, int c, size_t n)
 {
-	size_t		i;
-	char		*strtmp;
+	size_t				i;
+	unsigned char		*strtmp;
 
 	i = 0;
-	strtmp = (char *)s;
+	strtmp = (unsigned char *)s;
 	while (i < n)
 	{
-		if ((unsigned)strtmp[i] == (unsigned char)c)
+		if (strtmp[i] == (unsigned char)c)
 			return (strtmp + i);
 		i++;
 	}
