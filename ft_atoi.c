@@ -15,16 +15,14 @@
 
 static int	isspace(int c)
 {
-	if (
+	return (
 		c == '\t' || \
 		c == '\n' || \
 		c == '\v' || \
 		c == '\f' || \
 		c == '\r' || \
 		c == ' '
-	)
-		return (1);
-	return (0);
+	);
 }
 
 static char	*atoi_helper1(const char *str, int *flag)
