@@ -29,7 +29,7 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 		needle_tmp = (char *)needle;
 		while (needle_tmp[j])
 		{
-			if (haystack_tmp[i + j] != needle_tmp[j])
+			if (haystack_tmp[i + j] != needle_tmp[j] || !haystack_tmp[i + j])
 				break ;
 			j++;
 		}

@@ -6,7 +6,7 @@
 #    By: tmuranak <tmuranak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 19:33:31 by tmuranak          #+#    #+#              #
-#    Updated: 2024/05/01 23:15:29 by tmuranak         ###   ########.fr        #
+#    Updated: 2024/05/05 13:47:32 by tmuranak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,10 +44,10 @@ bonus:
 	$(CC) $(CFLAG) -c $< -o $@
 
 clean:
-	rm $(BSCSRC:.c=.o) $(BNSSRC:.c=.o)
+	rm -f $(BSCSRC:.c=.o) $(BNSSRC:.c=.o)
 
 fclean: clean
-	rm -f libft.a
+	rm -f $(NAME)
 
 re: fclean
 	make
