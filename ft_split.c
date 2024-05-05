@@ -41,6 +41,7 @@ static char	**free_all(char **buf, int index)
 		free(buf[index]);
 		index--;
 	}
+	free(buf);
 	return (NULL);
 }
 
