@@ -3,6 +3,7 @@ bnf
 
 # bin
 *.o
+*.a
 tomc
 
 

@@ -9,21 +9,10 @@ RMFLAGS = -rf
 
 CFLAGS = -Wextra -Werror -Wall
 ALLOC_SRC = src/alloc/my_malloc.c
-CFLAGS_MAIN =  -Wl,--wrap=malloc
+# CFLAGS_MAIN =  -Wl,--wrap=malloc
 DEBUGFLAGS = -g -DDEBUG
 TEST_FLAGS = -g
-TEST_FLAGS +=  -Wl,--wrap=malloc
-
-
-BUILD_IN_SRC = \
-		src/built-in/cd.c\
-		src/built-in/echo.c\
-		src/built-in/env.c\
-		src/built-in/exit.c\
-		src/built-in/export.c\
-		src/built-in/pwd.c\
-		src/built-in/unset.c\
-		src/built-in/build_in.c\
+# TEST_FLAGS +=  -Wl,--wrap=malloc
 
 
 CHAR_LIST = \
@@ -100,18 +89,27 @@ VOID_LIST = \
 		src/list/void_list_insert_list.c\
 		src/list/void_list_filter.c\
 
+
 LIST_LIST = \
 		src/list/list_list_print.c\
 		src/list/list_list_all_concat.c\
+
+
+TEST_TOOLS = \
+		src/test_tools/print.c
 
 LIST_SRC = \
      $(INT_LIST)\
      $(CHAR_LIST)\
      $(STR_LIST)\
-     $(LIST_LIST)
+     $(LIST_LIST)\
+     $(VOID_LIST)\
+
 
 SRC = \
-      $(LIST_SRC)
+      $(LIST_SRC)\
+      $(TEST_TOOLS)
+
 
 MAIN = \
 	src/main.c
@@ -142,10 +140,6 @@ NAME = tomc
 
 all: $(NAME)
 
-
-bonus: all
-
-
 debug: CFLAGS+=$(DEBUGFLAGS)
 debug: $(NAME)
 
@@ -162,7 +156,6 @@ $(NAME): $(OBJ) $(LIBFT_NAME) $(MAIN)
 		-o $(NAME) \
 		$(OBJ) $(LIBFT_NAME) \
 		-x c -\
-		-lreadline
 
 
 $(LIBFT_NAME):
@@ -170,12 +163,12 @@ $(LIBFT_NAME):
 
 
 test: cleantest debug $(OBJ) $(TEST_OBJ) $(LIBFT_NAME)
-	$(CC) $(TEST_FLAGS) -Iinclude -o $(TEST_NAME) $(OBJ) $(TEST_OBJ) $(LIBFT_NAME) -lreadline
+	$(CC) $(TEST_FLAGS) -Iinclude -o $(TEST_NAME) $(OBJ) $(TEST_OBJ) $(LIBFT_NAME)
 	./test_
 
 
 vtest: cleantest debug $(OBJ) $(TEST_OBJ) $(LIBFT_NAME)
-	$(CC) $(TEST_FLAGS) -Iinclude -o $(TEST_NAME) $(OBJ) $(TEST_OBJ) $(LIBFT_NAME) -lreadline
+	$(CC) $(TEST_FLAGS) -Iinclude -o $(TEST_NAME) $(OBJ) $(TEST_OBJ) $(LIBFT_NAME)
 	$(VALGRIND) $(VALGRINDFLAGS) ./test_
 
 
@@ -194,7 +187,6 @@ cleantest:
 clean:
 	$(RM) $(RMFLAGS) $(OBJ)
 
-
 fclean: clean
 	make fclean -C $(LIBFT_DIR)
 	$(RM) $(RMFLAGS) $(NAME)
@@ -202,6 +194,4 @@ fclean: clean
 
 re: fclean all
 
-
 .PHONY: all test vtest clean fclean re example cleantest debug
-
