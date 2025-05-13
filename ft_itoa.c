@@ -37,7 +37,7 @@ static int	ft_intstrlength(int nb)
 	return (count);
 }
 
-static int	pow10(int a)
+static int	ft_pow10(int a)
 {
 	int	rint;
 	int	i;
@@ -74,8 +74,8 @@ char	*ft_itoa(int n)
 	}
 	while (i++ < length)
 	{
-		rbuf[i - 1] = (n / pow10((length - (i - 1)) - 1)) + '0';
-		n -= (n / pow10(length - (i - 1) - 1)) * pow10(length - (i - 1) - 1);
+		rbuf[i - 1] = (n / ft_pow10((length - (i - 1)) - 1)) + '0';
+		n -= (n / ft_pow10(length - (i - 1) - 1)) * ft_pow10(length - (i - 1) - 1);
 	}
 	rbuf[i - 1] = '\0';
 	return (rbuf);
