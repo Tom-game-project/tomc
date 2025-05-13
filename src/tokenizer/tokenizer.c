@@ -1,10 +1,10 @@
-#include "tokenizer.h"
-#include "list.h"
+#include "token_data.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
 #include "libft.h"
+#include "tokenizer.h"
 
 enum e_ptr_state
 {
@@ -23,13 +23,28 @@ bool is_space(char c)
 	return (c == ' ' || c == '	'  || c == '\n');
 }
 
-int push_operator(t_token_list **lst, t_operator token_type)
+int push_token(
+	t_token_list **lst,
+	t_token_type token_type, 
+	char *str
+)
+{
+	t_anytype elem;
+
+	elem.token = init_token_by_str(
+		token_type,
+		str
+	);		
+	return (void_list_push(lst, elem));
+}
+
+int push_operator(t_token_list **lst, t_operator operator_token_type)
 {
 	t_anytype elem;
 
 	elem.token = init_token_by_ope(
 			e_token_type_operator,
-			token_type
+			operator_token_type
 	);		
 	return (void_list_push(lst, elem));
 }
@@ -110,7 +125,10 @@ size_t match_token(char *str, t_token_list **lst)
 	return (0);
 }
 
-
+bool is_valid_identifer_char(char c)
+{
+	return (ft_isalnum(c) || c == '_');
+}
 
 /// return next state
 /// if error -> return 0
@@ -126,7 +144,7 @@ size_t case_ptr_state_out(char *str,t_ptr_state *ptr_state, t_token_list **lst)
 		*ptr_state = e_ptr_state_in_single_quotation;
 		return (1);
 	}
-	else if (ft_isalnum(*str) || *str == '_')
+	else if (is_valid_identifer_char(*str))
 	{
 		*ptr_state = e_ptr_state_in_word;
 		return (1);
@@ -153,6 +171,31 @@ size_t case_ptr_state_out(char *str,t_ptr_state *ptr_state, t_token_list **lst)
 	return (match_token(str, lst));
 }
 
+//size_t case_ptr_state_in_oneline_comment(char *str,t_ptr_state *ptr_state, t_token_list **lst)
+//{
+//
+//	return ();
+//}
+//
+//size_t case_ptr_state_in_multiline_comment(char *str,t_ptr_state *ptr_state, t_token_list **lst)
+//{
+//	return ();
+//}
+
+
+size_t case_ptr_state_in_word(char *str, t_ptr_state *ptr_state)
+{
+	size_t index;
+
+	index = 0;
+	while (is_valid_identifer_char(str[index]))
+	{
+		index += 1;
+	}
+	*ptr_state = e_ptr_state_out;
+	return index - 1;
+}
+
 t_token_list *tokenizer(char *str)
 {
 	t_token_list *lst;
@@ -163,12 +206,15 @@ t_token_list *tokenizer(char *str)
 	ptr_state = e_ptr_state_out;
 	while (*str != '\0')
 	{
+		slide = 0;
 		switch (ptr_state)
 		{
 			case e_ptr_state_out:
 				slide = case_ptr_state_out(str, &ptr_state, &lst);
 			break;
 			case e_ptr_state_in_word:
+				slide = case_ptr_state_in_word(str, &ptr_state);
+				push_token(&lst, e_token_type_word, ft_substr(str, 0, slide));
 			break;
 			case e_ptr_state_in_double_quotation:
 			break;
