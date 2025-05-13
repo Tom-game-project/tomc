@@ -11,10 +11,27 @@
 /* ************************************************************************** */
 
 #include "list.h"
-#include "strtools.h"
+#include "libft.h"
 
 #include <stdbool.h>
 #include <stdlib.h>
+
+static bool	ft_streq(char *a, char *b)
+{
+	if (ft_strlen(a) == ft_strlen(b))
+	{
+		while (*a != '\0')
+		{
+			if (*a != *b)
+				return (false);
+			a++;
+			b++;
+		}
+		return (true);
+	}
+	else
+		return (false);
+}
 
 bool	str_list_in(char *str, t_str_list *lst)
 {

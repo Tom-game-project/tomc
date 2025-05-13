@@ -126,7 +126,7 @@ TEST_NAME = test_
 EXAMPLE_FILE := examples/dummy_example00.c
 EXAMPLE_NAME = example_
 
-LIBFT_DIR = src/libft
+LIBFT_DIR = lib/libft
 LIBFT_NAME = $(LIBFT_DIR)/libft.a
 LIBFT_HEADER = $(LIBFT_DIR)/libft.h
 
