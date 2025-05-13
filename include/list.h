@@ -2,6 +2,8 @@
 # define LIST_H
 
 # include <stdbool.h>
+# include "tokenizer.h"
+
 
 typedef union u_anytype			t_anytype;
 
@@ -9,10 +11,11 @@ typedef struct s_void_list		t_void_list;
 
 union							u_anytype
 {
-	int							i32;
-	char						c;
-	char						*str;
-	t_void_list					*list;
+	int		i32;
+	char		c;
+	char		*str;
+	t_void_list	*list;
+	t_token		*token;
 };
 
 ///
@@ -27,6 +30,8 @@ typedef struct s_void_list		t_char_list;
 typedef struct s_void_list		t_str_list;
 
 typedef struct s_void_list		t_int_list;
+
+typedef struct s_void_list		t_token_list;
 
 /// ================ char_list functions ================
 

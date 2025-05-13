@@ -4,9 +4,12 @@ bnf
 # bin
 *.o
 *.a
+a.out
 tomc
 
-
+# clang
+compile_commands.json
+.cache/
 # vim
 
 *.swo
