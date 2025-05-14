@@ -17,12 +17,6 @@ enum e_ptr_state
 };
 typedef enum e_ptr_state t_ptr_state;
 
-
-bool is_space(char c)
-{
-	return (c == ' ' || c == '	'  || c == '\n');
-}
-
 int push_token(
 	t_token_list **lst,
 	t_token_type token_type, 
@@ -149,7 +143,7 @@ size_t case_ptr_state_out(char *str,t_ptr_state *ptr_state, t_token_list **lst)
 		*ptr_state = e_ptr_state_in_word;
 		return (1);
 	}
-	else if (is_space(*str))
+	else if (ft_isspace(*str))
 	{
 		// don't need to change status
 		return (1);
