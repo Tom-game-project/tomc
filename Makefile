@@ -173,7 +173,7 @@ vtest: cleantest debug $(OBJ) $(TEST_OBJ) $(LIBFT_NAME)
 
 
 example:
-	$(CC) $(TEST_FLAGS) -o $(EXAMPLE_NAME) $(EXAMPLE_FILE) -lreadline
+	$(CC) $(TEST_FLAGS) -o $(EXAMPLE_NAME) $(EXAMPLE_FILE)
 
 
 %.o: %.c
@@ -186,6 +186,7 @@ cleantest:
 
 clean:
 	$(RM) $(RMFLAGS) $(OBJ)
+
 
 fclean: clean
 	make fclean -C $(LIBFT_DIR)

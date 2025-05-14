@@ -6,6 +6,7 @@ bnf
 *.a
 a.out
 tomc
+test_
 
 # clang
 compile_commands.json
