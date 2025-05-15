@@ -17,11 +17,15 @@
 ///
 /// function can use while develop even if it forbidden
 
+#include "list.h"
+
 int	debug_dprintf(\
 	int fd, const char *format, ...) __attribute__((format(printf, 2, 3)));
 
 int	debug_getpid(void);
 
 int	debug_getppid(void);
+
+int print_token_list(t_token_list *token_list);
 
 #endif

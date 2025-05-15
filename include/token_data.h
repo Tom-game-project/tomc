@@ -55,7 +55,7 @@ enum e_token_type
 	e_token_type_open_paren, //        char * null
 	e_token_type_close_paren,//        char * null
 	e_token_type_open_bracket,//       char * null
-	e_token_type_close_blacket,//      char * null
+	e_token_type_close_bracket,//      char * null
 	e_token_type_operator,     //      char * not null;
 	e_token_type_semi          //      char * null
 };

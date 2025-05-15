@@ -95,8 +95,14 @@ LIST_LIST = \
 		src/list/list_list_all_concat.c\
 
 
-TEST_TOOLS = \
+TEST_TOOLS_SRC = \
+		src/test_tools/print_token_list.c\
 		src/test_tools/print.c
+
+
+TOKENIZER_SRC = \
+		src/tokenizer/init_token.c\
+		src/tokenizer/tokenizer.c\
 
 LIST_SRC = \
      $(INT_LIST)\
@@ -108,7 +114,8 @@ LIST_SRC = \
 
 SRC = \
       $(LIST_SRC)\
-      $(TEST_TOOLS)
+      $(TEST_TOOLS_SRC)\
+      $(TOKENIZER_SRC)
 
 
 MAIN = \

@@ -71,27 +71,57 @@ char *print_operator_as_string(t_operator operator)
 			return "<";
 		case e_operator_le:
 			return "<=";
+		default:
+			return NULL;
 	}
 }
 
 static int print_token(int index, t_anytype token)
 {
 	char *ptr;
+	char *token_type_str;
 
 	ptr = NULL;
+	token_type_str = NULL;
 	switch (token.token->token_type)
 	{
 		case e_token_type_operator:
 			ptr = print_operator_as_string(token.token->contents.ope);
-		break;
+			token_type_str = "operator";
+			break;
 		case e_token_type_word:
 			ptr = token.token->contents.str;
-		break;
+			token_type_str = "word    ";
+			break;
+		case e_token_type_open_brace:
+			ptr = "{";
+			token_type_str = "o_brace ";
+			break;
+		case e_token_type_close_brace:
+			ptr = "}";
+			token_type_str = "c_brace ";
+			break;
+		case e_token_type_open_paren:
+			ptr = "(";
+			token_type_str = "o_paren ";
+			break;
+		case e_token_type_close_paren:
+			ptr = ")";
+			token_type_str = "c_paren ";
+			break;
+		case e_token_type_open_bracket:
+			ptr = "[";
+			token_type_str = "o_bracket";
+			break;
+		case e_token_type_close_bracket:
+			ptr = "]";
+			token_type_str = "c_bracket";
+			break;
 		default:
-		break;
+			break;
 	}
 	// トークン自体の表示も
-	debug_dprintf(STDERR_FILENO, "[%d] \"[%s]\" \n", index, ptr);
+	debug_dprintf(STDERR_FILENO, "[%d] [%s] [%s] \n", index, token_type_str, ptr);
 	return (0);
 }
 

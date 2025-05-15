@@ -2,9 +2,12 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <unistd.h>
 
 #include "libft.h"
 #include "tokenizer.h"
+
+#include "test_tools.h"
 
 enum e_ptr_state
 {
@@ -43,6 +46,25 @@ int push_operator(t_token_list **lst, t_operator operator_token_type)
 	return (void_list_push(lst, elem));
 }
 
+bool is_valid_identifer_char(char c)
+{
+	return (ft_isalnum(c) || c == '_');
+}
+
+size_t case_ptr_state_in_word(char *str, t_ptr_state *ptr_state)
+{
+	size_t index;
+
+	index = 0;
+	while (is_valid_identifer_char(str[index]))
+	{
+		index += 1;
+	}
+	*ptr_state = e_ptr_state_out;
+	return index - 1;
+}
+
+
 static void set_operator_str(char buf[3], char *str)
 {
 	buf[0] = str[0];
@@ -60,7 +82,11 @@ static void set_operator_str(char buf[3], char *str)
 
 bool cmp_operator_str(char buf[3], const char a1, const char a2, const char a3)
 {
-	return (buf[0] == a1 && buf[1] == a2 && buf[2] == a3);
+	return (buf[0] == a1 
+			&&
+		       	(buf[1] == a2 || a2 == '\0') && 
+			(buf[2] == a3 || a3 == '\0')
+	);
 }
 
 size_t match_token(char *str, t_token_list **lst)
@@ -104,29 +130,30 @@ size_t match_token(char *str, t_token_list **lst)
 	};
 
 	set_operator_str(buf, str);
-	for (int i = 0; i < 26; i++)
+	for (int i = 0; i < 29; i++)
 	{
 		if (cmp_operator_str(
 			buf,
-		       	str_operator_conv_table->buf[0],
-		       	str_operator_conv_table->buf[1],
-		       	str_operator_conv_table->buf[2]))
+		       	str_operator_conv_table[i].buf[0],
+		       	str_operator_conv_table[i].buf[1],
+		       	str_operator_conv_table[i].buf[2]))
 		{
-			push_operator(lst, str_operator_conv_table->operator);
-			return str_operator_conv_table -> size;
+			debug_dprintf(STDERR_FILENO, "check operator \"%s\"\n", str);
+			push_operator(lst, str_operator_conv_table[i].operator);
+			return str_operator_conv_table[i].size;
 		}
 	}
 	return (0);
 }
 
-bool is_valid_identifer_char(char c)
-{
-	return (ft_isalnum(c) || c == '_');
-}
 
 /// return next state
 /// if error -> return 0
-size_t case_ptr_state_out(char *str,t_ptr_state *ptr_state, t_token_list **lst)
+size_t case_ptr_state_out(
+	char *str,
+	t_ptr_state *ptr_state,
+       	t_token_list **lst
+)
 {
 	if (*str == '"')
 	{
@@ -140,12 +167,12 @@ size_t case_ptr_state_out(char *str,t_ptr_state *ptr_state, t_token_list **lst)
 	}
 	else if (is_valid_identifer_char(*str))
 	{
-		*ptr_state = e_ptr_state_in_word;
-		return (1);
+		size_t slide = case_ptr_state_in_word(str, ptr_state);
+		push_token(lst, e_token_type_word, ft_substr(str, 0, slide + 1));
+		return (slide + 1);
 	}
 	else if (ft_isspace(*str))
 	{
-		// don't need to change status
 		return (1);
 	}
 	else if (str[0] == '/')
@@ -161,6 +188,36 @@ size_t case_ptr_state_out(char *str,t_ptr_state *ptr_state, t_token_list **lst)
 			return (2);
 		}
 	}
+	else if (*str == '{')
+	{
+		push_token(lst, e_token_type_open_brace, NULL);
+		return (1);
+	}
+	else if (*str == '}')
+	{
+		push_token(lst, e_token_type_close_brace, NULL);
+		return (1);
+	}
+	else if (*str == '(')
+	{
+		push_token(lst, e_token_type_open_paren, NULL);
+		return (1);
+	}
+	else if (*str == ')')
+	{
+		push_token(lst, e_token_type_close_paren, NULL);
+		return (1);
+	}
+	else if (*str == '[')
+	{
+		push_token(lst, e_token_type_open_bracket, NULL);
+		return (1);
+	}
+	else if (*str == ']')
+	{
+		push_token(lst, e_token_type_close_bracket, NULL);
+		return (1);
+	}
 	//// 上のelse ifチェーンとは繋げない
 	return (match_token(str, lst));
 }
@@ -170,25 +227,12 @@ size_t case_ptr_state_out(char *str,t_ptr_state *ptr_state, t_token_list **lst)
 //
 //	return ();
 //}
-//
+
+
 //size_t case_ptr_state_in_multiline_comment(char *str,t_ptr_state *ptr_state, t_token_list **lst)
 //{
 //	return ();
 //}
-
-
-size_t case_ptr_state_in_word(char *str, t_ptr_state *ptr_state)
-{
-	size_t index;
-
-	index = 0;
-	while (is_valid_identifer_char(str[index]))
-	{
-		index += 1;
-	}
-	*ptr_state = e_ptr_state_out;
-	return index - 1;
-}
 
 t_token_list *tokenizer(char *str)
 {
@@ -205,24 +249,24 @@ t_token_list *tokenizer(char *str)
 		{
 			case e_ptr_state_out:
 				slide = case_ptr_state_out(str, &ptr_state, &lst);
-			break;
+				break;
 			case e_ptr_state_in_word:
 				slide = case_ptr_state_in_word(str, &ptr_state);
-				push_token(&lst, e_token_type_word, ft_substr(str, 0, slide));
-			break;
+				break;
 			case e_ptr_state_in_double_quotation:
-			break;
+				break;
 			case e_ptr_state_in_single_quotation:
-			break;
+				break;
 			case e_ptr_state_in_oneline_comment:
-			break;
+				break;
 			case e_ptr_state_in_multiline_comment:
-			break;
+				break;
 		}
 		if (slide == 0)
 		{
 			// listをクリアにする
-			return (NULL);
+			debug_dprintf(STDERR_FILENO, "Ops!\n");
+			return lst;
 		}
 		str += slide; // TODO
 	}
