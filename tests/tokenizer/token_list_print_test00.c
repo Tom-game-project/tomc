@@ -5,7 +5,7 @@
 
 int main()
 {
-	char *str = "*hello + a[42] **constant";
+	char *str = "int c = *hello + a[42] **constant";
 	t_token_list *tkn_lst;
 
 	debug_dprintf(STDERR_FILENO, "%s\n", "tokenize...");

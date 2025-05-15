@@ -1,4 +1,4 @@
-#include "test_tools.h"
+#include "test_tools.h" 
 #include "token_data.h"
 #include "list.h"
 #include <unistd.h>
@@ -17,6 +17,8 @@ char *print_operator_as_string(t_operator operator)
 			return "/";
 		case e_operator_mod:
 			return "%";
+		case e_operator_assignment:
+			return "=";
 		case e_operator_add_assignment:
 			return "+=";
 		case e_operator_sub_assignment:
@@ -71,6 +73,8 @@ char *print_operator_as_string(t_operator operator)
 			return "<";
 		case e_operator_le:
 			return "<=";
+		case e_operator_eq:
+			return "==";
 		default:
 			return NULL;
 	}
@@ -78,50 +82,56 @@ char *print_operator_as_string(t_operator operator)
 
 static int print_token(int index, t_anytype token)
 {
-	char *ptr;
+	char *contents_str;
 	char *token_type_str;
 
-	ptr = NULL;
+	contents_str = NULL;
 	token_type_str = NULL;
 	switch (token.token->token_type)
 	{
 		case e_token_type_operator:
-			ptr = print_operator_as_string(token.token->contents.ope);
-			token_type_str = "operator";
+			contents_str = print_operator_as_string(token.token->contents.ope);
+			token_type_str = "operator ";
 			break;
 		case e_token_type_word:
-			ptr = token.token->contents.str;
-			token_type_str = "word    ";
+			contents_str = token.token->contents.str;
+			token_type_str = "word     ";
 			break;
 		case e_token_type_open_brace:
-			ptr = "{";
-			token_type_str = "o_brace ";
+			contents_str = "{";
+			token_type_str = "o_brace  ";
 			break;
 		case e_token_type_close_brace:
-			ptr = "}";
-			token_type_str = "c_brace ";
+			contents_str = "}";
+			token_type_str = "c_brace  ";
 			break;
 		case e_token_type_open_paren:
-			ptr = "(";
-			token_type_str = "o_paren ";
+			contents_str = "(";
+			token_type_str = "o_paren  ";
 			break;
 		case e_token_type_close_paren:
-			ptr = ")";
-			token_type_str = "c_paren ";
+			contents_str = ")";
+			token_type_str = "c_paren  ";
 			break;
 		case e_token_type_open_bracket:
-			ptr = "[";
+			contents_str = "[";
 			token_type_str = "o_bracket";
 			break;
 		case e_token_type_close_bracket:
-			ptr = "]";
+			contents_str = "]";
 			token_type_str = "c_bracket";
 			break;
 		default:
 			break;
 	}
 	// トークン自体の表示も
-	debug_dprintf(STDERR_FILENO, "[%d] [%s] [%s] \n", index, token_type_str, ptr);
+	debug_dprintf(
+		STDERR_FILENO, 
+		"[%d] [%s] [%s] \n", 
+		index,
+	       	token_type_str, 
+		contents_str
+	);
 	return (0);
 }
 

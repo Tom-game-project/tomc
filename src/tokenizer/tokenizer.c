@@ -97,7 +97,7 @@ size_t match_token(char *str, t_token_list **lst)
 		char buf[3];
 		size_t size;
 		t_operator operator;
-	} str_operator_conv_table[29] = {
+	} str_operator_conv_table[34] = {
 		{{'+', '+', '\0'},2, e_operator_incr},
 		{{'+', '=', '\0'},2, e_operator_add_assignment},
 		{{'+', '\0', '\0'},1, e_operator_add},
@@ -127,10 +127,12 @@ size_t match_token(char *str, t_token_list **lst)
 		{{'^', '\0', '\0'},2, e_operator_logic_xor},
 		{{'!', '=', '\0'},2, e_operator_not_assignment},
 		{{'!', '\0', '\0'},1, e_operator_not},
+		{{'=', '=', '\0'},1, e_operator_eq},
+		{{'=', '\0', '\0'},1, e_operator_assignment},
 	};
 
 	set_operator_str(buf, str);
-	for (int i = 0; i < 29; i++)
+	for (int i = 0; i < 31; i++)
 	{
 		if (cmp_operator_str(
 			buf,

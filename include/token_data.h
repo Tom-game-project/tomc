@@ -10,6 +10,7 @@ enum e_operator
 	e_operator_div,
 	e_operator_mod,
 	/// assignment
+	e_operator_assignment,
 	e_operator_add_assignment,
 	e_operator_sub_assignment,
 	e_operator_mul_assignment,
@@ -40,6 +41,7 @@ enum e_operator
 	e_operator_ge,
 	e_operator_lt,
 	e_operator_le,
+	e_operator_eq,
 };
 
 typedef enum e_operator t_operator;
