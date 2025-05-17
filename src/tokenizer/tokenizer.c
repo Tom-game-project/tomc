@@ -129,10 +129,11 @@ size_t match_operator_token(char *str, t_token_list **lst)
 		{{'!', '\0', '\0'},1, e_operator_not},
 		{{'=', '=', '\0'},1, e_operator_eq},
 		{{'=', '\0', '\0'},1, e_operator_assignment},
+		{{',', '\0', '\0'},1, e_operator_comma},
 	};
 
 	set_operator_str(buf, str);
-	for (int i = 0; i < 31; i++)
+	for (int i = 0; i < 32; i++)
 	{
 		if (cmp_operator_str(
 			buf,
@@ -140,7 +141,6 @@ size_t match_operator_token(char *str, t_token_list **lst)
 		       	str_operator_conv_table[i].buf[1],
 		       	str_operator_conv_table[i].buf[2]))
 		{
-			debug_dprintf(STDERR_FILENO, "check operator \"%s\"\n", str);
 			push_operator(lst, str_operator_conv_table[i].operator);
 			return str_operator_conv_table[i].size;
 		}
@@ -189,6 +189,17 @@ size_t case_ptr_state_out(
 			*ptr_state = e_ptr_state_in_multiline_comment;
 			return (2);
 		}
+	}
+	else if (*str == ';')
+	{
+		push_token(lst, e_token_type_semi_colon, NULL);
+		return (1);
+	}
+	else if (*str == ':')
+	{
+		push_token(lst, e_token_type_colon, NULL);
+		return (1);
+
 	}
 	else if (*str == '{')
 	{

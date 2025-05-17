@@ -10,14 +10,15 @@
 int main()
 {
 	char *str = \
-		"int c = *hello + a[42] **constant /* \n"
+		"int c = *hello + a[42] **constant + func(a, b, c); /* \n"
 		"hello world\n"
 		"\n"
 		"*/\n"
-		"int c = *hello + a[42] **constant // hello world\n"
-		"char *str = \"this is \\\"string\"";
+		"int c = *hello + a[42] **constant; // hello world\n"
+		"char *str = \"this is \\\"string\";";
 	t_token_list *tkn_lst;
 
+	debug_dprintf(STDERR_FILENO, "test case:\nstart>>>>>>>>\n%s\n<<<<<<<<end\n", str);
 	debug_dprintf(STDERR_FILENO, "%s\n", "tokenize...");
 	tkn_lst = tokenizer(str);
 	debug_dprintf(STDERR_FILENO, "%s\n", "DONE");

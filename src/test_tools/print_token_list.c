@@ -1,6 +1,7 @@
 #include "test_tools.h" 
 #include "token_data.h"
 #include "list.h"
+#include "token_data.h"
 #include <unistd.h>
 
 char *print_operator_as_string(t_operator operator)
@@ -75,6 +76,8 @@ char *print_operator_as_string(t_operator operator)
 			return "<=";
 		case e_operator_eq:
 			return "==";
+		case e_operator_comma:
+			return ",";
 		default:
 			return NULL;
 	}
@@ -128,6 +131,14 @@ static int print_token(int index, t_anytype token)
 		case e_token_type_string:
 			contents_str = token.token->contents.str;
 			token_type_str = "string   ";
+			break;
+		case e_token_type_colon:
+			contents_str = ":";
+			token_type_str = "colon    ";
+			break;
+		case e_token_type_semi_colon:
+			contents_str = ";";
+			token_type_str = "semicolon";
 			break;
 		default:
 			break;

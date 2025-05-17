@@ -42,6 +42,8 @@ enum e_operator
 	e_operator_lt,
 	e_operator_le,
 	e_operator_eq,
+
+	e_operator_comma
 };
 
 typedef enum e_operator t_operator;
@@ -59,7 +61,8 @@ enum e_token_type
 	e_token_type_open_bracket,//       char * null
 	e_token_type_close_bracket,//      char * null
 	e_token_type_operator,     //      char * not null;
-	e_token_type_semi          //      char * null
+	e_token_type_semi_colon,   //      char * null
+	e_token_type_colon         //      char * null
 };
 
 typedef enum e_token_type t_token_type;
