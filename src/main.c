@@ -5,6 +5,6 @@
 
 int main()
 {
-	debug_dprintf(STDERR_FILENO, "hello world\n");
+	debug_dprintf(STDERR_FILENO, "hello\127  \"world\"\n");
 	return (0);
 }

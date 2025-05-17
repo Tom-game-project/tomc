@@ -89,7 +89,7 @@ bool cmp_operator_str(char buf[3], const char a1, const char a2, const char a3)
 	);
 }
 
-size_t match_token(char *str, t_token_list **lst)
+size_t match_operator_token(char *str, t_token_list **lst)
 {
 	char buf[3];
 
@@ -221,20 +221,57 @@ size_t case_ptr_state_out(
 		return (1);
 	}
 	//// 上のelse ifチェーンとは繋げない
-	return (match_token(str, lst));
+	return (match_operator_token(str, lst));
 }
 
-//size_t case_ptr_state_in_oneline_comment(char *str,t_ptr_state *ptr_state, t_token_list **lst)
-//{
-//
-//	return ();
-//}
+/// 一行のコメントをリストに追加する
+size_t case_ptr_state_in_oneline_comment(
+	char *str,
+	t_ptr_state *ptr_state,
+       	t_token_list **lst
+)
+{
+	size_t index;
 
+	index = 0;
+	while (str[index] != '\0')
+	{
+		if (str[index] == '\n')
+		{
+			*ptr_state = e_ptr_state_out;
+			break ;
+		}
+		index += 1;
+	}
+	push_token(lst, e_token_type_comment, ft_substr(str, 0, index));
+	return (index);
+}
 
-//size_t case_ptr_state_in_multiline_comment(char *str,t_ptr_state *ptr_state, t_token_list **lst)
-//{
-//	return ();
-//}
+/// 複数行コメントをリストに追加する
+size_t case_ptr_state_in_multiline_comment(
+	char *str,
+	t_ptr_state *ptr_state,
+       	t_token_list **lst
+)
+{
+	size_t index;
+
+	index = 0;
+	while (str[index] != '\0')
+	{
+		if (
+			str[index] == '*' && 
+			str[index + 1] == '/'
+		){
+			*ptr_state = e_ptr_state_out;
+			push_token(lst, e_token_type_comment, ft_substr(str, 0, index));
+			index += 2;
+			break ;
+		}
+		index += 1;
+	}
+	return (index);
+}
 
 t_token_list *tokenizer(char *str)
 {
@@ -260,8 +297,10 @@ t_token_list *tokenizer(char *str)
 			case e_ptr_state_in_single_quotation:
 				break;
 			case e_ptr_state_in_oneline_comment:
+				slide = case_ptr_state_in_oneline_comment(str, &ptr_state, &lst);
 				break;
 			case e_ptr_state_in_multiline_comment:
+				slide = case_ptr_state_in_multiline_comment(str, &ptr_state, &lst);
 				break;
 		}
 		if (slide == 0)
@@ -272,5 +311,6 @@ t_token_list *tokenizer(char *str)
 		}
 		str += slide; // TODO
 	}
+
 	return lst;
 }

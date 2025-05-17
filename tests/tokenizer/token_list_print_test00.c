@@ -3,9 +3,18 @@
 #include "tokenizer.h"
 #include <unistd.h>
 
+
+/// ```
+/// make test TESTT_FILE=tests/tokenizer/token_list_print_test00.c
+/// ```
 int main()
 {
-	char *str = "int c = *hello + a[42] **constant";
+	char *str = \
+		"int c = *hello + a[42] **constant /* \n"
+		"hello world\n"
+		"\n"
+		"*/\n"
+		"int c = *hello + a[42] **constant // hello world";
 	t_token_list *tkn_lst;
 
 	debug_dprintf(STDERR_FILENO, "%s\n", "tokenize...");
