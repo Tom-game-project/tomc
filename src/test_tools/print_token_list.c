@@ -125,6 +125,10 @@ static int print_token(int index, t_anytype token)
 			contents_str = token.token->contents.str;
 			token_type_str = "comment  ";
 			break;
+		case e_token_type_string:
+			contents_str = token.token->contents.str;
+			token_type_str = "string   ";
+			break;
 		default:
 			break;
 	}

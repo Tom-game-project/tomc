@@ -273,6 +273,37 @@ size_t case_ptr_state_in_multiline_comment(
 	return (index);
 }
 
+
+
+size_t case_ptr_state_in_double_quotation(
+	char *str,
+	t_ptr_state *ptr_state,
+       	t_token_list **lst
+)
+{
+	size_t index;
+	bool esc_flag;
+
+	index = 0;
+	esc_flag = false;
+	while (str[index] != '\0')
+	{
+		if (str[index] == '"' && !esc_flag)
+		{
+			*ptr_state = e_ptr_state_out;
+			push_token(lst, e_token_type_string, ft_substr(str, 0, index));
+			index += 1;
+			break ;
+		}
+		if (str[index] == '\\')
+			esc_flag = true;
+		else
+			esc_flag = false;
+		index += 1;
+	}
+	return (index);
+}
+
 t_token_list *tokenizer(char *str)
 {
 	t_token_list *lst;
@@ -293,6 +324,7 @@ t_token_list *tokenizer(char *str)
 				slide = case_ptr_state_in_word(str, &ptr_state);
 				break;
 			case e_ptr_state_in_double_quotation:
+				slide = case_ptr_state_in_double_quotation(str, &ptr_state, &lst);
 				break;
 			case e_ptr_state_in_single_quotation:
 				break;
