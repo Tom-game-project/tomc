@@ -32,7 +32,7 @@ int push_token(
 		token_type,
 		str
 	);		
-	return (void_list_push(lst, elem));
+	return void_list_push(lst, elem);
 }
 
 int push_operator(t_token_list **lst, t_operator operator_token_type)
@@ -43,12 +43,12 @@ int push_operator(t_token_list **lst, t_operator operator_token_type)
 			e_token_type_operator,
 			operator_token_type
 	);		
-	return (void_list_push(lst, elem));
+	return void_list_push(lst, elem);
 }
 
 bool is_valid_identifer_char(char c)
 {
-	return (ft_isalnum(c) || c == '_');
+	return ft_isalnum(c) || c == '_';
 }
 
 size_t case_ptr_state_in_word(char *str, t_ptr_state *ptr_state)
@@ -63,7 +63,6 @@ size_t case_ptr_state_in_word(char *str, t_ptr_state *ptr_state)
 	*ptr_state = e_ptr_state_out;
 	return index - 1;
 }
-
 
 static void set_operator_str(char buf[3], char *str)
 {
@@ -82,11 +81,10 @@ static void set_operator_str(char buf[3], char *str)
 
 bool cmp_operator_str(char buf[3], const char a1, const char a2, const char a3)
 {
-	return (buf[0] == a1 
+	return buf[0] == a1 
 			&&
 		       	(buf[1] == a2 || a2 == '\0') && 
-			(buf[2] == a3 || a3 == '\0')
-	);
+			(buf[2] == a3 || a3 == '\0');
 }
 
 size_t match_operator_token(char *str, t_token_list **lst)
@@ -145,7 +143,7 @@ size_t match_operator_token(char *str, t_token_list **lst)
 			return str_operator_conv_table[i].size;
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -199,7 +197,6 @@ size_t case_ptr_state_out(
 	{
 		push_token(lst, e_token_type_colon, NULL);
 		return (1);
-
 	}
 	else if (*str == '{')
 	{
@@ -232,7 +229,7 @@ size_t case_ptr_state_out(
 		return (1);
 	}
 	//// 上のelse ifチェーンとは繋げない
-	return (match_operator_token(str, lst));
+	return match_operator_token(str, lst);
 }
 
 /// 一行のコメントをリストに追加する
@@ -255,7 +252,7 @@ size_t case_ptr_state_in_oneline_comment(
 		index += 1;
 	}
 	push_token(lst, e_token_type_comment, ft_substr(str, 0, index));
-	return (index);
+	return index;
 }
 
 /// 複数行コメントをリストに追加する
@@ -281,10 +278,8 @@ size_t case_ptr_state_in_multiline_comment(
 		}
 		index += 1;
 	}
-	return (index);
+	return index;
 }
-
-
 
 size_t case_ptr_state_in_double_quotation(
 	char *str,
@@ -312,7 +307,36 @@ size_t case_ptr_state_in_double_quotation(
 			esc_flag = false;
 		index += 1;
 	}
-	return (index);
+	return index;
+}
+
+size_t case_ptr_state_in_single_quotation(
+	char *str,
+	t_ptr_state *ptr_state,
+       	t_token_list **lst
+)
+{
+	size_t index;
+	bool esc_flag;
+
+	index = 0;
+	esc_flag = false;
+	while (str[index] != '\0')
+	{
+		if (str[index] == '\'' && !esc_flag)
+		{
+			*ptr_state = e_ptr_state_out;
+			push_token(lst, e_token_type_string, ft_substr(str, 0, index));
+			index += 1;
+			break ;
+		}
+		if (str[index] == '\\')
+			esc_flag = true;
+		else
+			esc_flag = false;
+		index += 1;
+	}
+	return index;
 }
 
 t_token_list *tokenizer(char *str)
@@ -338,6 +362,7 @@ t_token_list *tokenizer(char *str)
 				slide = case_ptr_state_in_double_quotation(str, &ptr_state, &lst);
 				break;
 			case e_ptr_state_in_single_quotation:
+				slide = case_ptr_state_in_single_quotation(str, &ptr_state, &lst);
 				break;
 			case e_ptr_state_in_oneline_comment:
 				slide = case_ptr_state_in_oneline_comment(str, &ptr_state, &lst);
@@ -357,3 +382,4 @@ t_token_list *tokenizer(char *str)
 
 	return lst;
 }
+
