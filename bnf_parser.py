@@ -33,11 +33,16 @@ class BnfBranch:
 # 左辺
 class BnfTree:
     name: str
-    branch: list[BnfBranch]
+    branch: list[list[BnfBranch]]
     raw: list[str] # ルール ex) [' <storage_class_specifier>\n', ' <type_specifier>\n', ' <type_qualifier>']
     def __init__(self, name:str, raw:str):
         self.name = name
         self.raw = raw
+
+    def show(self):
+        print (f"{id(self)}")
+        for i in self.branch:
+            print("    ",i)
 
 # すべての定義名を返す
 def get_all_dec_name(bnffile:str):
@@ -79,8 +84,12 @@ def set_bnftree_from_dec_name_list(dec_name_list: list[str], raw_list:list[str])
 
 # 定義されたBNFtreeのリストから、名前で要素を検索し、該当するもののアドレスを返却する
 def find_bnftree_from_bnftree_list_by_name(bnf_tree: list[BnfTree], name: str) -> BnfTree:
-    return next(filter(lambda a: a.name == name, bnf_tree))
-
+    try:
+        rv = next(filter(lambda a: a.name == name, bnf_tree))
+    except StopIteration:
+        return None
+        #raise BaseException(f"name \"{name}\" not found")
+    return rv
 
 def interpret_rule(rule:str, bnftree_list: list[BnfTree]) -> list[BnfBranch]:
     pattern = ""
@@ -122,13 +131,12 @@ def interpret_rule(rule:str, bnftree_list: list[BnfTree]) -> list[BnfBranch]:
 
 # BnfTreeをBNFファイルに基づいて各種設定をする
 # TODO 
-def set_a_bnftree(bnffile: str, bnftree: BnfTree, bnftree_list:list[BnfTree]) -> None:
+def set_a_bnftree(bnftree: BnfTree, bnftree_list:list[BnfTree]) -> None:
     # bnftree.branch.append(BnfBranch(type_of_self, tree))
     # 
-    for i in bnftree.raw:
-        print(i)
-        print(interpret_rule(i,bnftree_list))
+    bnftree.branch =  [[j for j in interpret_rule(i, bnftree_list)] for i in bnftree.raw]
     
+
 
 if __name__ == "__main__":
     BNF_FILE = "bnf"
@@ -141,6 +149,9 @@ if __name__ == "__main__":
     #pprint.pprint(get_dec(BNF_FILE, "declaration_specifier"))
     #pprint.pprint(get_dec("struct_or_union_specifier"))
     #print(find_bnftree_from_bnftree_list_by_name(name_bnftreelist, "struct_or_union_specifier").name)
-
-    set_a_bnftree("", name_bnftreelist[6], name_bnftreelist)
     
+    for i in name_bnftreelist:
+        set_a_bnftree(i, name_bnftreelist)
+
+    for i in name_bnftreelist:
+        i.show()
