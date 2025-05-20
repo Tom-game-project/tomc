@@ -44,6 +44,31 @@ class BnfBranch:
                 return f"type_of_self {self.type_of_self} {'<' + self.tree.name + '>' if type(self.tree) is BnfTree else '\"' + self.tree + '\"'}"
         return f"type_of_self {self.type_of_self} {'<' + self.tree.name + '>' if type(self.tree) is BnfTree else self.tree}"
 
+    def gen_c_struct(self):
+        match self.type_of_self:
+            case TypeofToken.A | TypeofToken.Q | TypeofToken.P:
+                return f"t_void_list *{self.tree.name}_list; // Vec<{self.tree.name}>";
+            case TypeofToken.U:
+                return f"struct s_{self.tree.name} * {self.tree.name};"
+            case TypeofToken.S:
+                return f"// \"{self.tree}\" TODO"
+        # return f"type_of_self {self.type_of_self} {'<' + self.tree.name + '>' if type(self.tree) is BnfTree else '\"' + self.tree + '\"'}"
+
+
+def create_struct_from_list(lst:list, depth:int) -> str:
+    rstr = "\n" + " " * 4 * depth + "struct {\n"
+    for i in lst:
+        rstr += " " * 8 * depth + f"{i}\n"
+    rstr += " " * 4 * depth + "};\n"
+    return rstr
+
+def create_union_from_list(lst:list, depth:int) -> str:
+    rstr = " " * 4 * depth + "union {\n"
+    for i in lst:
+        rstr += " " * 8 * depth + f"{i}\n"
+    rstr += " " * 4 * depth + "};\n"
+    return rstr
+
 # 左辺
 class BnfTree:
     name: str
@@ -62,9 +87,17 @@ class BnfTree:
             print("    ",i)
 
     def gen_c_struct(self):
+        lst = [[j.gen_c_struct() for j in i] for i in self.branch]
+        lst = [i[0] if len(i) == 1 else create_struct_from_list(i, 2) for i in lst]
+        inner_program = ""
+        if len(lst) == 1:
+            inner_program = lst[0]
+        else :
+            inner_program = create_union_from_list(lst, 1)
+
         return f"""
-struct {self.name} {{
-    {"    ".join([f"{i}\n" for i in self.branch])}
+struct s_{self.name} {{
+{inner_program}
 }};
 """
 
@@ -176,3 +209,4 @@ if __name__ == "__main__":
 
     for i in name_bnftreelist:
         print(i.gen_c_struct())
+    # print(name_bnftreelist[0].gen_c_struct())
