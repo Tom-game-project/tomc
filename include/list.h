@@ -184,6 +184,9 @@ int								void_list_clear(t_void_list **node,
 
 t_void_list						*void_list_cut(t_void_list **node, int index);
 
+
+t_void_list *void_list_drain(t_void_list **lst, int start, int end);
+
 int								void_list_clear_func(t_void_list **node,
 									void (*func)(t_anytype, void (*g)(void *)),
 									void (*f)(void *));

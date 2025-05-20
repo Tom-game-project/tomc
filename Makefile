@@ -88,6 +88,7 @@ VOID_LIST = \
 		src/list/void_list_sort.c\
 		src/list/void_list_insert_list.c\
 		src/list/void_list_filter.c\
+		src/list/void_list_drain.c
 
 
 LIST_LIST = \
