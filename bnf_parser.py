@@ -16,7 +16,6 @@ class TypeofToken(Enum):
     U = auto() # uni <>
     S = auto() #     normal string
 
-
 # 右辺
 class BnfBranch:
     type_of_self: TypeofToken
@@ -46,28 +45,54 @@ class BnfBranch:
 
     def gen_c_struct(self):
         match self.type_of_self:
-            case TypeofToken.A | TypeofToken.Q | TypeofToken.P:
-                return f"t_void_list *{self.tree.name}_list; // Vec<{self.tree.name}>";
+            case TypeofToken.A:
+                return f"t_void_list *{self.tree.name}_list; // Vec<{self.tree.name}> Repeat more than 0 times(*)";
+            case TypeofToken.P:
+                return f"t_void_list *{self.tree.name}_list; // Vec<{self.tree.name}> Repeat one or more times(+)";
+            case TypeofToken.Q:
+                return f"struct s_{self.tree.name} * {self.tree.name}; // ?"
             case TypeofToken.U:
                 return f"struct s_{self.tree.name} * {self.tree.name};"
             case TypeofToken.S:
                 return f"// \"{self.tree}\" TODO"
         # return f"type_of_self {self.type_of_self} {'<' + self.tree.name + '>' if type(self.tree) is BnfTree else '\"' + self.tree + '\"'}"
 
+    def gen_c_struct_and_set_enum(self, enum_contents_name:list):
+        match self.type_of_self:
+            case TypeofToken.A | TypeofToken.P | TypeofToken.Q | TypeofToken.U:
+                enum_contents_name.append(self.tree.name)
+            case _:
+                pass
+        return self.gen_c_struct()
 
-def create_struct_from_list(lst:list, depth:int) -> str:
-    rstr = "\n" + " " * 4 * depth + "struct {\n"
+
+def create_struct_from_list(lst:list, structure_name: str, structure_type_name:str, depth:int) -> str:
+    rstr = "\n" + " " * 4 * depth + f"struct {structure_name} {{\n"
     for i in lst:
         rstr += " " * 8 * depth + f"{i}\n"
-    rstr += " " * 4 * depth + "};\n"
+    rstr += " " * 4 * depth + f"}} {structure_type_name};\n"
     return rstr
 
-def create_union_from_list(lst:list, depth:int) -> str:
+
+def create_struct_from_list_and_set_enum(enum_contents_name: list, lst:list, structure_name: str, structure_type_name:str, depth:int):
+    enum_contents_name.append(structure_type_name)
+    return (create_struct_from_list(lst, structure_name, structure_type_name, depth))
+
+def create_union_from_list(lst:list, union_name:str, depth:int) -> str:
     rstr = " " * 4 * depth + "union {\n"
     for i in lst:
         rstr += " " * 8 * depth + f"{i}\n"
-    rstr += " " * 4 * depth + "};\n"
+    rstr += " " * 4 * depth + f"}} {union_name};\n"
     return rstr
+
+def create_enum_from_list(lst:list, enum_name:str, depth: int) -> str:
+    rstr = " " * 4 * depth + "enum {\n"
+    rstr += (",\n").join([" " * 8 * depth + i for i in lst]) + "\n"
+    #for i in lst:
+    #    rstr += " " * 8 * depth + f"{i},\n"
+    rstr += " " * 4 * depth + f"}} {enum_name};\n"
+    return rstr
+
 
 # 左辺
 class BnfTree:
@@ -87,19 +112,31 @@ class BnfTree:
             print("    ",i)
 
     def gen_c_struct(self):
-        lst = [[j.gen_c_struct() for j in i] for i in self.branch]
-        lst = [i[0] if len(i) == 1 else create_struct_from_list(i, 2) for i in lst]
-        inner_program = ""
-        if len(lst) == 1:
-            inner_program = lst[0]
-        else :
-            inner_program = create_union_from_list(lst, 1)
+        enum_contents_name = []
+        lst = [
+                [j.gen_c_struct() for j in i] 
+                for i in self.branch
+        ]
 
-        return f"""
-struct s_{self.name} {{
-{inner_program}
-}};
-"""
+
+        lst2 = []
+        for i, j in enumerate(lst):
+            if len(j) == 1:
+                enum_contents_name.append(f"case_{i}")
+                lst2.append(j[0])
+            else:
+                lst2.append(create_struct_from_list_and_set_enum(enum_contents_name, j, "", f"case_{i}", 2))
+        # 内部のコンテンツを判定するenumを定義する、TODO
+        
+        enum_code = create_enum_from_list(
+                map(lambda a: f"e_{self.name}_{a}", enum_contents_name) , "type_of_contents", 1)
+
+        return create_struct_from_list(
+            [enum_code, lst2[0] if len(lst2) == 1 else create_union_from_list(lst2, "contents", 1)],
+            f"s_{self.name}",
+            "",
+            0
+        )
 
 # すべての定義名を返す
 def get_all_dec_name(bnffile:str):
