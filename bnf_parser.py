@@ -1,6 +1,9 @@
 # BNF形式で定義された文法構造を表現するのに十分な構造体を生成するためのプログラム
 # https://cs.wmich.edu/~gupta/teaching/cs4850/sumII06/The%20syntax%20of%20C%20in%20Backus-Naur%20form.htm
 
+
+# TODO 定義が見つからなかったものについて保存する領域を作る
+
 import re
 import pprint
 
@@ -11,7 +14,7 @@ class TypeofToken(Enum):
     Q = auto() # ?   {<>}?
     P = auto() # +   {<>}+
     U = auto() # uni <>
-    S = auto() #     +
+    S = auto() #     normal string
 
 
 # 右辺
@@ -28,21 +31,42 @@ class BnfBranch:
         self.tree = tree
 
     def __repr__(self) -> str:
-        return f"type_of_self {self.type_of_self}"
+        match self.type_of_self:
+            case TypeofToken.A:
+                pass
+            case TypeofToken.Q:
+                pass
+            case TypeofToken.P:
+                pass
+            case TypeofToken.U:
+                pass
+            case TypeofToken.S:
+                return f"type_of_self {self.type_of_self} {'<' + self.tree.name + '>' if type(self.tree) is BnfTree else '\"' + self.tree + '\"'}"
+        return f"type_of_self {self.type_of_self} {'<' + self.tree.name + '>' if type(self.tree) is BnfTree else self.tree}"
 
 # 左辺
 class BnfTree:
     name: str
+    undef_flag: bool
     branch: list[list[BnfBranch]]
     raw: list[str] # ルール ex) [' <storage_class_specifier>\n', ' <type_specifier>\n', ' <type_qualifier>']
     def __init__(self, name:str, raw:str):
         self.name = name
         self.raw = raw
+        self.undef_flag = True
 
     def show(self):
-        print (f"{id(self)}")
+        #print (f"<{self.name}> at {id(self)} raw[{self.raw}]")
+        print (f"<{self.name}> raw[{self.raw}]")
         for i in self.branch:
             print("    ",i)
+
+    def gen_c_struct(self):
+        return f"""
+struct {self.name} {{
+    {"    ".join([f"{i}\n" for i in self.branch])}
+}};
+"""
 
 # すべての定義名を返す
 def get_all_dec_name(bnffile:str):
@@ -78,7 +102,7 @@ def get_dec(bnffile:str, name:str):
 
     return list(map(lambda a: a[:-1] if a.endswith("\n") else a, rlist))
 
-# 定義された名前のリストから、名前だけが設定されたBnfTreeのリストを生成する
+# 定義された左辺の名前のリストから、名前だけが設定されたBnfTreeのリストを生成する
 def set_bnftree_from_dec_name_list(dec_name_list: list[str], raw_list:list[str]) -> list[BnfTree]:
     return [BnfTree(i, j) for i, j in zip(dec_name_list,raw_list)]
 
@@ -87,8 +111,9 @@ def find_bnftree_from_bnftree_list_by_name(bnf_tree: list[BnfTree], name: str) -
     try:
         rv = next(filter(lambda a: a.name == name, bnf_tree))
     except StopIteration:
-        return None
-        #raise BaseException(f"name \"{name}\" not found")
+        bnt = BnfTree(name, "")
+        bnf_tree.append(bnt)
+        return bnt
     return rv
 
 def interpret_rule(rule:str, bnftree_list: list[BnfTree]) -> list[BnfBranch]:
@@ -130,12 +155,8 @@ def interpret_rule(rule:str, bnftree_list: list[BnfTree]) -> list[BnfBranch]:
 
 
 # BnfTreeをBNFファイルに基づいて各種設定をする
-# TODO 
 def set_a_bnftree(bnftree: BnfTree, bnftree_list:list[BnfTree]) -> None:
-    # bnftree.branch.append(BnfBranch(type_of_self, tree))
-    # 
     bnftree.branch =  [[j for j in interpret_rule(i, bnftree_list)] for i in bnftree.raw]
-    
 
 
 if __name__ == "__main__":
@@ -144,8 +165,8 @@ if __name__ == "__main__":
     name_bnftreelist = set_bnftree_from_dec_name_list(
             name_list, 
             map(lambda i:get_dec(BNF_FILE, i), name_list))
-    for i in name_bnftreelist:
-        print("                " , i.name)
+    # for i in name_bnftreelist:
+    #     print("                " , i.name)
     #pprint.pprint(get_dec(BNF_FILE, "declaration_specifier"))
     #pprint.pprint(get_dec("struct_or_union_specifier"))
     #print(find_bnftree_from_bnftree_list_by_name(name_bnftreelist, "struct_or_union_specifier").name)
@@ -154,4 +175,4 @@ if __name__ == "__main__":
         set_a_bnftree(i, name_bnftreelist)
 
     for i in name_bnftreelist:
-        i.show()
+        print(i.gen_c_struct())
