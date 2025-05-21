@@ -26,6 +26,6 @@ int	debug_getpid(void);
 
 int	debug_getppid(void);
 
-int print_token_list(t_token_list *token_list);
+int print_token_list_ln(t_token_list *token_list);
 
 #endif

@@ -140,6 +140,10 @@ static int print_token(int index, t_anytype token)
 			contents_str = ";";
 			token_type_str = "semicolon";
 			break;
+		case e_token_type_paren:
+			contents_str = "list - list - list ...";
+			token_type_str = "paren    ";
+			break;
 		default:
 			break;
 	}
@@ -151,10 +155,16 @@ static int print_token(int index, t_anytype token)
 	       	token_type_str, 
 		contents_str
 	);
+	if (token.token->token_type == e_token_type_paren)
+	{
+		debug_dprintf(STDERR_FILENO, "\e[36m");
+		print_token_list_ln(token.token->contents.token_list);
+		debug_dprintf(STDERR_FILENO, "\e[m");
+	}
 	return (0);
 }
 
-int print_token_list(t_token_list *token_list)
+int print_token_list_ln(t_token_list *token_list)
 {
 	void_list_print(
 		token_list,
@@ -162,3 +172,4 @@ int print_token_list(t_token_list *token_list)
 	);
 	return (0);
 }
+

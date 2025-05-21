@@ -35,13 +35,15 @@ group_paren(t_void_list **lst)
 			depth -= 1;			
 			if (depth == 0)
 			{
-
+				t_anytype open_paren_token;
 				end_index = index;
 				drained_node = void_list_drain(lst,
 					start_index,
 				       	end_index
 				);
-				print_token_list(drained_node);
+				void_list_pop(&drained_node, 0, &open_paren_token);
+				free(open_paren_token.token);
+				print_token_list_ln(drained_node);
 				putting_node = void_list_get_elem(*lst, start_index);
 				// setting_token
 				putting_node->ptr.token->token_type = e_token_type_paren;

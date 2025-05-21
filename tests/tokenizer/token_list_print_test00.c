@@ -24,6 +24,6 @@ int main()
 	debug_dprintf(STDERR_FILENO, "%s\n", "DONE");
 	if (tkn_lst == NULL)
 		debug_dprintf(STDERR_FILENO, "failed to tokenize\n");
-	print_token_list(tkn_lst);
+	print_token_list_ln(tkn_lst);
 	return 0;
 }
