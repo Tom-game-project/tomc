@@ -1,5 +1,6 @@
 #include "brackets.h"
 #include "test_tools.h"
+#include "token_data.h"
 #include "tokenizer.h"
 #include <unistd.h>
 
@@ -24,7 +25,7 @@ int main()
 
 	debug_dprintf(STDERR_FILENO, "================================================\n");
 
-	group_paren(&tkn_lst);
+	group_paren(&tkn_lst, e_token_type_open_paren, e_token_type_close_paren, e_token_type_paren);
 	debug_dprintf(STDERR_FILENO, "==========================================\n");
 	
 	print_token_list_ln(tkn_lst);

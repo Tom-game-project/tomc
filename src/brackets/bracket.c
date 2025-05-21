@@ -6,7 +6,12 @@
 
 
 int
-group_paren(t_void_list **lst)
+group_paren(
+	t_void_list **lst,
+	t_token_type token_type_open,
+	t_token_type token_type_close,
+	t_token_type token_type_name
+)
 {
 	int index = 0;
 	int start_index = 0;
@@ -19,7 +24,7 @@ group_paren(t_void_list **lst)
 		node = void_list_get_elem(*lst, index);
 		if (node == NULL)
 			break;
-		if (node->ptr.token->token_type == e_token_type_open_paren)
+		if (node->ptr.token->token_type == token_type_open)
 		{
 			if (depth == 0)
 			{
@@ -27,15 +32,15 @@ group_paren(t_void_list **lst)
 			}
 			depth += 1;
 		}
-		else if (node->ptr.token->token_type == e_token_type_close_paren)
+		else if (node->ptr.token->token_type == token_type_close)
 		{
-			t_void_list *putting_node;
-			t_void_list *drained_node;
-
 			depth -= 1;			
 			if (depth == 0)
 			{
 				t_anytype open_paren_token;
+				t_void_list *putting_node;
+				t_void_list *drained_node;
+
 				end_index = index;
 				drained_node = void_list_drain(lst,
 					start_index,
@@ -46,7 +51,7 @@ group_paren(t_void_list **lst)
 				print_token_list_ln(drained_node);
 				putting_node = void_list_get_elem(*lst, start_index);
 				// setting_token
-				putting_node->ptr.token->token_type = e_token_type_paren;
+				putting_node->ptr.token->token_type = token_type_name;
 				putting_node->ptr.token->contents.token_list = drained_node;
 				index = start_index;
 			}
