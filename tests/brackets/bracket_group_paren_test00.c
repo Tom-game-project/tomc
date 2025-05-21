@@ -26,6 +26,8 @@ int main()
 	debug_dprintf(STDERR_FILENO, "================================================\n");
 
 	group_paren(&tkn_lst, e_token_type_open_paren, e_token_type_close_paren, e_token_type_paren);
+	group_paren(&tkn_lst, e_token_type_open_brace, e_token_type_close_brace, e_token_type_brace);
+	group_paren(&tkn_lst, e_token_type_open_bracket, e_token_type_close_bracket, e_token_type_bracket);
 	debug_dprintf(STDERR_FILENO, "==========================================\n");
 	
 	print_token_list_ln(tkn_lst);

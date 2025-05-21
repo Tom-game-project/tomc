@@ -144,6 +144,14 @@ static int print_token(int index, t_anytype token)
 			contents_str = "list - list - list ...";
 			token_type_str = "paren    ";
 			break;
+		case e_token_type_brace:
+			contents_str = "list - list - list ...";
+			token_type_str = "brace    ";
+			break;
+		case e_token_type_bracket:
+			contents_str = "list - list - list ...";
+			token_type_str = "bracket  ";
+			break;
 		default:
 			break;
 	}
@@ -156,6 +164,18 @@ static int print_token(int index, t_anytype token)
 		contents_str
 	);
 	if (token.token->token_type == e_token_type_paren)
+	{
+		debug_dprintf(STDERR_FILENO, "\e[36m");
+		print_token_list_ln(token.token->contents.token_list);
+		debug_dprintf(STDERR_FILENO, "\e[m");
+	}
+	else if (token.token->token_type == e_token_type_brace)
+	{
+		debug_dprintf(STDERR_FILENO, "\e[36m");
+		print_token_list_ln(token.token->contents.token_list);
+		debug_dprintf(STDERR_FILENO, "\e[m");
+	}
+	else if (token.token->token_type == e_token_type_bracket)
 	{
 		debug_dprintf(STDERR_FILENO, "\e[36m");
 		print_token_list_ln(token.token->contents.token_list);
