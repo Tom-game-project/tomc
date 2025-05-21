@@ -25,5 +25,8 @@ int main()
 	debug_dprintf(STDERR_FILENO, "================================================\n");
 
 	group_paren(&tkn_lst);
+	debug_dprintf(STDERR_FILENO, "==========================================\n");
+	
+	print_token_list(tkn_lst);
 	return 0;
 }

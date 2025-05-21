@@ -70,11 +70,14 @@ enum e_token_type
 
 typedef enum e_token_type t_token_type;
 
+
+typedef struct s_void_list t_void_list; // preventing recursive import
 typedef union u_token_contents t_token_contents;
 union u_token_contents
 {
 	char *str;
 	t_operator ope;
+	t_void_list *token_list;
 };
 
 typedef struct s_token t_token;

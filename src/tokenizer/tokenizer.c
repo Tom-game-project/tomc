@@ -379,7 +379,6 @@ t_token_list *tokenizer(char *str)
 		}
 		str += slide; // TODO
 	}
-
 	return lst;
 }
 

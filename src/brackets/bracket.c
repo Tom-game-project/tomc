@@ -2,6 +2,7 @@
 #include "test_tools.h"
 #include "token_data.h"
 #include <stdlib.h>
+#include <unistd.h>
 
 
 int
@@ -20,24 +21,35 @@ group_paren(t_void_list **lst)
 			break;
 		if (node->ptr.token->token_type == e_token_type_open_paren)
 		{
+			if (depth == 0)
+			{
+				start_index = index;
+			}
 			depth += 1;
-			start_index = index;
 		}
 		else if (node->ptr.token->token_type == e_token_type_close_paren)
 		{
-			depth -= 1;
-			end_index = index;
+			t_void_list *putting_node;
+			t_void_list *drained_node;
+
+			depth -= 1;			
 			if (depth == 0)
 			{
-				print_token_list(
-					void_list_drain(lst,
+
+				end_index = index;
+				drained_node = void_list_drain(lst,
 					start_index,
 				       	end_index
-				));
+				);
+				print_token_list(drained_node);
+				putting_node = void_list_get_elem(*lst, start_index);
+				// setting_token
+				putting_node->ptr.token->token_type = e_token_type_paren;
+				putting_node->ptr.token->contents.token_list = drained_node;
 				index = start_index;
 			}
 		}
 		index += 1;
 	}
-	return (0);
+	return 0;
 }
