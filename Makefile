@@ -105,6 +105,10 @@ TOKENIZER_SRC = \
 		src/tokenizer/init_token.c\
 		src/tokenizer/tokenizer.c\
 
+
+BRACKETS_SRC = \
+	       src/brackets/bracket.c
+
 LIST_SRC = \
      $(INT_LIST)\
      $(CHAR_LIST)\
@@ -116,7 +120,8 @@ LIST_SRC = \
 SRC = \
       $(LIST_SRC)\
       $(TEST_TOOLS_SRC)\
-      $(TOKENIZER_SRC)
+      $(TOKENIZER_SRC)\
+      $(BRACKETS_SRC)
 
 
 MAIN = \

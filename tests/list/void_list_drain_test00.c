@@ -24,5 +24,8 @@ int main()
 	int_list_print(result);
 	debug_dprintf(STDERR_FILENO, "lst\n");
 	int_list_print(lst);
+
+	int_list_clear(&lst);
+	int_list_clear(&result);
 	return (0);
 }

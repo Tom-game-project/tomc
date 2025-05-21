@@ -62,7 +62,10 @@ enum e_token_type
 	e_token_type_close_bracket,//      char * null
 	e_token_type_operator,     //      char * not null;
 	e_token_type_semi_colon,   //      char * null
-	e_token_type_colon         //      char * null
+	e_token_type_colon,        //      char * null
+	e_token_type_brace,        // {}
+	e_token_type_bracket,      // []
+	e_token_type_paren         // ()
 };
 
 typedef enum e_token_type t_token_type;

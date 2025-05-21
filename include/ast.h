@@ -8,8 +8,8 @@ struct s_translation_unit {
         e_translation_unit_case_0
     } type_of_contents;
 
-t_void_list *external_declaration_list; // Vec<external_declaration> Repeat more than 0 times(*)
-} ;
+	t_void_list *external_declaration_list; // Vec<external_declaration> Repeat more than 0 times(*)
+} t_translation_unit;
 
 
 struct s_external_declaration {
