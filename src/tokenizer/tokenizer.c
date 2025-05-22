@@ -64,33 +64,8 @@ size_t case_ptr_state_in_word(char *str, t_ptr_state *ptr_state)
 	return index - 1;
 }
 
-static void set_operator_str(char buf[3], char *str)
-{
-	buf[0] = str[0];
-	if (str[1] == '\0')
-	{
-		buf[1] = str[1];
-		buf[2] = '\0';
-	}
-	else 
-	{
-		buf[1] = str[1];
-		buf[2] = str[2];
-	}
-}
-
-bool cmp_operator_str(char buf[3], const char a1, const char a2, const char a3)
-{
-	return buf[0] == a1 
-			&&
-		       	(buf[1] == a2 || a2 == '\0') && 
-			(buf[2] == a3 || a3 == '\0');
-}
-
 size_t match_operator_token(char *str, t_token_list **lst)
 {
-	char buf[3];
-
 	struct {
 		char buf[3];
 		size_t size;
@@ -130,14 +105,11 @@ size_t match_operator_token(char *str, t_token_list **lst)
 		{{',', '\0', '\0'},1, e_operator_comma},
 	};
 
-	set_operator_str(buf, str);
 	for (int i = 0; i < 32; i++)
 	{
-		if (cmp_operator_str(
-			buf,
-		       	str_operator_conv_table[i].buf[0],
-		       	str_operator_conv_table[i].buf[1],
-		       	str_operator_conv_table[i].buf[2]))
+		if (
+			ft_strncmp(str, str_operator_conv_table[i].buf, str_operator_conv_table[i].size) == 0
+		)
 		{
 			push_operator(lst, str_operator_conv_table[i].operator);
 			return str_operator_conv_table[i].size;

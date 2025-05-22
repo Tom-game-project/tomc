@@ -240,7 +240,7 @@ if __name__ == "__main__":
     #pprint.pprint(get_dec(BNF_FILE, "declaration_specifier"))
     #pprint.pprint(get_dec("struct_or_union_specifier"))
     #print(find_bnftree_from_bnftree_list_by_name(name_bnftreelist, "struct_or_union_specifier").name)
-    
+
     for i in name_bnftreelist:
         set_a_bnftree(i, name_bnftreelist)
 
