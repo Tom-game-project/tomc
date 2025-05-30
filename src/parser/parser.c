@@ -1,10 +1,11 @@
 #include "ast2.h"
 #include "list.h"
 #include "token_data.h"
-
+#include "test_tools.h"
 
 #include <stdbool.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 t_expr *expr_parser(t_void_list **data);
 t_expr *parse_assignment_operator(t_void_list **lst);
@@ -21,21 +22,21 @@ static bool is_assignment_operator(void *data)
 	t_token *token;
 
 	token = (t_token *) data;
-	if (token->token_type == e_token_type_operator)
+	if (token->token_type != e_token_type_operator)
 		return (false);
-	return (
-		token->contents.ope == e_operator_assignment || \
-		token->contents.ope == e_operator_add_assignment|| \
-		token->contents.ope == e_operator_sub_assignment|| \
-		token->contents.ope == e_operator_mul_assignment|| \
-		token->contents.ope == e_operator_div_assignment|| \
-		token->contents.ope == e_operator_bitshift_right_assignment|| \
-		token->contents.ope == e_operator_bitshift_left_assignment|| \
-		token->contents.ope == e_operator_and_assignment || \
-		token->contents.ope == e_operator_or_assignment || \
-		token->contents.ope == e_operator_not_assignment || \
-		token->contents.ope == e_operator_xor_assignment
-	);
+	else 
+		return
+			token->contents.ope == e_operator_assignment || \
+			token->contents.ope == e_operator_add_assignment|| \
+			token->contents.ope == e_operator_sub_assignment|| \
+			token->contents.ope == e_operator_mul_assignment|| \
+			token->contents.ope == e_operator_div_assignment|| \
+			token->contents.ope == e_operator_bitshift_right_assignment|| \
+			token->contents.ope == e_operator_bitshift_left_assignment|| \
+			token->contents.ope == e_operator_and_assignment || \
+			token->contents.ope == e_operator_or_assignment || \
+			token->contents.ope == e_operator_not_assignment || \
+			token->contents.ope == e_operator_xor_assignment;
 }
 
 static bool is_or_operator(void *data)
@@ -43,7 +44,7 @@ static bool is_or_operator(void *data)
 	t_token *token;
 
 	token = (t_token *) data;
-	if (token->token_type == e_token_type_operator)
+	if (token->token_type != e_token_type_operator)
 		return (false);
 	return (
 		token->contents.ope == e_operator_or
@@ -55,7 +56,7 @@ static bool is_and_operator(void *data)
 	t_token *token;
 
 	token = (t_token *) data;
-	if (token->token_type == e_token_type_operator)
+	if (token->token_type != e_token_type_operator)
 		return (false);
 	return (
 		token->contents.ope == e_operator_and
@@ -106,16 +107,42 @@ search_and_operator_index(
 }
 
 
+/* ============== for debug function ==============>>> */
+
+/// TODO 仮置きの関数
+t_expr *parse_ident_operator(t_void_list **lst)
+{
+	t_expr *expr;
+	t_anytype elem;
+
+	if (0 < void_list_len(*lst))
+	{
+		expr = (t_expr*) malloc(sizeof(t_token));
+		expr->type_of_expr = e_expr_token;
+		void_list_pop(lst, 0, &elem);
+		expr->contents.ident = elem.token;
+		return expr;
+	}
+	else
+	{
+		return (NULL);
+	}
+}
+
+
+/* ============== for debug function ==============<<< */
+
+
 t_expr *parse_and_operator(t_void_list **lst)
 {
 	t_expr *expr;
 	t_normal_expr *normal_expr;
 
-	int index = search_assignment_operator_index(*lst);
+	int index = search_and_operator_index(*lst);
 	if (index == -1)
 	{ 
 		// ビット論理和へ
-		return (NULL);
+		return (parse_ident_operator(lst));
 	}
 	else
 	{
@@ -125,14 +152,14 @@ t_expr *parse_and_operator(t_void_list **lst)
 
 		expr = malloc(sizeof(t_expr));
 		normal_expr = malloc(sizeof(t_normal_expr));
-		left_list = void_list_cut(lst, index);
+		left_list = void_list_cut(lst, index - 1);
 		void_list_pop(lst, 0, &ope_token);
 		right_list = *lst;
 
 		normal_expr->ope = ope_token.token->contents.ope;
 		free(ope_token.token);
-		normal_expr->left_expr = parse_or_operator(&left_list);
-		normal_expr->right_expr = parse_and_operator(&right_list);
+		normal_expr->left_expr = parse_and_operator(&left_list);
+		normal_expr->right_expr = parse_ident_operator(&right_list);
 
 		expr->type_of_expr = e_expr_normal;
 		expr->contents.normal = normal_expr;
@@ -145,7 +172,7 @@ t_expr *parse_or_operator(t_void_list **lst)
 	t_expr *expr;
 	t_normal_expr *normal_expr;
 
-	int index = search_assignment_operator_index(*lst);
+	int index = search_or_operator_index(*lst);
 	if (index == -1)
 	{ 
 		// 見つからなければandへ
@@ -159,7 +186,7 @@ t_expr *parse_or_operator(t_void_list **lst)
 
 		expr = malloc(sizeof(t_expr));
 		normal_expr = malloc(sizeof(t_normal_expr));
-		left_list = void_list_cut(lst, index);
+		left_list = void_list_cut(lst, index - 1);
 		void_list_pop(lst, 0, &ope_token);
 		right_list = *lst;
 
@@ -167,7 +194,6 @@ t_expr *parse_or_operator(t_void_list **lst)
 		free(ope_token.token);
 		normal_expr->left_expr = parse_or_operator(&left_list);
 		normal_expr->right_expr = parse_and_operator(&right_list);
-
 		expr->type_of_expr = e_expr_normal;
 		expr->contents.normal = normal_expr;
 		return (expr);
@@ -194,7 +220,7 @@ t_expr *parse_assignment_operator(t_void_list **lst)
 
 		expr = malloc(sizeof(t_expr));
 		normal_expr = malloc(sizeof(t_normal_expr));
-		left_list = void_list_cut(lst, index);
+		left_list = void_list_cut(lst, index - 1);
 		void_list_pop(lst, 0, &ope_token);
 		right_list = *lst;
 
@@ -208,8 +234,6 @@ t_expr *parse_assignment_operator(t_void_list **lst)
 		return (expr);
 	}
 }
-
-
 
 t_expr *expr_parser(t_void_list **data)
 {

@@ -7,7 +7,7 @@
 int
 print_depth(int depth)
 {
-	for (int i = 0; i < depth * 4; i++)
+	for (int i = 0; i < depth * 8; i++)
 	{
 		debug_dprintf(STDERR_FILENO, " ");
 	}
@@ -20,6 +20,12 @@ int print_expr_ast(t_expr *expr_ast, int depth)
 	char *token_type_str;
 	t_anytype elem;
 
+	if (expr_ast == NULL)
+	{
+		print_depth(depth);
+		debug_dprintf(STDERR_FILENO, "(NULL)\n");
+		return 0;
+	}
 	switch (expr_ast->type_of_expr) {
 		case e_expr_token:
 			elem.token = expr_ast->contents.ident;

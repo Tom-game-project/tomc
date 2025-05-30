@@ -3,13 +3,31 @@
 #include "parser.h"
 #include "tokenizer.h"
 
+#include "test_tools.h"
+
+#include <stdlib.h>
+#include <unistd.h>
+
+/// ```bash
+/// make test TEST_FILE=tests/parser/easy_parser_test00.c
+/// ```
 int main()
 {
-	char *str = "a = a && b || c";
+	char *str = "a = x && y || z";
 	t_token_list *tkn_lst;
 	t_expr *expr_ast;
 
+
+	debug_dprintf(STDERR_FILENO, "test case: \"%s\"\n", str);
 	tkn_lst = tokenizer(str);
-	ast = parse_assignment_operator(&tkn_lst);
+	print_token_list_ln(tkn_lst);
+	expr_ast = parse_assignment_operator(&tkn_lst);
+
+	if (expr_ast == NULL)
+	{
+		debug_dprintf(STDERR_FILENO, "something wrong with while parsing\n");
+		return 1;
+	}
+	print_expr_ast(expr_ast, 0);
 	return 0;
 }

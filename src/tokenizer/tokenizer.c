@@ -100,7 +100,7 @@ size_t match_operator_token(char *str, t_token_list **lst)
 		{{'^', '\0', '\0'},2, e_operator_logic_xor},
 		{{'!', '=', '\0'},2, e_operator_not_assignment},
 		{{'!', '\0', '\0'},1, e_operator_not},
-		{{'=', '=', '\0'},1, e_operator_eq},
+		{{'=', '=', '\0'},2, e_operator_eq},
 		{{'=', '\0', '\0'},1, e_operator_assignment},
 		{{',', '\0', '\0'},1, e_operator_comma},
 	};
