@@ -11,7 +11,6 @@
 int
 show_expr_ast_parsing_proc(char *str)
 {
-	// char *str = "a = x && y || z";
 	t_token_list *tkn_lst;
 	t_expr *expr_ast;
 
@@ -38,10 +37,23 @@ show_expr_ast_parsing_proc(char *str)
 /// ```
 int main()
 {
-	char *str = "a = x && y || z";
+	char *str_arr[10] = {
+		"a = x && y || z",
+		"a = b + c * d - 1",
+		"a = w << x | y << z",
+		"a = b",
+		"a = 0 <= x || x <= 10",
+		"a = x && y || z",
+		"a = x && y || z",
+		"a = x && y || z",
+		"a = x && y || z",
+		"a = x && y || z",
+	};
 
 
-	debug_dprintf(STDERR_FILENO, "===========================\n");
-	show_expr_ast_parsing_proc(str);
+	for (int i = 0; i < 5; i++){
+		debug_dprintf(STDERR_FILENO, "===========================\n");
+		show_expr_ast_parsing_proc(str_arr[i]);
+	}
 	return (0);
 }

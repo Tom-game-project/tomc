@@ -19,7 +19,6 @@ enum e_operator
 	e_operator_bitshift_left_assignment,
 	e_operator_and_assignment,
 	e_operator_or_assignment,
-	e_operator_not_assignment,
 	e_operator_xor_assignment,
 	e_operator_incr,
 	e_operator_decr,
@@ -42,6 +41,7 @@ enum e_operator
 	e_operator_lt,
 	e_operator_le,
 	e_operator_eq,
+	e_operator_ne,
 
 	e_operator_comma
 };

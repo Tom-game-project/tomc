@@ -36,7 +36,7 @@ char *print_operator_as_string(t_operator operator)
 			return "&=";
 		case e_operator_or_assignment:
 			return "|=";
-		case e_operator_not_assignment:
+		case e_operator_ne:
 			return "!=";
 		case e_operator_xor_assignment:
 			return "^=";
