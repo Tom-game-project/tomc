@@ -8,12 +8,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-/// ```bash
-/// make test TEST_FILE=tests/parser/easy_parser_test00.c
-/// ```
-int main()
+int
+show_expr_ast_parsing_proc(char *str)
 {
-	char *str = "a = x && y || z";
+	// char *str = "a = x && y || z";
 	t_token_list *tkn_lst;
 	t_expr *expr_ast;
 
@@ -30,4 +28,20 @@ int main()
 	}
 	print_expr_ast(expr_ast, 0);
 	return 0;
+
+}
+
+
+
+/// ```bash
+/// make test TEST_FILE=tests/parser/easy_parser_test00.c
+/// ```
+int main()
+{
+	char *str = "a = x && y || z";
+
+
+	debug_dprintf(STDERR_FILENO, "===========================\n");
+	show_expr_ast_parsing_proc(str);
+	return (0);
 }

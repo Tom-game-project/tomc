@@ -46,9 +46,8 @@ static bool is_or_operator(void *data)
 	token = (t_token *) data;
 	if (token->token_type != e_token_type_operator)
 		return (false);
-	return (
-		token->contents.ope == e_operator_or
-	);
+	else
+		return (token->contents.ope == e_operator_or);
 }
 
 static bool is_and_operator(void *data)
@@ -58,9 +57,8 @@ static bool is_and_operator(void *data)
 	token = (t_token *) data;
 	if (token->token_type != e_token_type_operator)
 		return (false);
-	return (
-		token->contents.ope == e_operator_and
-	);
+	else
+		return (token->contents.ope == e_operator_and);
 }
 
 /// return index of assignment operation
@@ -133,16 +131,21 @@ t_expr *parse_ident_operator(t_void_list **lst)
 /* ============== for debug function ==============<<< */
 
 
-t_expr *parse_and_operator(t_void_list **lst)
+t_expr *abstract_parse_operator( // 中置演算用
+	t_void_list **lst,
+	int (*search_func)(t_void_list *), /* seatch function */
+	t_expr *(*notfound_func)(t_void_list **),
+	t_expr *(*left_parse_func)(t_void_list **), /* */
+	t_expr *(*right_parse_func)(t_void_list **) /* */
+)
 {
 	t_expr *expr;
 	t_normal_expr *normal_expr;
 
-	int index = search_and_operator_index(*lst);
+	int index = search_func(*lst);
 	if (index == -1)
 	{ 
-		// ビット論理和へ
-		return (parse_ident_operator(lst));
+		return (notfound_func(lst));
 	}
 	else
 	{
@@ -158,86 +161,46 @@ t_expr *parse_and_operator(t_void_list **lst)
 
 		normal_expr->ope = ope_token.token->contents.ope;
 		free(ope_token.token);
-		normal_expr->left_expr = parse_and_operator(&left_list);
-		normal_expr->right_expr = parse_ident_operator(&right_list);
+		normal_expr->left_expr = left_parse_func(&left_list);
+		normal_expr->right_expr = right_parse_func(&right_list);
 
 		expr->type_of_expr = e_expr_normal;
 		expr->contents.normal = normal_expr;
-		return (expr);
+		return expr;
 	}
+}
+
+
+t_expr *parse_and_operator(t_void_list **lst)
+{
+	return abstract_parse_operator(
+		lst,
+		search_and_operator_index, 
+		parse_ident_operator,
+		parse_and_operator,
+		parse_ident_operator
+	);
 }
 
 t_expr *parse_or_operator(t_void_list **lst)
 {
-	t_expr *expr;
-	t_normal_expr *normal_expr;
-
-	int index = search_or_operator_index(*lst);
-	if (index == -1)
-	{ 
-		// 見つからなければandへ
-		return (parse_and_operator(lst));
-	}
-	else
-	{
-		t_void_list *left_list;
-		t_void_list *right_list;
-		t_anytype ope_token;
-
-		expr = malloc(sizeof(t_expr));
-		normal_expr = malloc(sizeof(t_normal_expr));
-		left_list = void_list_cut(lst, index - 1);
-		void_list_pop(lst, 0, &ope_token);
-		right_list = *lst;
-
-		normal_expr->ope = ope_token.token->contents.ope;
-		free(ope_token.token);
-		normal_expr->left_expr = parse_or_operator(&left_list);
-		normal_expr->right_expr = parse_and_operator(&right_list);
-		expr->type_of_expr = e_expr_normal;
-		expr->contents.normal = normal_expr;
-		return (expr);
-	}
-
+	return abstract_parse_operator(
+		lst,
+		search_or_operator_index,
+		parse_and_operator,
+		parse_or_operator,
+		parse_and_operator
+	);
 }
 
 t_expr *parse_assignment_operator(t_void_list **lst)
 {
-	t_expr *expr;
-	t_normal_expr *normal_expr;
-
-	int index = search_assignment_operator_index(*lst);
-	if (index == -1)
-	{ 
-		// orへ
-		return (parse_or_operator(lst));
-	}
-	else
-	{
-		t_void_list *left_list;
-		t_void_list *right_list;
-		t_anytype ope_token;
-
-		expr = malloc(sizeof(t_expr));
-		normal_expr = malloc(sizeof(t_normal_expr));
-		left_list = void_list_cut(lst, index - 1);
-		void_list_pop(lst, 0, &ope_token);
-		right_list = *lst;
-
-		normal_expr->ope = ope_token.token->contents.ope;
-		free(ope_token.token);
-		normal_expr->left_expr = parse_assignment_operator(&left_list); // TODO 左側は見直す必要が在る
-		normal_expr->right_expr = parse_assignment_operator(&right_list);
-
-		expr->type_of_expr = e_expr_normal;
-		expr->contents.normal = normal_expr;
-		return (expr);
-	}
-}
-
-t_expr *expr_parser(t_void_list **data)
-{
-	(void) data;
-	return (NULL);
+	return abstract_parse_operator(
+		lst,
+		search_assignment_operator_index,
+		parse_or_operator,
+		parse_assignment_operator, // TODO 左側は見直す必要あり
+		parse_assignment_operator
+	);
 }
 
