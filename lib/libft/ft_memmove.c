@@ -23,13 +23,15 @@ void	*ft_memmove(void *dst, const void *src, size_t n)
 	c = 0;
 	if (dst == NULL && src == NULL)
 		return (dst);
-	while (c < n)
+	if (src < dst)
 	{
-		if (src < dst)
+		while (c < n)
+		{
 			d[n - c - 1] = s[n - c - 1];
-		else
-			d[c] = s[c];
-		c++;
+			c++;
+		}
+		return (dst);
 	}
-	return (dst);
+	else
+		return (memcpy(dst, src, n));
 }

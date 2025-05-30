@@ -28,4 +28,13 @@ int	debug_getppid(void);
 
 int print_token_list_ln(t_token_list *token_list);
 
+char *print_operator_as_string(t_operator operator);
+
+void get_token_str(t_anytype token, 
+	char **contents_str,
+	char **token_type_str
+);
+
+#include "ast2.h"
+int print_expr_ast(t_expr *expr_ast, int depth);
 #endif

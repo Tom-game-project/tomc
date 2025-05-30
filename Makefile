@@ -98,12 +98,19 @@ LIST_LIST = \
 
 TEST_TOOLS_SRC = \
 		src/test_tools/print_token_list.c\
-		src/test_tools/print.c
+		src/test_tools/print.c\
+		src/test_tools/print_ast.c\
+
 
 
 TOKENIZER_SRC = \
 		src/tokenizer/init_token.c\
 		src/tokenizer/tokenizer.c\
+
+
+PARSER_SRC = \
+		src/parser/parser.c\
+
 
 
 BRACKETS_SRC = \
@@ -121,6 +128,7 @@ SRC = \
       $(LIST_SRC)\
       $(TEST_TOOLS_SRC)\
       $(TOKENIZER_SRC)\
+      $(PARSER_SRC)\
       $(BRACKETS_SRC)
 
 

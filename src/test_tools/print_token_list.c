@@ -83,6 +83,79 @@ char *print_operator_as_string(t_operator operator)
 	}
 }
 
+void get_token_str(t_anytype token, 
+	char **contents_str,
+	char **token_type_str
+)
+{
+	switch (token.token->token_type)
+	{
+		case e_token_type_operator:
+			*contents_str = print_operator_as_string(token.token->contents.ope);
+			*token_type_str = "operator ";
+			break;
+		case e_token_type_word:
+			*contents_str = token.token->contents.str;
+			*token_type_str = "word     ";
+			break;
+		case e_token_type_open_brace:
+			*contents_str = "{";
+			*token_type_str = "o_brace  ";
+			break;
+		case e_token_type_close_brace:
+			*contents_str = "}";
+			*token_type_str = "c_brace  ";
+			break;
+		case e_token_type_open_paren:
+			*contents_str = "(";
+			*token_type_str = "o_paren  ";
+			break;
+		case e_token_type_close_paren:
+			*contents_str = ")";
+			*token_type_str = "c_paren  ";
+			break;
+		case e_token_type_open_bracket:
+			*contents_str = "[";
+			*token_type_str = "o_bracket";
+			break;
+		case e_token_type_close_bracket:
+			*contents_str = "]";
+			*token_type_str = "c_bracket";
+			break;
+		case e_token_type_comment:
+			*contents_str = token.token->contents.str;
+			*token_type_str = "comment  ";
+			break;
+		case e_token_type_string:
+			*contents_str = token.token->contents.str;
+			*token_type_str = "string   ";
+			break;
+		case e_token_type_colon:
+			*contents_str = ":";
+			*token_type_str = "colon    ";
+			break;
+		case e_token_type_semi_colon:
+			*contents_str = ";";
+			*token_type_str = "semicolon";
+			break;
+		case e_token_type_paren:
+			*contents_str = "list - list - list ...";
+			*token_type_str = "paren    ";
+			break;
+		case e_token_type_brace:
+			*contents_str = "list - list - list ...";
+			*token_type_str = "brace    ";
+			break;
+		case e_token_type_bracket:
+			*contents_str = "list - list - list ...";
+			*token_type_str = "bracket  ";
+			break;
+		default:
+			break;
+	}
+}
+
+
 static int print_token(int index, t_anytype token)
 {
 	char *contents_str;
@@ -90,71 +163,8 @@ static int print_token(int index, t_anytype token)
 
 	contents_str = NULL;
 	token_type_str = NULL;
-	switch (token.token->token_type)
-	{
-		case e_token_type_operator:
-			contents_str = print_operator_as_string(token.token->contents.ope);
-			token_type_str = "operator ";
-			break;
-		case e_token_type_word:
-			contents_str = token.token->contents.str;
-			token_type_str = "word     ";
-			break;
-		case e_token_type_open_brace:
-			contents_str = "{";
-			token_type_str = "o_brace  ";
-			break;
-		case e_token_type_close_brace:
-			contents_str = "}";
-			token_type_str = "c_brace  ";
-			break;
-		case e_token_type_open_paren:
-			contents_str = "(";
-			token_type_str = "o_paren  ";
-			break;
-		case e_token_type_close_paren:
-			contents_str = ")";
-			token_type_str = "c_paren  ";
-			break;
-		case e_token_type_open_bracket:
-			contents_str = "[";
-			token_type_str = "o_bracket";
-			break;
-		case e_token_type_close_bracket:
-			contents_str = "]";
-			token_type_str = "c_bracket";
-			break;
-		case e_token_type_comment:
-			contents_str = token.token->contents.str;
-			token_type_str = "comment  ";
-			break;
-		case e_token_type_string:
-			contents_str = token.token->contents.str;
-			token_type_str = "string   ";
-			break;
-		case e_token_type_colon:
-			contents_str = ":";
-			token_type_str = "colon    ";
-			break;
-		case e_token_type_semi_colon:
-			contents_str = ";";
-			token_type_str = "semicolon";
-			break;
-		case e_token_type_paren:
-			contents_str = "list - list - list ...";
-			token_type_str = "paren    ";
-			break;
-		case e_token_type_brace:
-			contents_str = "list - list - list ...";
-			token_type_str = "brace    ";
-			break;
-		case e_token_type_bracket:
-			contents_str = "list - list - list ...";
-			token_type_str = "bracket  ";
-			break;
-		default:
-			break;
-	}
+
+	get_token_str(token, &contents_str, &token_type_str);
 	// トークン自体の表示も
 	debug_dprintf(
 		STDERR_FILENO, 

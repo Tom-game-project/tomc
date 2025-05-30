@@ -50,7 +50,8 @@
 ///
 /// ```
 
-
+#include "list.h"
+#include "ast2.h"
 
 //<constant> ::= <integer_constant>
 //             | <character_constant>
@@ -95,5 +96,12 @@ struct s_expression
 	t_expression *expression;
 	t_assignment_expression *assignment_expression;
 };
+
+
+
+
+
+
+t_expr *parse_assignment_operator(t_void_list **lst);
 
 #endif

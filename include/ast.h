@@ -752,10 +752,10 @@ struct s_postfix_expression {
 
 struct s_primary_expression {
     enum {
-        e_primary_expression_case_0,
-        e_primary_expression_case_1,
-        e_primary_expression_case_2,
-        e_primary_expression_case_3
+        e_primary_expression_ident,
+        e_primary_expression_constant,
+        e_primary_expression_string,
+        e_primary_expression_expr
     } type_of_contents;
 
     union {
@@ -768,7 +768,6 @@ struct s_primary_expression {
                 struct s_expression * expression;
                 // ")" TODO
         } case_3;
-
     } contents;
 
 } ;
@@ -821,7 +820,11 @@ struct s_assignment_expression {
     union {
         struct s_conditional_expression * conditional_expression;
         
-        struct  {
+        struct  { // example 
+		  // ```c
+		  //
+		  // *a = 1 + 3;
+		  // ```
                 struct s_unary_expression * unary_expression;
                 struct s_assignment_operator * assignment_operator;
                 struct s_assignment_expression * assignment_expression;
@@ -1409,12 +1412,12 @@ struct s_jump_statement {
 
 
 struct s_identifier {
-	char *str;
+	t_token *token;
 } ;
 
 
 struct s_string {
-	char *str;
+	t_token *token;
 } ;
 
 
