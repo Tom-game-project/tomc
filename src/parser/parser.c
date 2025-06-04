@@ -14,7 +14,7 @@ t_expr *parse_and_operator(t_void_list **lst);
 t_expr *abstract_parse_operator( // 中置演算用
 	t_void_list **lst,
 	int (*search_func)(t_void_list *), /* seatch function */
-	t_expr *(*notfound_func)(t_void_list **),
+	t_expr *(*notfound_func)(t_void_list **), /* もし何も見つからなかった場合の関数 */
 	t_expr *(*left_parse_func)(t_void_list **), /* */
 	t_expr *(*right_parse_func)(t_void_list **) /* */
 );
@@ -170,8 +170,45 @@ static bool is_multiplicative_operator(void *data)
 			token->contents.ope == e_operator_mod;
 }
 
-/* ===================================================== */
+static bool is_cast_operator(void *data)
+{
+	t_token *token;
 
+	token = (t_token *) data;
+	return (token->token_type == e_token_type_paren);
+}
+
+static bool is_pre_incr_decr_operator(void *data)
+{
+	t_token *token;
+
+	token = (t_token *) data;
+	if (token->token_type != e_token_type_operator)
+		return (false);
+	else
+		return
+			token->contents.ope == e_operator_incr || \
+			token->contents.ope == e_operator_decr;
+}
+
+static bool is_unary_operator(void *data)
+{
+	t_token *token;
+
+	token = (t_token *) data;
+	if (token->token_type != e_token_type_operator)
+		return (false);
+	else
+		return
+			token->contents.ope == e_operator_addr ||
+			token->contents.ope == e_operator_mul ||
+			token->contents.ope == e_operator_add ||
+			token->contents.ope == e_operator_sub ||
+			token->contents.ope == e_operator_not; // TODO
+							       // 演算子を網羅しきれていない
+}
+
+/* ===================================================== */
 
 /// 右優先
 static int 
@@ -179,7 +216,7 @@ search_assignment_operator_index(
 	t_void_list *lst /* token list */
 )
 {
-	return (void_list_search_index(lst, resolve_anytype, is_assignment_operator));
+	return void_list_search_index(lst, resolve_anytype, is_assignment_operator);
 }
 
 static int
@@ -187,7 +224,7 @@ search_or_operator_index(
 	t_void_list *lst /* token list */
 )
 {
-	return (void_list_search_index_r(lst, resolve_anytype, is_or_operator));
+	return void_list_search_index_r(lst, resolve_anytype, is_or_operator);
 }
 
 static int
@@ -195,7 +232,7 @@ search_and_operator_index(
 	t_void_list *lst /* token list */
 )
 {
-	return (void_list_search_index_r(lst, resolve_anytype, is_and_operator));
+	return void_list_search_index_r(lst, resolve_anytype, is_and_operator);
 }
 
 
@@ -203,57 +240,82 @@ static int search_inclusive_or_operator_index(
 	t_void_list *lst /* token list */
 )
 {
-	return (void_list_search_index_r(lst, resolve_anytype, is_inclusive_or_operator));
+	return void_list_search_index_r(lst, resolve_anytype, is_inclusive_or_operator);
 }
 
 static int search_exclusive_or_operator_index(
 	t_void_list *lst /* token list */
 )
 {
-	return (void_list_search_index_r(lst, resolve_anytype, is_exclusive_or_operator));
+	return void_list_search_index_r(lst, resolve_anytype, is_exclusive_or_operator);
 }
 
 static int search_logical_and_operator_index(
 	t_void_list *lst /* token list */
 )
 {
-	return (void_list_search_index_r(lst, resolve_anytype, is_logical_and_operator));
+	return void_list_search_index_r(lst, resolve_anytype, is_logical_and_operator);
 }
 
 static int search_equality_index(
 	t_void_list *lst /* token list */
 )
 {
-	return (void_list_search_index_r(lst, resolve_anytype, is_equality_operator));
+	return void_list_search_index_r(lst, resolve_anytype, is_equality_operator);
 }
 
 static int search_relational_index(
 	t_void_list *lst /* token list */
 )
 {
-	return (void_list_search_index_r(lst, resolve_anytype, is_relational_operator));
+	return void_list_search_index_r(lst, resolve_anytype, is_relational_operator);
 }
 
 static int search_shift_index(
 	t_void_list *lst /* token list */
 )
 {
-	return (void_list_search_index_r(lst, resolve_anytype, is_shift_operator));
+	return void_list_search_index_r(lst, resolve_anytype, is_shift_operator);
 }
 
 static int search_additive_index(
 	t_void_list *lst /* token list */
 )
 {
-	return (void_list_search_index_r(lst, resolve_anytype, is_additive_operator));
+	return void_list_search_index_r(lst, resolve_anytype, is_additive_operator);
 }
 
 static int search_multiplicative_index(
 	t_void_list *lst /* token list */
 )
 {
-	return (void_list_search_index_r(lst, resolve_anytype, is_multiplicative_operator));
+	return void_list_search_index_r(lst, resolve_anytype, is_multiplicative_operator);
 }
+
+/// 右優先
+static int search_cast_index(
+	t_void_list *lst /* token list */
+)
+{
+	return void_list_search_index(lst, resolve_anytype, is_cast_operator);
+}
+
+/// 前置`++` `--`を先頭に見つけたとき
+static bool has_pre_incr_decr(
+	t_void_list *lst /* token list */
+)
+{
+	return  void_list_search_index(lst, resolve_anytype, is_pre_incr_decr_operator) == 0;
+}
+
+/// `cast operation`を先頭に見つけたとき
+static bool has_unary_operator(
+	t_void_list *lst /* token list */
+)
+{
+	return  void_list_search_index(lst, resolve_anytype, is_unary_operator) == 0;
+}
+
 /* ============== for debug function ==============>>> */
 
 /// TODO 仮置きの関数
@@ -272,12 +334,74 @@ t_expr *parse_ident_operator(t_void_list **lst)
 	}
 	else
 	{
-		return (NULL);
+		return NULL;
 	}
 }
 
 /* ============== for debug function ==============<<< */
 
+/// ```bnf
+/// <unary_expression> ::= <postfix_expression>
+///                      | ++ <unary_expression>
+///                      | -- <unary_expression>
+///                      | <unary_operator> <cast_expression>
+///                      | sizeof <unary_expression>
+///                      | sizeof <type_name>
+///
+/// <unary_operator> ::= &
+///                    | *
+///                    | +
+///                    | -
+///                    | ~
+///                    | !
+///  
+/// ```
+///
+/// 問題になりがちなのは、`cast_expression` とりあえずここを飛ばして実装する
+t_expr *parse_unary_expression(t_void_list **lst)
+{
+	// pre incr decr
+	// ここに入り見つかった時点で先頭になければいけない
+	if (has_pre_incr_decr(*lst))
+	{
+		t_unary_expr *unary_expr;
+		t_expr *expr;
+
+		unary_expr = (t_unary_expr *)malloc(sizeof(t_unary_expr));
+		expr = (t_expr *)malloc(sizeof(t_expr));
+		expr->type_of_expr = e_expr_unary;
+		expr->contents.unary = unary_expr;
+
+		return expr;
+	}
+	else if (has_unary_operator(*lst)) // normal unary_operator 
+	{
+		//
+	}
+	// sizeof
+	
+	// unaryとして解釈される文法構造が見つからなかった場合
+	return (NULL);
+}
+
+/// TODO: キャスト変換は一旦飛ばして実装を進める
+/// ```bnf
+/// <cast_expression> ::= <unary_expression>
+///                     | ( <type_name> ) <cast_expression>
+/// ```
+t_expr *parse_cast_expression(t_void_list **lst)
+{
+	int index = search_cast_index(*lst);
+	if (index == 0) // 一番最初にみつかったら
+	{
+		return NULL; // TODO タイプのパースは後で実装する
+	}
+	else
+	{
+
+		return NULL;
+	}
+}
 
 /// ```bnf
 /// <multiplicative_expression> ::= <cast_expression>
@@ -451,7 +575,6 @@ t_expr *parse_assignment_operator(t_void_list **lst)
 		parse_assignment_operator
 	);
 }
-
 
 /// 中置演算解釈の抽象的な形
 t_expr *abstract_parse_operator( // 中置演算用
