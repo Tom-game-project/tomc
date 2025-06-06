@@ -45,13 +45,13 @@ int main()
 		"a = 0 <= x || x <= 10",
 		"a = w + x + y +z",
 		"a = x * y * z * w",
-		"a = x && y || z",
-		"a = x && y || z",
+		"p = ***a",
+		"a = ++b",
 		"a = x && y || z",
 	};
 
 
-	for (int i = 0; i < 7; i++){
+	for (int i = 0; i < 10; i++){
 		debug_dprintf(STDERR_FILENO, "===========================\n");
 		show_expr_ast_parsing_proc(str_arr[i]);
 	}

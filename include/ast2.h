@@ -1,7 +1,6 @@
 #ifndef AST2_H
 #define AST2_H
 
-
 #include "token_data.h"
 typedef struct s_ast t_ast;
 
@@ -54,8 +53,7 @@ struct s_postfix_expr
 // NULL or otherwise 
 struct s_cast_expr 
 {
-	// TODO: とりあえずは実装を伴わない
-	// 内部構造は保留
+	t_expr *type_expr; // TODO: タイプを格納する予定
 	t_expr *inner_expr;
 };
 

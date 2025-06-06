@@ -31,10 +31,14 @@ int print_expr_ast(t_expr *expr_ast, int depth)
 			elem.token = expr_ast->contents.ident;
 			get_token_str(elem, &contents_str, &token_type_str);
 			print_depth(depth);
+			debug_dprintf(STDERR_FILENO, "<e_expr_token>\n");
+			print_depth(depth);
 			debug_dprintf(STDERR_FILENO, "[%s] [%s]\n", token_type_str, contents_str);
 			break;
 		case e_expr_normal:
 			// normal
+			print_depth(depth);
+			debug_dprintf(STDERR_FILENO, "<e_expr_normal>\n");
 			print_depth(depth);
 			debug_dprintf(STDERR_FILENO, ".operator = \"%s\"\n", print_operator_as_string(expr_ast->contents.normal->ope));
 			print_depth(depth);
@@ -46,13 +50,25 @@ int print_expr_ast(t_expr *expr_ast, int depth)
 			break;
 		case e_expr_unary:
 			print_depth(depth);
-			debug_dprintf(STDERR_FILENO, "operator, %s\n", print_operator_as_string(expr_ast->contents.unary->ope));
+			debug_dprintf(STDERR_FILENO, "<e_expr_unary>\n");
+			print_depth(depth);
+			debug_dprintf(STDERR_FILENO, "operator = \"%s\"\n", print_operator_as_string(expr_ast->contents.unary->ope));
 			print_expr_ast(expr_ast->contents.unary->right_expr, depth + 1);
 			break;
 		case e_expr_postfix:
 			print_depth(depth);
-			debug_dprintf(STDERR_FILENO, "operator, %s\n", print_operator_as_string(expr_ast->contents.postfix->ope));
+			debug_dprintf(STDERR_FILENO, "<e_expr_postfix>\n");
+			print_depth(depth);
+			debug_dprintf(STDERR_FILENO, "operator = \"%s\"\n", print_operator_as_string(expr_ast->contents.postfix->ope));
 			print_expr_ast(expr_ast->contents.postfix->left_expr, depth + 1);
+			break;
+		case e_expr_cast:
+			print_depth(depth);
+			debug_dprintf(STDERR_FILENO, "<e_expr_cast>\n");
+			print_depth(depth);
+			debug_dprintf(STDERR_FILENO, "cast\n");
+			// TODO: cast typeを表示する部分も作成する
+			print_expr_ast(expr_ast->contents.cast->inner_expr, depth + 1);
 			break;
 	}
 	return 0;

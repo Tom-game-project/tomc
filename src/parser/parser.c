@@ -11,6 +11,9 @@ t_expr *expr_parser(t_void_list **data);
 t_expr *parse_assignment_operator(t_void_list **lst);
 t_expr *parse_or_operator(t_void_list **lst);
 t_expr *parse_and_operator(t_void_list **lst);
+
+t_expr *parse_cast_expression(t_void_list **lst);
+
 t_expr *abstract_parse_operator( // 中置演算用
 	t_void_list **lst,
 	int (*search_func)(t_void_list *), /* seatch function */
@@ -361,27 +364,44 @@ t_expr *parse_ident_operator(t_void_list **lst)
 t_expr *parse_unary_expression(t_void_list **lst)
 {
 	// pre incr decr
-	// ここに入り見つかった時点で先頭になければいけない
-	if (has_pre_incr_decr(*lst))
+	if (has_pre_incr_decr(*lst)) // 先頭が`++` `--`だった場合
+					  //
 	{
 		t_unary_expr *unary_expr;
 		t_expr *expr;
+		t_anytype ope_token;
 
 		unary_expr = (t_unary_expr *)malloc(sizeof(t_unary_expr));
 		expr = (t_expr *)malloc(sizeof(t_expr));
 		expr->type_of_expr = e_expr_unary;
+		void_list_pop(lst, 0, &ope_token);
+		unary_expr->ope = ope_token.token->contents.ope;
+		unary_expr->right_expr = parse_unary_expression(lst);
+		free(ope_token.token);
 		expr->contents.unary = unary_expr;
-
 		return expr;
 	}
 	else if (has_unary_operator(*lst)) // normal unary_operator 
 	{
-		//
+		t_unary_expr *unary_expr;
+		t_expr *expr;
+		t_anytype ope_token;
+
+		unary_expr = (t_unary_expr *)malloc(sizeof(t_unary_expr));
+		expr = (t_expr *)malloc(sizeof(t_expr));
+		expr->type_of_expr = e_expr_unary;
+		void_list_pop(lst, 0, &ope_token);
+		unary_expr->ope = ope_token.token->contents.ope;
+		unary_expr->right_expr = parse_cast_expression(lst);
+		free(ope_token.token);
+		expr->contents.unary = unary_expr;
+		return expr;
 	}
-	// sizeof
-	
+	// TODO :sizeof
+
 	// unaryとして解釈される文法構造が見つからなかった場合
-	return (NULL);
+	// postfix_expressionの処理に移る
+	return parse_ident_operator(lst);
 }
 
 /// TODO: キャスト変換は一旦飛ばして実装を進める
@@ -392,14 +412,17 @@ t_expr *parse_unary_expression(t_void_list **lst)
 t_expr *parse_cast_expression(t_void_list **lst)
 {
 	int index = search_cast_index(*lst);
+
 	if (index == 0) // 一番最初にみつかったら
 	{
 		return NULL; // TODO タイプのパースは後で実装する
 	}
 	else
 	{
+		t_expr *expr;
 
-		return NULL;
+		expr = parse_unary_expression(lst);
+		return expr;
 	}
 }
 
@@ -414,9 +437,9 @@ t_expr *parse_multiplicative_operator(t_void_list **lst)
 	return abstract_parse_operator(
 		lst,
 		search_multiplicative_index,
-		parse_ident_operator,
+		parse_cast_expression,
 		parse_multiplicative_operator,
-		parse_ident_operator
+		parse_cast_expression
 	);
 }
 
@@ -589,9 +612,15 @@ t_expr *abstract_parse_operator( // 中置演算用
 	t_normal_expr *normal_expr;
 
 	int index = search_func(*lst);
-	if (index == -1)
-	{ 
-		return (notfound_func(lst));
+	if (index == -1 || index == 0)
+	{
+		return notfound_func(lst);
+	}
+	else if (
+		void_list_get_elem(*lst, index - 1)->ptr.token->token_type == e_token_type_operator)
+		//(void_list_get_elem(*lst, index - 1))
+	{
+		return notfound_func(lst);
 	}
 	else
 	{
@@ -606,6 +635,10 @@ t_expr *abstract_parse_operator( // 中置演算用
 		right_list = *lst;
 
 		normal_expr->ope = ope_token.token->contents.ope;
+		//if (normal_expr->ope == e_operator_mul)
+		//{
+		//	debug_dprintf(STDERR_FILENO, "helloooo::log (index) %d \n", index);
+		//}
 		free(ope_token.token);
 		normal_expr->left_expr = left_parse_func(&left_list);
 		normal_expr->right_expr = right_parse_func(&right_list);
