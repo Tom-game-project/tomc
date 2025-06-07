@@ -92,17 +92,15 @@ static bool is_exclusive_or_operator(void *data)
 		return (token->contents.ope == e_operator_logic_xor); // "^"
 }
 
-static bool is_logical_and_operator(void *data)
+static bool is_logical_and_operator(
+	t_token *token
+)
 {
-	t_token *token;
-
-	token = (t_token *) data;
 	if (token->token_type != e_token_type_operator)
 		return (false);
 	else
 		return (token->contents.ope == e_operator_logic_and); // "&"
 }
-
 
 static bool is_equality_operator(void *data)
 {
@@ -145,11 +143,10 @@ static bool is_shift_operator(void *data)
 }
 
 
-static bool is_additive_operator(void *data)
+static bool is_additive_operator(
+	t_token *token
+)
 {
-	t_token *token;
-
-	token = (t_token *) data;
 	if (token->token_type != e_token_type_operator)
 		return (false);
 	else
@@ -159,11 +156,8 @@ static bool is_additive_operator(void *data)
 }
 
 
-static bool is_multiplicative_operator(void *data)
+static bool is_multiplicative_operator(t_token *token)
 {
-	t_token *token;
-
-	token = (t_token *) data;
 	if (token->token_type != e_token_type_operator)
 		return (false);
 	else
@@ -213,6 +207,58 @@ static bool is_unary_operator(void *data)
 
 /* ===================================================== */
 
+int search_middle_operation_index(t_void_list *node, bool (*f)(t_token *))
+{
+	int i;
+	t_void_list *pre_node;
+
+	i = 0;
+	pre_node = NULL;
+	while (node != NULL)
+	{
+		if (f(node->ptr.token))
+		{
+			if (pre_node == NULL)
+			{
+			}
+			if (pre_node->ptr.token->token_type != e_token_type_operator)
+				return i;
+		}
+		pre_node = node;
+		node = node->next;
+		i += 1;
+	}
+	return -1;
+}
+
+
+int search_middle_operation_index_r(t_void_list *node, bool (*f)(t_token *))
+{
+	int	i;
+	int	rindex;
+	t_void_list *pre_node;
+
+	i = 0;
+	rindex = -1;
+	pre_node = NULL;
+	while (node != NULL)
+	{
+		if (f(node->ptr.token))
+		{
+			if (pre_node == NULL)
+			{
+			}
+			else if (pre_node->ptr.token->token_type != e_token_type_operator)
+				rindex = i;
+		}
+		pre_node = node;
+		node = node->next;
+		i += 1;
+	}
+	return rindex;
+}
+
+
 /// 右優先
 static int 
 search_assignment_operator_index(
@@ -257,7 +303,7 @@ static int search_logical_and_operator_index(
 	t_void_list *lst /* token list */
 )
 {
-	return void_list_search_index_r(lst, resolve_anytype, is_logical_and_operator);
+	return search_middle_operation_index_r(lst, is_logical_and_operator);
 }
 
 static int search_equality_index(
@@ -281,18 +327,19 @@ static int search_shift_index(
 	return void_list_search_index_r(lst, resolve_anytype, is_shift_operator);
 }
 
+// 本関数は、
 static int search_additive_index(
 	t_void_list *lst /* token list */
 )
 {
-	return void_list_search_index_r(lst, resolve_anytype, is_additive_operator);
+	return search_middle_operation_index_r(lst, is_additive_operator);
 }
 
 static int search_multiplicative_index(
 	t_void_list *lst /* token list */
 )
 {
-	return void_list_search_index_r(lst, resolve_anytype, is_multiplicative_operator);
+	return (search_middle_operation_index_r(lst, is_multiplicative_operator));
 }
 
 /// 右優先
@@ -365,7 +412,6 @@ t_expr *parse_unary_expression(t_void_list **lst)
 {
 	// pre incr decr
 	if (has_pre_incr_decr(*lst)) // 先頭が`++` `--`だった場合
-					  //
 	{
 		t_unary_expr *unary_expr;
 		t_expr *expr;
@@ -612,13 +658,7 @@ t_expr *abstract_parse_operator( // 中置演算用
 	t_normal_expr *normal_expr;
 
 	int index = search_func(*lst);
-	if (index == -1 || index == 0)
-	{
-		return notfound_func(lst);
-	}
-	else if (
-		void_list_get_elem(*lst, index - 1)->ptr.token->token_type == e_token_type_operator)
-		//(void_list_get_elem(*lst, index - 1))
+	if (index == -1)
 	{
 		return notfound_func(lst);
 	}
