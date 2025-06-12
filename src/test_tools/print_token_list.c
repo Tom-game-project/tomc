@@ -78,6 +78,8 @@ char *print_operator_as_string(t_operator operator)
 			return "==";
 		case e_operator_comma:
 			return ",";
+		case e_operator_dot:
+			return ".";
 		default:
 			return NULL;
 	}

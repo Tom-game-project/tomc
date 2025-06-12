@@ -103,9 +103,10 @@ size_t match_operator_token(char *str, t_token_list **lst)
 		{{'=', '=', '\0'},2, e_operator_eq},
 		{{'=', '\0', '\0'},1, e_operator_assignment},
 		{{',', '\0', '\0'},1, e_operator_comma},
+		{{'.', '\0', '\0'},1, e_operator_dot},
 	};
 
-	for (int i = 0; i < 32; i++)
+	for (int i = 0; i < 33; i++)
 	{
 		if (
 			ft_strncmp(str, str_operator_conv_table[i].buf, str_operator_conv_table[i].size) == 0

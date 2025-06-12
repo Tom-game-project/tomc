@@ -1,7 +1,6 @@
 #include "ast2.h"
 #include "list.h"
 #include "token_data.h"
-#include "test_tools.h"
 
 #include <stdbool.h>
 #include <stdlib.h>
@@ -194,7 +193,7 @@ static bool is_unary_operator(void *data)
 
 	token = (t_token *) data;
 	if (token->token_type != e_token_type_operator)
-		return (false);
+		return false;
 	else
 		return
 			token->contents.ope == e_operator_addr ||
@@ -205,9 +204,25 @@ static bool is_unary_operator(void *data)
 							       // 演算子を網羅しきれていない
 }
 
+
+static bool is_postfix_operator(t_token *token)
+{
+
+	if (token->token_type == e_token_type_brace || token->token_type == e_token_type_bracket)
+		return true;
+	else if (token->token_type == e_token_type_operator)
+		return 
+			token->contents.ope == e_operator_arrow || 
+			token->contents.ope == e_operator_dot ||
+			token->contents.ope == e_operator_incr || 
+			token->contents.ope == e_operator_decr;
+	else
+		return false;
+}
+
 /* ===================================================== */
 
-int search_middle_operation_index(t_void_list *node, bool (*f)(t_token *))
+int search_context_operation_index(t_void_list *node, bool (*f)(t_token *))
 {
 	int i;
 	t_void_list *pre_node;
@@ -231,8 +246,7 @@ int search_middle_operation_index(t_void_list *node, bool (*f)(t_token *))
 	return -1;
 }
 
-
-int search_middle_operation_index_r(t_void_list *node, bool (*f)(t_token *))
+int search_context_operation_index_r(t_void_list *node, bool (*f)(t_token *))
 {
 	int	i;
 	int	rindex;
@@ -257,7 +271,6 @@ int search_middle_operation_index_r(t_void_list *node, bool (*f)(t_token *))
 	}
 	return rindex;
 }
-
 
 /// 右優先
 static int 
@@ -303,7 +316,7 @@ static int search_logical_and_operator_index(
 	t_void_list *lst /* token list */
 )
 {
-	return search_middle_operation_index_r(lst, is_logical_and_operator);
+	return search_context_operation_index_r(lst, is_logical_and_operator);
 }
 
 static int search_equality_index(
@@ -332,14 +345,14 @@ static int search_additive_index(
 	t_void_list *lst /* token list */
 )
 {
-	return search_middle_operation_index_r(lst, is_additive_operator);
+	return search_context_operation_index_r(lst, is_additive_operator);
 }
 
 static int search_multiplicative_index(
 	t_void_list *lst /* token list */
 )
 {
-	return (search_middle_operation_index_r(lst, is_multiplicative_operator));
+	return (search_context_operation_index_r(lst, is_multiplicative_operator));
 }
 
 /// 右優先
@@ -366,6 +379,11 @@ static bool has_unary_operator(
 	return  void_list_search_index(lst, resolve_anytype, is_unary_operator) == 0;
 }
 
+static bool search_postfix_operator(t_void_list *lst)
+{
+	return (search_context_operation_index_r(lst, is_postfix_operator));
+}
+
 /* ============== for debug function ==============>>> */
 
 /// TODO 仮置きの関数
@@ -389,6 +407,69 @@ t_expr *parse_ident_operator(t_void_list **lst)
 }
 
 /* ============== for debug function ==============<<< */
+
+/// 
+/// ```bnf
+/// <postfix_expression> ::= <primary_expression>
+///                        | <postfix_expression> [ <expression> ]
+///                        | <postfix_expression> ( {<assignment_expression>}* )      // 関数
+///                        | <postfix_expression> . <identifier>
+///                        | <postfix_expression> -> <identifier>
+///                        | <postfix_expression> ++
+///                        | <postfix_expression> --
+/// ```
+/// 
+t_expr *parse_postfix_expression(t_void_list **lst)
+{
+	int index;
+
+
+	index = search_postfix_operator(*lst);
+	if (index != -1) //postfix として解釈できる演算子が見つかった
+	{
+		t_anytype ope_token;
+
+		void_list_pop(lst, index, &ope_token);
+		if (ope_token.token->token_type == e_token_type_brace)
+		{
+			// 関数呼び出しなど
+		}
+		else if (ope_token.token->token_type == e_token_type_bracket)
+		{
+			// 配列アクセスなど
+		}
+		else if (ope_token.token->token_type == e_token_type_operator)
+		{
+			// 構造体アクセスなど
+		}
+		else if (ope_token.token->token_type == e_token_type_operator)
+		{
+			// 後置インクリメント、デクリメント
+			if (ope_token.token->contents.ope == e_operator_incr)
+			{
+				//
+			}
+			else if (ope_token.token->contents.ope == e_operator_decr)
+			{
+			}
+			else 
+			{
+				// unreachable
+				// error 
+			}
+		}
+		else 
+		{
+			// unreachable
+			// error 
+		}
+	}
+	else
+	{
+		// primary_expression
+	}
+	return NULL;
+}
 
 /// ```bnf
 /// <unary_expression> ::= <postfix_expression>

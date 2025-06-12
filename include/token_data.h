@@ -43,7 +43,8 @@ enum e_operator
 	e_operator_eq,
 	e_operator_ne,
 
-	e_operator_comma
+	e_operator_comma,
+	e_operator_dot
 };
 
 typedef enum e_operator t_operator;
