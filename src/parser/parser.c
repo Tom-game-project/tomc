@@ -808,17 +808,15 @@ t_expr *parse_assignment_operator(t_void_list **lst)
 		lst,
 		search_assignment_operator_index,
 		parse_or_operator,
-		parse_unary_expression, // TODO 左側は見直す必要あり
+		parse_unary_expression,
 		parse_assignment_operator
 	);
 }
 
 
 /// ```bnf
-/// <primary_expression> ::= <identifier>
-///                        | <constant>
-///                        | <string>
-///                        | ( <expression> )
+/// <expression> ::= <assignment_expression>
+///                | <expression> , <assignment_expression>
 /// ```
 t_expr *parse_expression(t_void_list **lst)
 {
@@ -858,12 +856,7 @@ t_expr *abstract_parse_operator( // 中置演算用
 		left_list = void_list_cut(lst, index - 1);
 		void_list_pop(lst, 0, &ope_token);
 		right_list = *lst;
-
 		normal_expr->ope = ope_token.token->contents.ope;
-		//if (normal_expr->ope == e_operator_mul)
-		//{
-		//	debug_dprintf(STDERR_FILENO, "helloooo::log (index) %d \n", index);
-		//}
 		free(ope_token.token);
 		normal_expr->left_expr = left_parse_func(&left_list);
 		normal_expr->right_expr = right_parse_func(&right_list);
