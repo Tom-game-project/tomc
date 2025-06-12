@@ -506,10 +506,12 @@ t_expr *parse_postfix_expression(t_void_list **lst)
 			// | <postfix_expression> . <identifier>
 			// | <postfix_expression> -> <identifier>
 			expr = (t_expr *) malloc(sizeof(t_expr));
+			postfix_expr = (t_postfix_expr *)malloc(sizeof(t_postfix_expr));
 			expr->type_of_expr = e_expr_postfix;
-			expr->contents.postfix->ope = ope_token.token->contents.ope;
-			expr->contents.postfix->left_expr = parse_postfix_expression(&left_list);
-			expr->contents.postfix->right_expr = parse_ident_operator(&right_list); // TODO
+			postfix_expr->ope = ope_token.token->contents.ope;
+			postfix_expr->left_expr = parse_postfix_expression(&left_list);
+			postfix_expr->right_expr = parse_ident_operator(&right_list); // TODO
+			expr->contents.postfix = postfix_expr;
 			return expr;
 		}
 		else if (ope_token.token->token_type == e_token_type_operator)
@@ -520,6 +522,8 @@ t_expr *parse_postfix_expression(t_void_list **lst)
 			if (ope_token.token->contents.ope == e_operator_incr)
 			{
 				//
+				//expr = (t_expr *) malloc(sizeof(t_expr));
+				//expr->type_of_expr = e_expr_decr;
 			}
 			else if (ope_token.token->contents.ope == e_operator_decr)
 			{

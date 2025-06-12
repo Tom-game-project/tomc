@@ -51,9 +51,10 @@ int main()
 		"p = *a * b[42]",
 		"p = *a * b[42 + i]",
 		"p = lst[y][x]",
+		"expr->contents.postfix->left_expr",
 	};
 
-	for (int i = 0; i < 13; i++){
+	for (int i = 0; i < 14; i++){
 		debug_dprintf(STDERR_FILENO, "===========================\n");
 		show_expr_ast_parsing_proc(str_arr[i]);
 	}
