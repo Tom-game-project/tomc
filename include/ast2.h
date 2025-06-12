@@ -47,6 +47,7 @@ struct s_postfix_expr
 {
 	t_operator ope;
 	t_expr *left_expr;
+	t_expr *right_expr;
 };
 
 // キャストの構造

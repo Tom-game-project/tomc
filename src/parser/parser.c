@@ -1,11 +1,14 @@
 #include "ast2.h"
 #include "list.h"
 #include "token_data.h"
+#include "brackets.h"
 
+#include "test_tools.h"
 #include <stdbool.h>
 #include <stdlib.h>
 #include <unistd.h>
 
+t_expr *parse_expression(t_void_list **lst);
 t_expr *expr_parser(t_void_list **data);
 t_expr *parse_assignment_operator(t_void_list **lst);
 t_expr *parse_or_operator(t_void_list **lst);
@@ -23,7 +26,7 @@ t_expr *abstract_parse_operator( // 中置演算用
 
 static bool resolve_anytype(t_anytype elem, bool (*f)(void *))
 {
-	return (f(elem.token));
+	return f(elem.token);
 }
 
 static bool is_assignment_operator(void *data)
@@ -32,7 +35,7 @@ static bool is_assignment_operator(void *data)
 
 	token = (t_token *) data;
 	if (token->token_type != e_token_type_operator)
-		return (false);
+		return false;
 	else 
 		return
 			token->contents.ope == e_operator_assignment || \
@@ -53,9 +56,9 @@ static bool is_or_operator(void *data)
 
 	token = (t_token *) data;
 	if (token->token_type != e_token_type_operator)
-		return (false);
+		return false;
 	else
-		return (token->contents.ope == e_operator_or);
+		return token->contents.ope == e_operator_or;
 }
 
 static bool is_and_operator(void *data)
@@ -64,9 +67,9 @@ static bool is_and_operator(void *data)
 
 	token = (t_token *) data;
 	if (token->token_type != e_token_type_operator)
-		return (false);
+		return false;
 	else
-		return (token->contents.ope == e_operator_and);
+		return token->contents.ope == e_operator_and;
 }
 
 static bool is_inclusive_or_operator(void *data)
@@ -75,9 +78,9 @@ static bool is_inclusive_or_operator(void *data)
 
 	token = (t_token *) data;
 	if (token->token_type != e_token_type_operator)
-		return (false);
+		return false;
 	else
-		return (token->contents.ope == e_operator_logic_or); // "|"
+		return token->contents.ope == e_operator_logic_or; // "|"
 }
 
 static bool is_exclusive_or_operator(void *data)
@@ -86,9 +89,9 @@ static bool is_exclusive_or_operator(void *data)
 
 	token = (t_token *) data;
 	if (token->token_type != e_token_type_operator)
-		return (false);
+		return false;
 	else
-		return (token->contents.ope == e_operator_logic_xor); // "^"
+		return token->contents.ope == e_operator_logic_xor; // "^"
 }
 
 static bool is_logical_and_operator(
@@ -96,9 +99,9 @@ static bool is_logical_and_operator(
 )
 {
 	if (token->token_type != e_token_type_operator)
-		return (false);
+		return false;
 	else
-		return (token->contents.ope == e_operator_logic_and); // "&"
+		return token->contents.ope == e_operator_logic_and; // "&"
 }
 
 static bool is_equality_operator(void *data)
@@ -107,9 +110,9 @@ static bool is_equality_operator(void *data)
 
 	token = (t_token *) data;
 	if (token->token_type != e_token_type_operator)
-		return (false);
+		return false;
 	else
-		return (token->contents.ope == e_operator_eq || token->contents.ope == e_operator_ne);
+		return token->contents.ope == e_operator_eq || token->contents.ope == e_operator_ne;
 
 }
 
@@ -119,7 +122,7 @@ static bool is_relational_operator(void *data)
 
 	token = (t_token *) data;
 	if (token->token_type != e_token_type_operator)
-		return (false);
+		return false;
 	else
 		return 
 			token->contents.ope == e_operator_gt || \
@@ -134,7 +137,7 @@ static bool is_shift_operator(void *data)
 
 	token = (t_token *) data;
 	if (token->token_type != e_token_type_operator)
-		return (false);
+		return false;
 	else
 		return 
 			token->contents.ope == e_operator_bitshift_left || \
@@ -147,7 +150,7 @@ static bool is_additive_operator(
 )
 {
 	if (token->token_type != e_token_type_operator)
-		return (false);
+		return false;
 	else
 		return
 			token->contents.ope == e_operator_add || \
@@ -158,7 +161,7 @@ static bool is_additive_operator(
 static bool is_multiplicative_operator(t_token *token)
 {
 	if (token->token_type != e_token_type_operator)
-		return (false);
+		return false;
 	else
 		return
 			token->contents.ope == e_operator_mul || \
@@ -171,7 +174,7 @@ static bool is_cast_operator(void *data)
 	t_token *token;
 
 	token = (t_token *) data;
-	return (token->token_type == e_token_type_paren);
+	return token->token_type == e_token_type_paren;
 }
 
 static bool is_pre_incr_decr_operator(void *data)
@@ -180,7 +183,7 @@ static bool is_pre_incr_decr_operator(void *data)
 
 	token = (t_token *) data;
 	if (token->token_type != e_token_type_operator)
-		return (false);
+		return false;
 	else
 		return
 			token->contents.ope == e_operator_incr || \
@@ -209,15 +212,21 @@ static bool is_postfix_operator(t_token *token)
 {
 
 	if (token->token_type == e_token_type_brace || token->token_type == e_token_type_bracket)
+	{
 		return true;
+	}
 	else if (token->token_type == e_token_type_operator)
+	{
 		return 
 			token->contents.ope == e_operator_arrow || 
 			token->contents.ope == e_operator_dot ||
 			token->contents.ope == e_operator_incr || 
 			token->contents.ope == e_operator_decr;
+	}
 	else
+	{
 		return false;
+	}
 }
 
 /* ===================================================== */
@@ -263,7 +272,9 @@ int search_context_operation_index_r(t_void_list *node, bool (*f)(t_token *))
 			{
 			}
 			else if (pre_node->ptr.token->token_type != e_token_type_operator)
+			{
 				rindex = i;
+			}
 		}
 		pre_node = node;
 		node = node->next;
@@ -352,7 +363,7 @@ static int search_multiplicative_index(
 	t_void_list *lst /* token list */
 )
 {
-	return (search_context_operation_index_r(lst, is_multiplicative_operator));
+	return search_context_operation_index_r(lst, is_multiplicative_operator);
 }
 
 /// 右優先
@@ -379,9 +390,9 @@ static bool has_unary_operator(
 	return  void_list_search_index(lst, resolve_anytype, is_unary_operator) == 0;
 }
 
-static bool search_postfix_operator(t_void_list *lst)
+static int search_postfix_operator(t_void_list *lst)
 {
-	return (search_context_operation_index_r(lst, is_postfix_operator));
+	return search_context_operation_index_r(lst, is_postfix_operator);
 }
 
 /* ============== for debug function ==============>>> */
@@ -408,6 +419,39 @@ t_expr *parse_ident_operator(t_void_list **lst)
 
 /* ============== for debug function ==============<<< */
 
+/// <primary_expression> ::= <identifier>
+///                        | <constant>
+///                        | <string>
+///                        | ( <expression> )
+/// TODO 仮置きの関数
+t_expr *parse_primary_expression(t_void_list **lst)
+{
+	t_expr *expr;
+	t_anytype elem;
+	int token_list_length;
+
+	token_list_length = void_list_len(*lst);
+	if (0 < token_list_length)
+	{
+		expr = (t_expr*) malloc(sizeof(t_token));
+		expr->type_of_expr = e_expr_token;
+		void_list_pop(lst, 0, &elem);
+		if (elem.token->token_type == e_token_type_brace)
+		{
+			expr = parse_expression(&elem.token->contents.token_list);
+		}
+		else
+		{
+			expr->contents.ident = elem.token;
+		}
+		return expr;
+	}
+	else
+	{
+		return NULL;
+	}
+}
+
 /// 
 /// ```bnf
 /// <postfix_expression> ::= <primary_expression>
@@ -418,33 +462,61 @@ t_expr *parse_ident_operator(t_void_list **lst)
 ///                        | <postfix_expression> ++
 ///                        | <postfix_expression> --
 /// ```
-/// 
+/// TODO 実装していない機能あり
 t_expr *parse_postfix_expression(t_void_list **lst)
 {
 	int index;
-
+	t_expr *expr;
 
 	index = search_postfix_operator(*lst);
 	if (index != -1) //postfix として解釈できる演算子が見つかった
 	{
 		t_anytype ope_token;
+		t_void_list *left_list;
+		t_void_list *right_list;
+		t_postfix_expr *postfix_expr;
 
-		void_list_pop(lst, index, &ope_token);
+		left_list = void_list_cut(lst, index - 1);
+		void_list_pop(lst, 0, &ope_token);
+		right_list = *lst;
 		if (ope_token.token->token_type == e_token_type_brace)
 		{
-			// 関数呼び出しなど
+			// 関数呼び出しなど TODO
+			// | <postfix_expression> ( {<assignment_expression>}* )
 		}
 		else if (ope_token.token->token_type == e_token_type_bracket)
 		{
-			// 配列アクセスなど
+
+			// 配列アクセスなど TODO
+			// | <postfix_expression> [ <expression> ]
+			expr = (t_expr *) malloc(sizeof(t_expr));
+
+			postfix_expr = (t_postfix_expr *)malloc(sizeof(t_postfix_expr));
+			expr->type_of_expr = e_expr_postfix;
+			postfix_expr->ope =  e_operator_arr_index_access;
+			postfix_expr->left_expr = parse_postfix_expression(&left_list);
+			postfix_expr->right_expr = parse_expression(&ope_token.token->contents.token_list);
+			expr->contents.postfix = postfix_expr;
+			// ここで、right_lstの長さが0であることを確かめたい
+			return expr;
 		}
 		else if (ope_token.token->token_type == e_token_type_operator)
 		{
 			// 構造体アクセスなど
+			// | <postfix_expression> . <identifier>
+			// | <postfix_expression> -> <identifier>
+			expr = (t_expr *) malloc(sizeof(t_expr));
+			expr->type_of_expr = e_expr_postfix;
+			expr->contents.postfix->ope = ope_token.token->contents.ope;
+			expr->contents.postfix->left_expr = parse_postfix_expression(&left_list);
+			expr->contents.postfix->right_expr = parse_ident_operator(&right_list); // TODO
+			return expr;
 		}
 		else if (ope_token.token->token_type == e_token_type_operator)
 		{
-			// 後置インクリメント、デクリメント
+			// 後置インクリメント、デクリメント TODO
+			// | <postfix_expression> ++
+			// | <postfix_expression> --
 			if (ope_token.token->contents.ope == e_operator_incr)
 			{
 				//
@@ -456,19 +528,23 @@ t_expr *parse_postfix_expression(t_void_list **lst)
 			{
 				// unreachable
 				// error 
+				return NULL;
 			}
 		}
 		else 
 		{
 			// unreachable
 			// error 
+			return NULL;
 		}
+		return NULL;
 	}
 	else
 	{
 		// primary_expression
+		expr = parse_primary_expression(lst);
+		return expr;
 	}
-	return NULL;
 }
 
 /// ```bnf
@@ -528,7 +604,7 @@ t_expr *parse_unary_expression(t_void_list **lst)
 
 	// unaryとして解釈される文法構造が見つからなかった場合
 	// postfix_expressionの処理に移る
-	return parse_ident_operator(lst);
+	return parse_postfix_expression(lst);
 }
 
 /// TODO: キャスト変換は一旦飛ばして実装を進める
@@ -714,7 +790,14 @@ t_expr *parse_or_operator(t_void_list **lst)
 	);
 }
 
-/// 
+/// ```bnf
+/// <assignment_expression> ::= <conditional_expression>
+///                           | <unary_expression> <assignment_operator> <assignment_expression>
+///
+/// # 未実装
+/// <conditional_expression> ::= <logical_or_expression>
+///                            | <logical_or_expression> ? <expression> : <conditional_expression>
+/// ```
 t_expr *parse_assignment_operator(t_void_list **lst)
 {
 	return abstract_parse_operator(
@@ -724,6 +807,23 @@ t_expr *parse_assignment_operator(t_void_list **lst)
 		parse_assignment_operator, // TODO 左側は見直す必要あり
 		parse_assignment_operator
 	);
+}
+
+
+/// ```bnf
+/// <primary_expression> ::= <identifier>
+///                        | <constant>
+///                        | <string>
+///                        | ( <expression> )
+/// ```
+t_expr *parse_expression(t_void_list **lst)
+{
+	// 括弧をまとめる
+	group_paren(lst, e_token_type_open_paren, e_token_type_close_paren, e_token_type_paren);
+	group_paren(lst, e_token_type_open_brace, e_token_type_close_brace, e_token_type_brace);
+	group_paren(lst, e_token_type_open_bracket, e_token_type_close_bracket, e_token_type_bracket);
+	// TODO  カンマが在る場合の処理を追加する
+	return parse_assignment_operator(lst);
 }
 
 /// 中置演算解釈の抽象的な形

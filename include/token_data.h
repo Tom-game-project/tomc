@@ -44,7 +44,11 @@ enum e_operator
 	e_operator_ne,
 
 	e_operator_comma,
-	e_operator_dot
+	e_operator_dot,
+
+	/// recursive data (特別な演算子)
+	e_operator_arr_index_access, // 配列のindexアクセス
+	e_operator_funccall,         // 関数の呼び出し
 };
 
 typedef enum e_operator t_operator;

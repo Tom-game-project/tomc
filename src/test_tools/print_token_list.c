@@ -80,6 +80,10 @@ char *print_operator_as_string(t_operator operator)
 			return ",";
 		case e_operator_dot:
 			return ".";
+		case e_operator_funccall:
+			return "funccall";
+		case e_operator_arr_index_access:
+			return ("index_access");
 		default:
 			return NULL;
 	}

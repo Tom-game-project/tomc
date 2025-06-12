@@ -18,7 +18,7 @@ show_expr_ast_parsing_proc(char *str)
 	debug_dprintf(STDERR_FILENO, "test case: \"%s\"\n", str);
 	tkn_lst = tokenizer(str);
 	print_token_list_ln(tkn_lst);
-	expr_ast = parse_assignment_operator(&tkn_lst);
+	expr_ast = parse_expression(&tkn_lst);
 
 	if (expr_ast == NULL)
 	{
@@ -37,7 +37,7 @@ show_expr_ast_parsing_proc(char *str)
 /// ```
 int main()
 {
-	char *str_arr[10] = {
+	char *str_arr[15] = {
 		"a = x && y || z",
 		"a = b + c * d - 1",
 		"a = w << x | y << z",
@@ -48,10 +48,12 @@ int main()
 		"p = ***a",
 		"p = *a + **b",
 		"p = *a * **b",
+		"p = *a * b[42]",
+		"p = *a * b[42 + i]",
+		"p = lst[y][x]",
 	};
 
-
-	for (int i = 0; i < 10; i++){
+	for (int i = 0; i < 13; i++){
 		debug_dprintf(STDERR_FILENO, "===========================\n");
 		show_expr_ast_parsing_proc(str_arr[i]);
 	}

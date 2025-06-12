@@ -60,7 +60,12 @@ int print_expr_ast(t_expr *expr_ast, int depth)
 			debug_dprintf(STDERR_FILENO, "<e_expr_postfix>\n");
 			print_depth(depth);
 			debug_dprintf(STDERR_FILENO, "operator = \"%s\"\n", print_operator_as_string(expr_ast->contents.postfix->ope));
+			print_depth(depth);
+			debug_dprintf(STDERR_FILENO ,".left_expr = \n");
 			print_expr_ast(expr_ast->contents.postfix->left_expr, depth + 1);
+			print_depth(depth);
+			debug_dprintf(STDERR_FILENO ,".right_expr = \n");
+			print_expr_ast(expr_ast->contents.postfix->right_expr, depth + 1);
 			break;
 		case e_expr_cast:
 			print_depth(depth);
