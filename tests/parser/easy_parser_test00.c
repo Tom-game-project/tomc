@@ -52,9 +52,10 @@ int main()
 		"p = *a * b[42 + i]",
 		"p = lst[y][x]",
 		"expr->contents.postfix->left_expr",
+		"player->vec.x = lst[x]",
 	};
 
-	for (int i = 0; i < 14; i++){
+	for (int i = 0; i < 15; i++){
 		debug_dprintf(STDERR_FILENO, "===========================\n");
 		show_expr_ast_parsing_proc(str_arr[i]);
 	}

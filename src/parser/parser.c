@@ -808,7 +808,7 @@ t_expr *parse_assignment_operator(t_void_list **lst)
 		lst,
 		search_assignment_operator_index,
 		parse_or_operator,
-		parse_assignment_operator, // TODO 左側は見直す必要あり
+		parse_unary_expression, // TODO 左側は見直す必要あり
 		parse_assignment_operator
 	);
 }
