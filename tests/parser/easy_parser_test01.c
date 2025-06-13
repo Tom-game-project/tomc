@@ -26,11 +26,12 @@ show_expr_ast_parsing_proc(char *str)
 		return 1;
 	}
 	print_expr_ast(expr_ast, 0);
+	clear_ast(expr_ast);
 	return 0;
 }
 
 /// ```bash
-/// make test TEST_FILE=tests/parser/easy_parser_test00.c
+/// make vtest TEST_FILE=tests/parser/easy_parser_test01.c
 /// ```
 int main()
 {
@@ -46,14 +47,23 @@ int main()
 		"p = *a + **b",
 		"p = *a * **b",
 		"p = *a * b[42]",
-		"p = *a * b[42 + i]",
+		"p = *a * b[42 + i + j + k + l + m]",
 		"p = lst[y][x]",
 		"expr->contents.postfix->left_expr",
 		"player->vec.x = lst[x]",
 		"*p = 1 + x"
 	};
 
-	debug_dprintf(STDERR_FILENO, "===========================\n");
-	show_expr_ast_parsing_proc(str_arr[0]);
+	for (int i = 0; i < 16; i++){
+		debug_dprintf(STDERR_FILENO, "===========================\n");
+		show_expr_ast_parsing_proc(str_arr[i]);
+	}
+
+	//show_expr_ast_parsing_proc(str_arr[1]);
+	//show_expr_ast_parsing_proc(str_arr[10]);
+	//show_expr_ast_parsing_proc(str_arr[11]);
+	//show_expr_ast_parsing_proc(str_arr[12]);
+	//show_expr_ast_parsing_proc(str_arr[13]);
+	show_expr_ast_parsing_proc(str_arr[14]);
 	return (0);
 }

@@ -2,6 +2,7 @@
 #include "list.h"
 #include "token_data.h"
 #include "brackets.h"
+#include "tokenizer.h"
 
 #include "test_tools.h"
 #include <stdbool.h>
@@ -430,15 +431,17 @@ t_expr *parse_primary_expression(t_void_list **lst)
 	token_list_length = void_list_len(*lst);
 	if (0 < token_list_length)
 	{
-		expr = (t_expr*) malloc(sizeof(t_token));
-		expr->type_of_expr = e_expr_token;
 		void_list_pop(lst, 0, &elem);
 		if (elem.token->token_type == e_token_type_brace)
 		{
+			/// | ( <expression> )
 			expr = parse_expression(&elem.token->contents.token_list);
+			expr->type_of_expr = e_expr_token; // TODO おそらくタイプが違う
 		}
 		else
 		{
+			expr = (t_expr*) malloc(sizeof(t_expr));
+			expr->type_of_expr = e_expr_token;
 			expr->contents.ident = elem.token;
 		}
 		return expr;
@@ -495,6 +498,7 @@ t_expr *parse_postfix_expression(t_void_list **lst)
 			postfix_expr->right_expr = parse_expression(&ope_token.token->contents.token_list);
 			expr->contents.postfix = postfix_expr;
 			// ここで、right_lstの長さが0であることを確かめたい
+			free(ope_token.token);
 			return expr;
 		}
 		else if (ope_token.token->token_type == e_token_type_operator)
@@ -510,6 +514,7 @@ t_expr *parse_postfix_expression(t_void_list **lst)
 			postfix_expr->left_expr = parse_postfix_expression(&left_list);
 			postfix_expr->right_expr = parse_ident_operator(&right_list); // TODO
 			expr->contents.postfix = postfix_expr;
+			clear_token(ope_token.token);
 			return expr;
 		}
 		else if (ope_token.token->token_type == e_token_type_operator)

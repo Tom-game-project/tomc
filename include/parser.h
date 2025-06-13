@@ -106,4 +106,6 @@ struct s_expression
 
 t_expr *parse_expression(t_void_list **lst);
 
+int clear_ast(t_expr *expr);
+
 #endif

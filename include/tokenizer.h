@@ -18,4 +18,6 @@ t_token_list *tokenizer(char *str);
 
 int clear_token_list(t_token_list **lst);
 
+void clear_token(t_token *token);
+
 #endif
