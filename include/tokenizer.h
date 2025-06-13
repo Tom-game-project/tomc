@@ -16,4 +16,6 @@ t_token *init_token_by_ope(
 
 t_token_list *tokenizer(char *str);
 
+int clear_token_list(t_token_list **lst);
+
 #endif

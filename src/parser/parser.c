@@ -13,7 +13,6 @@ t_expr *expr_parser(t_void_list **data);
 t_expr *parse_assignment_operator(t_void_list **lst);
 t_expr *parse_or_operator(t_void_list **lst);
 t_expr *parse_and_operator(t_void_list **lst);
-
 t_expr *parse_cast_expression(t_void_list **lst);
 
 t_expr *abstract_parse_operator( // 中置演算用
@@ -308,7 +307,6 @@ search_and_operator_index(
 	return void_list_search_index_r(lst, resolve_anytype, is_and_operator);
 }
 
-
 static int search_inclusive_or_operator_index(
 	t_void_list *lst /* token list */
 )
@@ -351,7 +349,6 @@ static int search_shift_index(
 	return void_list_search_index_r(lst, resolve_anytype, is_shift_operator);
 }
 
-// 本関数は、
 static int search_additive_index(
 	t_void_list *lst /* token list */
 )
@@ -506,6 +503,7 @@ t_expr *parse_postfix_expression(t_void_list **lst)
 			// | <postfix_expression> . <identifier>
 			// | <postfix_expression> -> <identifier>
 			expr = (t_expr *) malloc(sizeof(t_expr));
+
 			postfix_expr = (t_postfix_expr *)malloc(sizeof(t_postfix_expr));
 			expr->type_of_expr = e_expr_postfix;
 			postfix_expr->ope = ope_token.token->contents.ope;

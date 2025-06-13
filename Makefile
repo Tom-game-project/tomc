@@ -106,6 +106,7 @@ TEST_TOOLS_SRC = \
 TOKENIZER_SRC = \
 		src/tokenizer/init_token.c\
 		src/tokenizer/tokenizer.c\
+		src/tokenizer/clear_token_list.c\
 
 
 PARSER_SRC = \

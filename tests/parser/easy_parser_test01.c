@@ -27,7 +27,6 @@ show_expr_ast_parsing_proc(char *str)
 	}
 	print_expr_ast(expr_ast, 0);
 	return 0;
-
 }
 
 /// ```bash
@@ -54,9 +53,7 @@ int main()
 		"*p = 1 + x"
 	};
 
-	for (int i = 0; i < 16; i++){
-		debug_dprintf(STDERR_FILENO, "===========================\n");
-		show_expr_ast_parsing_proc(str_arr[i]);
-	}
+	debug_dprintf(STDERR_FILENO, "===========================\n");
+	show_expr_ast_parsing_proc(str_arr[0]);
 	return (0);
 }
