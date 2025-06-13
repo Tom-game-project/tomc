@@ -1,4 +1,4 @@
-#include "ast2.h"
+#include "ast.h"
 #include "tokenizer.h"
 #include <stdlib.h>
 

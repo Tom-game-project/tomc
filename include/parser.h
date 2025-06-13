@@ -51,7 +51,7 @@
 /// ```
 
 #include "list.h"
-#include "ast2.h"
+#include "ast.h"
 
 //<constant> ::= <integer_constant>
 //             | <character_constant>

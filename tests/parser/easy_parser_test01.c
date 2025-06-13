@@ -1,4 +1,4 @@
-#include "ast2.h"
+#include "ast.h"
 
 #include "parser.h"
 #include "tokenizer.h"

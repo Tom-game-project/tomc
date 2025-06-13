@@ -35,6 +35,6 @@ void get_token_str(t_anytype token,
 	char **token_type_str
 );
 
-#include "ast2.h"
+#include "ast.h"
 int print_expr_ast(t_expr *expr_ast, int depth);
 #endif
