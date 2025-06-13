@@ -1,9 +1,8 @@
-#ifndef AST2_H
-#define AST2_H
+#ifndef AST_H
+#define AST_H
 
 #include "token_data.h"
 typedef struct s_ast t_ast;
-
 
 typedef struct s_expr t_expr;
 typedef struct s_normal_expr t_normal_expr;

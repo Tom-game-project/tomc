@@ -1,8 +1,6 @@
 #include "ast.h"
-
 #include "parser.h"
 #include "tokenizer.h"
-
 #include "test_tools.h"
 
 #include <stdlib.h>
@@ -51,10 +49,12 @@ int main()
 		"p = lst[y][x]",
 		"expr->contents.postfix->left_expr",
 		"player->vec.x = lst[x]",
-		"*p = 1 + x"
+		"*p = 1 + x",
+		"p = (1 + x) * y",
+
 	};
 
-	for (int i = 0; i < 16; i++){
+	for (int i = 0; i < 17; i++){
 		debug_dprintf(STDERR_FILENO, "===========================\n");
 		show_expr_ast_parsing_proc(str_arr[i]);
 	}
@@ -64,6 +64,6 @@ int main()
 	//show_expr_ast_parsing_proc(str_arr[11]);
 	//show_expr_ast_parsing_proc(str_arr[12]);
 	//show_expr_ast_parsing_proc(str_arr[13]);
-	show_expr_ast_parsing_proc(str_arr[14]);
+	//show_expr_ast_parsing_proc(str_arr[14]);
 	return (0);
 }

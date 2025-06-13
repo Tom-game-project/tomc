@@ -283,6 +283,31 @@ int search_context_operation_index_r(t_void_list *node, bool (*f)(t_token *))
 	return rindex;
 }
 
+/// castとして判定するために十分なコンテクストの条件を満たしている場所を探す
+int search_context_cast_index(t_void_list *node)
+{
+	int i;
+	t_void_list *post_node;
+
+	i = 0;
+	while (node != NULL)
+	{
+		post_node = node->next;
+		if (is_cast_operator(node->ptr.token))
+		{
+			if (post_node == NULL)
+			{
+			}
+			else if (post_node->ptr.token->token_type != e_token_type_operator)
+				return i;
+		}
+		node = node->next;
+		i += 1;
+	}
+	return -1;
+}
+
+
 /// 右優先
 static int 
 search_assignment_operator_index(
@@ -365,12 +390,13 @@ static int search_multiplicative_index(
 }
 
 /// 右優先
-static int search_cast_index(
-	t_void_list *lst /* token list */
-)
-{
-	return void_list_search_index(lst, resolve_anytype, is_cast_operator);
-}
+//static int search_cast_index(
+//	t_void_list *lst /* token list */
+//)
+//{
+//
+//	return void_list_search_index(lst, resolve_anytype, is_cast_operator);
+//}
 
 /// 前置`++` `--`を先頭に見つけたとき
 static bool has_pre_incr_decr(
@@ -432,11 +458,13 @@ t_expr *parse_primary_expression(t_void_list **lst)
 	if (0 < token_list_length)
 	{
 		void_list_pop(lst, 0, &elem);
-		if (elem.token->token_type == e_token_type_brace)
+		if (elem.token->token_type == e_token_type_paren)
 		{
 			/// | ( <expression> )
 			expr = parse_expression(&elem.token->contents.token_list);
-			expr->type_of_expr = e_expr_token; // TODO おそらくタイプが違う
+			//expr->type_of_expr = e_expr_token; // TODO おそらくタイプが違う
+			//clear_token_list(&elem.token->contents.token_list);
+			free(elem.token);
 		}
 		else
 		{
@@ -621,7 +649,8 @@ t_expr *parse_unary_expression(t_void_list **lst)
 /// ```
 t_expr *parse_cast_expression(t_void_list **lst)
 {
-	int index = search_cast_index(*lst);
+	// int index = search_cast_index(*lst);
+	int index = search_context_cast_index(*lst);
 
 	if (index == 0) // 一番最初にみつかったら
 	{
