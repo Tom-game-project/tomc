@@ -100,6 +100,7 @@ TEST_TOOLS_SRC = \
 		src/test_tools/print_token_list.c\
 		src/test_tools/print.c\
 		src/test_tools/print_ast.c\
+		src/test_tools/ast_cmp.c\
 
 
 

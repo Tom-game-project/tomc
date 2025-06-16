@@ -12,7 +12,6 @@ show_expr_ast_parsing_proc(char *str)
 	t_token_list *tkn_lst;
 	t_expr *expr_ast;
 
-
 	debug_dprintf(STDERR_FILENO, "test case: \"%s\"\n", str);
 	tkn_lst = tokenizer(str);
 	print_token_list_ln(tkn_lst);

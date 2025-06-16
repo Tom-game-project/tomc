@@ -37,4 +37,7 @@ void get_token_str(t_anytype token,
 
 #include "ast.h"
 int print_expr_ast(t_expr *expr_ast, int depth);
+
+bool expr_eq(t_expr *ast1, t_expr *ast2);
+
 #endif
