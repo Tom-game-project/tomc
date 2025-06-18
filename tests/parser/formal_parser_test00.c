@@ -1,5 +1,6 @@
 #include "ast.h"
 #include "parser.h"
+#include "token_data.h"
 #include "tokenizer.h"
 #include "test_tools.h"
 
@@ -22,13 +23,13 @@ show_expr_ast_parsing_proc(char *str)
 		debug_dprintf(STDERR_FILENO, "something wrong with while parsing\n");
 		return 1;
 	}
-	print_expr_ast(expr_ast, 0);
+	print_expr_ast_struct(expr_ast, 0);
 	clear_ast(expr_ast);
 	return 0;
 }
 
 /// ```bash
-/// make vtest TEST_FILE=tests/parser/easy_parser_test01.c
+/// make vtest TEST_FILE=tests/parser/formal_parser_test00.c
 /// ```
 int main()
 {
@@ -52,7 +53,11 @@ int main()
 		"p = (1 + x) * y",
 	};
 
-	for (int i = 0; i < 17; i++){
+	//t_expr *expr_set[20] = 
+	//{
+	//};
+
+	for (int i = 0; i < 1; i++){
 		debug_dprintf(STDERR_FILENO, "===========================\n");
 		show_expr_ast_parsing_proc(str_arr[i]);
 	}

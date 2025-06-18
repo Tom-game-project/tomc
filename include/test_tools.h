@@ -38,6 +38,15 @@ void get_token_str(t_anytype token,
 #include "ast.h"
 int print_expr_ast(t_expr *expr_ast, int depth);
 
+int print_expr_ast_struct(t_expr *expr_ast, int depth);
+
 bool expr_eq(t_expr *ast1, t_expr *ast2);
+
+char *get_operator_enum_as_string(t_operator operator);
+
+void get_token_struct_as_string(t_anytype token, 
+	char **contents_str,
+	char **token_type_str
+);
 
 #endif
