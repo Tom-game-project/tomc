@@ -141,6 +141,8 @@ int print_expr_ast_struct(t_expr *expr_ast, int depth)
 			print_depth(depth);
 			debug_dprintf(STDERR_FILENO, ".type_of_expr=%s,\n", "e_expr_unary");
 			print_depth(depth);
+			debug_dprintf(STDERR_FILENO, ".contents.unary=\n");                 // sturct
+			print_depth(depth);
 			debug_dprintf(STDERR_FILENO, "&(t_unary_expr){\n");                      // struct
 			print_depth(depth);
 			debug_dprintf(STDERR_FILENO, ".ope=%s,\n", get_operator_enum_as_string(expr_ast->contents.unary->ope));                      // struct
@@ -154,12 +156,16 @@ int print_expr_ast_struct(t_expr *expr_ast, int depth)
 			print_depth(depth);
 			debug_dprintf(STDERR_FILENO, ".type_of_expr=%s,\n", "e_expr_postfix"); // struct 
 			print_depth(depth);
+			debug_dprintf(STDERR_FILENO, ".contents.postfix=\n");                 // sturct
+			print_depth(depth);
 			debug_dprintf(STDERR_FILENO ,"&(t_postfix_expr) {\n");
 			print_depth(depth);
-			debug_dprintf(STDERR_FILENO, ".ope=%s\n", get_operator_enum_as_string(expr_ast->contents.postfix->ope));                      // struct
+			debug_dprintf(STDERR_FILENO, ".ope=%s,\n", get_operator_enum_as_string(expr_ast->contents.postfix->ope));                      // struct
 			print_depth(depth);
 			debug_dprintf(STDERR_FILENO ,".left_expr = \n");
 			print_expr_ast_struct(expr_ast->contents.postfix->left_expr, depth + 1);
+			print_depth(depth);
+			debug_dprintf(STDERR_FILENO, ",\n");
 			print_depth(depth);
 			debug_dprintf(STDERR_FILENO ,".right_expr = \n");
 			print_expr_ast_struct(expr_ast->contents.postfix->right_expr, depth + 1);
