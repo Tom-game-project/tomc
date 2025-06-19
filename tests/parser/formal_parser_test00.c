@@ -120,8 +120,8 @@ int main()
 			}
 			}
 		}
-		}
-		,
+		},
+
 		&(t_expr) {
 		.type_of_expr=e_expr_normal,
 		.contents.normal=
@@ -201,8 +201,8 @@ int main()
 			}
 			}
 		}
-		}
-		,
+		},
+
 		&(t_expr) {
 		.type_of_expr=e_expr_normal,
 		.contents.normal=
@@ -282,8 +282,8 @@ int main()
 			}
 			}
 		}
-		}
-		,
+		},
+
 		&(t_expr) {
 		.type_of_expr=e_expr_normal,
 		.contents.normal=
@@ -309,8 +309,8 @@ int main()
 			}
 			}
 		}
-		}
-		,
+		},
+
 		&(t_expr) {
 		.type_of_expr=e_expr_normal,
 		.contents.normal=
@@ -390,8 +390,8 @@ int main()
 			}
 			}
 		}
-		}
-		,
+		},
+
 		&(t_expr) {
 		.type_of_expr=e_expr_normal,
 		.contents.normal=
@@ -471,8 +471,8 @@ int main()
 			}
 			}
 		}
-		}
-		,
+		},
+
 		&(t_expr) {
 		.type_of_expr=e_expr_normal,
 		.contents.normal=
@@ -552,8 +552,8 @@ int main()
 			}
 			}
 		}
-		}
-		,
+		},
+
 		&(t_expr) {
 		.type_of_expr=e_expr_normal,
 		.contents.normal=
@@ -603,8 +603,8 @@ int main()
 			}
 			}
 		}
-		}
-		,
+		},
+
 		&(t_expr) {
 		.type_of_expr=e_expr_normal,
 		.contents.normal=
@@ -672,8 +672,8 @@ int main()
 			}
 			}
 		}
-		}
-		,
+		},
+
 		&(t_expr) {
 		.type_of_expr=e_expr_normal,
 		.contents.normal=
@@ -741,8 +741,8 @@ int main()
 			}
 			}
 		}
-		}
-		,
+		},
+
 		&(t_expr) {
 		.type_of_expr=e_expr_normal,
 		.contents.normal=
@@ -812,8 +812,8 @@ int main()
 			}
 			}
 		}
-		}
-		,
+		},
+
 		&(t_expr) {
 		.type_of_expr=e_expr_normal,
 		.contents.normal=
@@ -973,8 +973,8 @@ int main()
 			}
 			}
 		}
-		}
-		,
+		},
+
 		&(t_expr) {
 		.type_of_expr=e_expr_normal,
 		.contents.normal=
@@ -1036,8 +1036,8 @@ int main()
 			}
 			}
 		}
-		}
-		,
+		},
+
 		&(t_expr) {
 		.type_of_expr=e_expr_postfix,
 		.contents.postfix=
@@ -1099,8 +1099,8 @@ int main()
 			}
 			}
 		}
-		}
-		,
+		},
+
 		&(t_expr) {
 		.type_of_expr=e_expr_normal,
 		.contents.normal=
@@ -1180,8 +1180,8 @@ int main()
 			}
 			}
 		}
-		}
-		,
+		},
+
 		&(t_expr) {
 		.type_of_expr=e_expr_normal,
 		.contents.normal=
@@ -1233,8 +1233,8 @@ int main()
 			}
 			}
 		}
-		}
-		,
+		},
+
 		&(t_expr) {
 		.type_of_expr=e_expr_normal,
 		.contents.normal=

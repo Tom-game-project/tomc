@@ -211,7 +211,7 @@ static bool is_unary_operator(void *data)
 static bool is_postfix_operator(t_token *token)
 {
 
-	if (token->token_type == e_token_type_brace || token->token_type == e_token_type_bracket)
+	if (token->token_type == e_token_type_paren|| token->token_type == e_token_type_bracket)
 	{
 		return true;
 	}
@@ -227,6 +227,18 @@ static bool is_postfix_operator(t_token *token)
 	{
 		return false;
 	}
+}
+
+static bool is_comma_operator(void *data)
+{
+	t_token *token;
+
+	token = (t_token *) data;
+	if (token->token_type != e_token_type_operator)
+		return false;
+	else
+		return
+			token->contents.ope == e_operator_comma;
 }
 
 /* ===================================================== */
@@ -419,6 +431,11 @@ static int search_postfix_operator(t_void_list *lst)
 	return search_context_operation_index_r(lst, is_postfix_operator);
 }
 
+static int search_comma_operator(t_void_list *lst)
+{
+	return void_list_search_index(lst, resolve_anytype, is_comma_operator);
+}
+
 /* ============== for debug function ==============>>> */
 
 /// TODO 仮置きの関数
@@ -507,14 +524,23 @@ t_expr *parse_postfix_expression(t_void_list **lst)
 		left_list = void_list_cut(lst, index - 1);
 		void_list_pop(lst, 0, &ope_token);
 		right_list = *lst;
-		if (ope_token.token->token_type == e_token_type_brace)
+
+		if (ope_token.token->token_type == e_token_type_paren)
 		{
 			// 関数呼び出しなど TODO
 			// | <postfix_expression> ( {<assignment_expression>}* )
+			expr = (t_expr *) malloc(sizeof(t_expr));
+			postfix_expr = (t_postfix_expr *)malloc(sizeof(t_postfix_expr));
+			expr->type_of_expr = e_expr_postfix;
+			postfix_expr->ope = e_operator_funccall;
+			postfix_expr->left_expr = parse_postfix_expression(&left_list);
+			postfix_expr->right_expr = parse_expression(&ope_token.token->contents.token_list);
+			expr->contents.postfix = postfix_expr;
+			free(ope_token.token);
+			return expr;
 		}
 		else if (ope_token.token->token_type == e_token_type_bracket)
 		{
-
 			// 配列アクセスなど TODO
 			// | <postfix_expression> [ <expression> ]
 			expr = (t_expr *) malloc(sizeof(t_expr));
@@ -845,6 +871,29 @@ t_expr *parse_assignment_operator(t_void_list **lst)
 	);
 }
 
+/// リスト形式(カンマ区切りの情報)を処理する
+t_expr *resolve_comma_list(t_void_list **lst)
+{
+	t_expr *expr;
+	t_normal_expr *normal_expr;
+	t_void_list *head;
+	int index;
+
+       	index = search_comma_operator(*lst);
+	if (index == -1)
+	{
+		return (parse_assignment_operator(lst));
+	}
+	expr = (t_expr *) malloc(sizeof(t_expr));
+	normal_expr = (t_normal_expr *) malloc(sizeof(t_normal_expr));
+	expr->type_of_expr = e_expr_normal;
+	head = void_list_cut(lst, index);
+	normal_expr->ope = e_operator_comma;
+	normal_expr->left_expr = parse_assignment_operator(&head);
+	normal_expr->right_expr = resolve_comma_list(lst);
+	expr->contents.normal = normal_expr;
+	return expr;
+}
 
 /// ```bnf
 /// <expression> ::= <assignment_expression>
@@ -856,8 +905,8 @@ t_expr *parse_expression(t_void_list **lst)
 	group_paren(lst, e_token_type_open_paren, e_token_type_close_paren, e_token_type_paren);
 	group_paren(lst, e_token_type_open_brace, e_token_type_close_brace, e_token_type_brace);
 	group_paren(lst, e_token_type_open_bracket, e_token_type_close_bracket, e_token_type_bracket);
-	// TODO  カンマが在る場合の処理を追加する
-	return parse_assignment_operator(lst);
+	//return parse_assignment_operator(lst);
+	return resolve_comma_list(lst);
 }
 
 /// 中置演算解釈の抽象的な形
