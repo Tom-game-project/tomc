@@ -1,10 +1,7 @@
 #include "ast.h"
-
 #include "parser.h"
 #include "tokenizer.h"
-
 #include "test_tools.h"
-
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -36,7 +33,7 @@ show_expr_ast_parsing_proc(char *str)
 /// ```
 int main()
 {
-	char *str_arr[20] = {
+	char *str_arr[25] = {
 		"",
 		"a = x && y || z",
 		"a = b + c * d - 1",
@@ -56,10 +53,11 @@ int main()
 		"*p = 1 + x",
 		"a,b + c,d",
 		"func(x, y) + func(p, q)",
-		"(func(x, y)(z) + func(p, q)) * 2"
+		"(func(x, y)(z) + func(p, q)) * 2",
+		"func()"
 	};
 
-	for (int i = 0; i < 20; i++){
+	for (int i = 0; i < 21; i++){
 		debug_dprintf(STDERR_FILENO, "===========================\n");
 		show_expr_ast_parsing_proc(str_arr[i]);
 	}

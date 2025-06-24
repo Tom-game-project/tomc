@@ -4,6 +4,8 @@
 
 int clear_ast(t_expr *expr)
 {
+	if (expr == NULL)
+		return 0;
 	switch (expr->type_of_expr) {
 		case e_expr_normal:
 			clear_ast(expr->contents.normal->left_expr);

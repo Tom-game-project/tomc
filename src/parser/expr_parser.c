@@ -527,7 +527,7 @@ t_expr *parse_postfix_expression(t_void_list **lst)
 
 		if (ope_token.token->token_type == e_token_type_paren)
 		{
-			// 関数呼び出しなど TODO
+			// 関数呼び出しなど
 			// | <postfix_expression> ( {<assignment_expression>}* )
 			expr = (t_expr *) malloc(sizeof(t_expr));
 			postfix_expr = (t_postfix_expr *)malloc(sizeof(t_postfix_expr));
@@ -541,7 +541,7 @@ t_expr *parse_postfix_expression(t_void_list **lst)
 		}
 		else if (ope_token.token->token_type == e_token_type_bracket)
 		{
-			// 配列アクセスなど TODO
+			// 配列アクセスなど
 			// | <postfix_expression> [ <expression> ]
 			expr = (t_expr *) malloc(sizeof(t_expr));
 

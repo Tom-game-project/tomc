@@ -111,7 +111,7 @@ TOKENIZER_SRC = \
 
 
 PARSER_SRC = \
-		src/parser/parser.c\
+		src/parser/expr_parser.c\
 		src/parser/clear_ast.c\
 
 

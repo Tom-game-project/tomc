@@ -1301,6 +1301,7 @@ int main()
 
 	for (int i = 0; i < 17; i++)
 	{
+		debug_dprintf(STDERR_FILENO, "%d: ", i);
 		show_expr_ast_parsing_proc(str_arr[i], expr_set[i]);
 	}
 	//show_expr_ast_parsing_proc(str_arr[14]);
