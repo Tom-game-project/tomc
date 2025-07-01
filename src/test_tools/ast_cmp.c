@@ -9,14 +9,6 @@ bool token_list_eq(t_token_list *lst1, t_token_list *lst2);
 
 bool token_eq(t_token *token1, t_token *token2);
 
-static bool streq(char *str1, char *str2)
-{
-	size_t len;
-
-	len = ft_strlen(str1);
-	return len == ft_strlen(str2) && ft_strncmp(str1, str2, len) == 0;
-}
-
 bool expr_eq(t_expr *ast1, t_expr *ast2)
 {	
 	if (ast1->type_of_expr == ast2->type_of_expr)
@@ -86,9 +78,9 @@ bool token_eq(t_token *token1, t_token *token2)
 		case e_token_type_comment: //           char * not null: 
 		case e_token_type_string:  // "string"  char * not null:
 		case e_token_type_char:    // 'c'       char * not null:
-			return streq(token1->contents.str, token2->contents.str);
+			return ft_streq(token1->contents.str, token2->contents.str);
 		case e_token_type_word:    // string    char * not null
-			return streq(token1->contents.str, token2->contents.str);
+			return ft_streq(token1->contents.str, token2->contents.str);
 		case e_token_type_open_brace: //        char * null
 		case e_token_type_close_brace://        char * null
 		case e_token_type_open_paren: //        char * null

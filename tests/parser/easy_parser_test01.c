@@ -33,7 +33,8 @@ show_expr_ast_parsing_proc(char *str)
 /// ```
 int main()
 {
-	char *str_arr[20] = {
+	char *str_arr[35] = {
+		"",
 		"a = x && y || z",
 		"a = b + c * d - 1",
 		"a = w << x | y << z",
@@ -45,15 +46,18 @@ int main()
 		"p = *a + **b",
 		"p = *a * **b",
 		"p = *a * b[42]",
-		"p = *a * b[42 + i + j + k + l + m]",
+		"p = *a * b[42 + i]",
 		"p = lst[y][x]",
 		"expr->contents.postfix->left_expr",
 		"player->vec.x = lst[x]",
 		"*p = 1 + x",
-		"p = (1 + x) * y",
+		"a,b + c,d",
+		"func(x, y) + func(p, q)",
+		"(func(x, y)(z) + func(p, q)) * 2",
+		"func()"
 	};
 
-	for (int i = 0; i < 17; i++){
+	for (int i = 0; i < 21; i++){
 		debug_dprintf(STDERR_FILENO, "===========================\n");
 		show_expr_ast_parsing_proc(str_arr[i]);
 	}

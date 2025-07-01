@@ -77,6 +77,19 @@ struct s_declaration
 	t_decorator *init_decorator;        // Option<init_declarator>
 };
 
+
+typedef enum e_stmt_type t_stmt_type;
+enum e_stmt_type 
+{
+	e_stmt_type_labeled,
+	e_stmt_type_compound,
+	e_stmt_type_expr,
+	e_stmt_type_selection,
+	e_stmt_type_iteration,
+	e_stmt_type_jump
+};
+
+
 /// ```bnf
 /// <statement> ::= <labeled_statement>
 ///                 <labeled_statement> ::= <identifier> :
@@ -103,14 +116,7 @@ struct s_declaration
 ///
 struct s_stmt
 {
-    enum {
-	e_labeled_statement,
-	e_compound_stmt,
-	e_expr_stmt,
-	e_selection_stmt,
-	e_iteration_stmt,
-	e_jump_stmt
-    } type_of_expr;
+    t_stmt_type type_of_expr;
     union {
 	t_compound_stmt *compound_stmt;
 	t_expression_stmt *expr_stmt;

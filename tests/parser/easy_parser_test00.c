@@ -19,7 +19,7 @@ show_expr_ast_parsing_proc(char *str)
 
 	if (expr_ast == NULL)
 	{
-		debug_dprintf(STDERR_FILENO, "something wrong with while parsing\n");
+		debug_dprintf(STDERR_FILENO, "NULL returned!\n");
 		return 1;
 	}
 	print_expr_ast(expr_ast, 0);
@@ -29,7 +29,7 @@ show_expr_ast_parsing_proc(char *str)
 }
 
 /// ```bash
-/// make test TEST_FILE=tests/parser/easy_parser_test00.c
+/// make vtest TEST_FILE=tests/parser/easy_parser_test00.c
 /// ```
 int main()
 {
